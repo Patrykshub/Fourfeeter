@@ -7,7 +7,7 @@ export const defaultPosts: Post[] = [
     content:
       'A short intro on SPA architecture, performance tradeoffs, and UX nuances. Explore client-side routing, hydration, and minimal bundles.',
     image: 'https://picsum.photos/seed/web-architecture/1200/700',
-    category: 'TECHNOLOGY',
+    category: 'INFO',
     date: new Date().toISOString(),
   },
   {
@@ -15,7 +15,7 @@ export const defaultPosts: Post[] = [
     title: 'Sustainable practices for cities',
     content: 'How small changes in policy and tech can create greener and smarter urban environments.',
     image: 'https://picsum.photos/seed/sustainable-cities/600/400',
-    category: 'ENVIRONMENT',
+    category: 'MEMORIES',
     date: new Date().toISOString(),
   },
   {
@@ -23,7 +23,7 @@ export const defaultPosts: Post[] = [
     title: 'Culture in a remote-first world',
     content: 'Maintaining creative communities and rituals when teams spread across time zones.',
     image: 'https://picsum.photos/seed/remote-culture/600/400',
-    category: 'CULTURE',
+    category: 'MEMORIES',
     date: new Date().toISOString(),
   },
   {
@@ -31,7 +31,7 @@ export const defaultPosts: Post[] = [
     title: 'Tooling that makes dev life easier',
     content: 'Small, practical tips and tool recommendations for daily coding flow.',
     image: 'https://picsum.photos/seed/dev-tooling/600/400',
-    category: 'TECHNOLOGY',
+    category: 'INFO',
     date: new Date().toISOString(),
   },
 ]

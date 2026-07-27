@@ -1,23 +1,22 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { NAV_CATEGORIES as CATEGORIES } from './CategorySelect'
+import type { Category } from './CategorySelect'
 
-const CATEGORIES = ['HOME', 'TECHNOLOGY', 'ENVIRONMENT', 'CULTURE'] as const
+interface IHeaderProps {
+  activeCategory: Category | null
+  onSelectCategory: (category: Category | null) => void
+}
 
-export function Header({
-  activeCategory,
-  onSelectCategory,
-}: {
-  activeCategory: string | null
-  onSelectCategory: (category: string | null) => void
-}) {
+const Header = ({ activeCategory, onSelectCategory }: IHeaderProps) => {
   const [isMenuOpen, setMenuOpen] = useState(false)
 
-  function select(category: string) {
+  const select = (category: Category) => {
     onSelectCategory(category === 'HOME' ? null : category)
     setMenuOpen(false)
   }
 
-  function isActive(category: string) {
+  const isActive = (category: Category) => {
     return category === 'HOME' ? activeCategory === null : activeCategory === category
   }
 
@@ -70,3 +69,5 @@ export function Header({
     </header>
   )
 }
+
+export { Header }

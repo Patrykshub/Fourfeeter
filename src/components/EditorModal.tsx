@@ -1,19 +1,22 @@
 import { useState } from 'react'
 import type { Post } from '../types'
+import { CategorySelect, POST_CATEGORIES } from './CategorySelect'
+import type { PostCategory } from './CategorySelect'
+import { ImagePicker } from './ImagePicker'
 
-export function EditorModal({
-  post,
-  onClose,
-  onSave,
-}: {
+interface IEditorModalProps {
   post: Post | null
   onClose: () => void
   onSave: (data: Omit<Post, 'id' | 'date'> & { id?: string }) => void
-}) {
+}
+
+const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const [title, setTitle] = useState(post?.title ?? '')
   const [content, setContent] = useState(post?.content ?? '')
   const [image, setImage] = useState(post?.image ?? 'https://picsum.photos/seed/new-post/600/400')
-  const [category, setCategory] = useState(post?.category ?? 'TECHNOLOGY')
+  const [category, setCategory] = useState<PostCategory>(
+    (post?.category as PostCategory | undefined) ?? POST_CATEGORIES[0],
+  )
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
@@ -31,10 +34,10 @@ export function EditorModal({
           <textarea className="w-full p-3 rounded bg-black/20 h-36" value={content} onChange={(e) => setContent(e.target.value)} />
 
           <label className="block text-sm">Kategoria</label>
-          <input className="w-full p-3 rounded bg-black/20" value={category} onChange={(e) => setCategory(e.target.value)} />
+          <CategorySelect value={category} onChange={setCategory} />
 
-          <label className="block text-sm">Link do zdjęcia</label>
-          <input className="w-full p-3 rounded bg-black/20" value={image} onChange={(e) => setImage(e.target.value)} />
+          <label className="block text-sm">Zdjęcie</label>
+          <ImagePicker value={image} onChange={setImage} />
 
           <div className="flex justify-end gap-3">
             <button onClick={onClose} className="px-4 py-2 bg-black/20 rounded">Anuluj</button>
@@ -52,3 +55,5 @@ export function EditorModal({
     </div>
   )
 }
+
+export { EditorModal }

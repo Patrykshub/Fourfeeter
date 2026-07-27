@@ -3,6 +3,7 @@ import { Lock } from 'lucide-react'
 import { usePosts } from './hooks/usePosts'
 import { useAdminSession } from './hooks/useAdminSession'
 import { Header } from './components/Header'
+import type { Category } from './components/CategorySelect'
 import { AdminActions } from './components/AdminActions'
 import { EditorModal } from './components/EditorModal'
 import { AuthModal } from './components/AuthModal'
@@ -12,7 +13,7 @@ export default function App() {
   const { posts, savePost, deletePost } = usePosts()
   const { isAdmin, login } = useAdminSession()
 
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activeCategory, setActiveCategory] = useState<Category | null>(null)
   const [authOpen, setAuthOpen] = useState(false)
   const [editing, setEditing] = useState<Post | null>(null)
   const [isFormOpen, setFormOpen] = useState(false)
