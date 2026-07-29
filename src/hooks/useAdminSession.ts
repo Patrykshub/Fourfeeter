@@ -17,5 +17,9 @@ export function useAdminSession() {
     return success
   }
 
-  return { isAdmin, login }
+  function logout() {
+    setIsAdmin(false)
+  }
+
+  return { isAdmin, login, logout }
 }

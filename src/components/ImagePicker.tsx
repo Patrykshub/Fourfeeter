@@ -62,14 +62,21 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
               ))}
             </div>
 
-            <div className="mt-4 flex justify-between items-center">
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="px-4 py-2 bg-black/20 rounded"
-              >
-                Wgraj nowe zdjęcie
-              </button>
+            <div className="mt-4 flex justify-between items-start gap-4">
+              <div>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-4 py-2 bg-black/20 rounded"
+                >
+                  Wgraj nowe zdjęcie
+                </button>
+                <p className="mt-2 text-xs text-gray-400 max-w-xs">
+                  Zalecane ok. 1200×700px (poziomo, ~16:9), JPG/PNG/WebP. Plik poniżej ~1–2MB — zdjęcia są
+                  zapisywane jako base64 w local storage przeglądarki, a zbyt duże mogą nie zapisać się lub
+                  spowolnić stronę.
+                </p>
+              </div>
               <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 bg-neon text-black rounded">
                 Zamknij
               </button>

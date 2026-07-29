@@ -14,9 +14,7 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const [title, setTitle] = useState(post?.title ?? '')
   const [content, setContent] = useState(post?.content ?? '')
   const [image, setImage] = useState(post?.image ?? 'https://picsum.photos/seed/new-post/600/400')
-  const [category, setCategory] = useState<PostCategory>(
-    (post?.category as PostCategory | undefined) ?? POST_CATEGORIES[0],
-  )
+  const [category, setCategory] = useState<PostCategory>(post?.category ?? POST_CATEGORIES[0])
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
