@@ -8,9 +8,10 @@ interface IHomeViewProps {
   onEdit: (post: Post) => void
   onDelete: (id: string) => void
   onAdd: () => void
+  onSelectMemory: (post: Post) => void
 }
 
-const HomeView = ({ posts, isAdmin, onEdit, onDelete, onAdd }: IHomeViewProps) => {
+const HomeView = ({ posts, isAdmin, onEdit, onDelete, onAdd, onSelectMemory }: IHomeViewProps) => {
   const [featured, ...rest] = posts
 
   if (!featured) {
@@ -54,7 +55,8 @@ const HomeView = ({ posts, isAdmin, onEdit, onDelete, onAdd }: IHomeViewProps) =
             {rest.map((post) => (
               <div
                 key={post.id}
-                className="flex gap-3 items-center bg-[#071018] p-3 rounded-lg"
+                onClick={() => onSelectMemory(post)}
+                className="flex gap-3 items-center bg-[#071018] p-3 rounded-lg cursor-pointer hover:bg-[#0c1c29]"
               >
                 <img
                   src={post.image}
@@ -67,7 +69,9 @@ const HomeView = ({ posts, isAdmin, onEdit, onDelete, onAdd }: IHomeViewProps) =
                   <div className="text-sm text-gray-400">{post.content.slice(0, 70)}...</div>
                 </div>
                 {isAdmin && (
-                  <AdminActions compact onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <AdminActions compact onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />
+                  </div>
                 )}
               </div>
             ))}

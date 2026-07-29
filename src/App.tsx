@@ -22,6 +22,7 @@ const App = () => {
   const [authOpen, setAuthOpen] = useState(false)
   const [editing, setEditing] = useState<Post | null>(null)
   const [isFormOpen, setFormOpen] = useState(false)
+  const [highlightedPostId, setHighlightedPostId] = useState<string | null>(null)
 
   const filteredPosts = useMemo(
     () =>
@@ -48,6 +49,11 @@ const App = () => {
 
   const handleLogin = (user: string, pass: string): boolean => login(user, pass)
 
+  const handleSelectMemory = (post: Post) => {
+    setActiveCategory('MEMORIES')
+    setHighlightedPostId(post.id)
+  }
+
   const renderView = () => {
     const viewProps = {
       posts: filteredPosts,
@@ -55,6 +61,8 @@ const App = () => {
       onEdit: openEditor,
       onDelete: handleDelete,
       onAdd: () => openEditor(),
+      onSelectMemory: handleSelectMemory,
+      highlightId: highlightedPostId,
     }
 
     switch (activeCategory) {

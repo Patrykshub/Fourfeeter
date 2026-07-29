@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import type { Post } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
@@ -8,12 +9,23 @@ interface IMemoriesViewProps {
   onEdit: (post: Post) => void
   onDelete: (id: string) => void
   onAdd: () => void
+  highlightId?: string | null
 }
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
 
-const MemoriesView = ({ posts, isAdmin, onEdit, onDelete, onAdd }: IMemoriesViewProps) => {
+const MemoriesView = ({ posts, isAdmin, onEdit, onDelete, onAdd, highlightId }: IMemoriesViewProps) => {
+  const itemRefs = useRef<Record<string, HTMLElement | null>>({})
+  const [highlighted, setHighlighted] = useState(highlightId ?? null)
+
+  useEffect(() => {
+    if (!highlightId) return
+    itemRefs.current[highlightId]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    const timeout = setTimeout(() => setHighlighted(null), 2000)
+    return () => clearTimeout(timeout)
+  }, [highlightId])
+
   if (posts.length === 0) {
     return <EmptyState message="Brak wspomnień w tej kategorii." isAdmin={isAdmin} onAdd={onAdd} />
   }
@@ -39,9 +51,12 @@ const MemoriesView = ({ posts, isAdmin, onEdit, onDelete, onAdd }: IMemoriesView
               <div key={post.id} className="relative pl-10 lg:pl-0 lg:grid lg:grid-cols-2 lg:gap-x-12">
                 <span className="absolute left-4 lg:left-1/2 top-2 w-3 h-3 -translate-x-1/2 rounded-full bg-neon" />
                 <article
-                  className={`bg-[#071018] rounded-xl overflow-hidden ${
+                  ref={(el) => {
+                    itemRefs.current[post.id] = el
+                  }}
+                  className={`bg-[#071018] rounded-xl overflow-hidden transition-shadow duration-500 ${
                     isRight ? 'lg:col-start-2' : 'lg:col-start-1'
-                  }`}
+                  } ${highlighted === post.id ? 'ring-2 ring-neon' : ''}`}
                 >
                   <img
                     src={post.image}
