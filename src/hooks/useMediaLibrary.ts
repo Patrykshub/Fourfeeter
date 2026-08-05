@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react'
 import { readJSON, writeJSON } from '../lib/storage'
-import { defaultPosts } from '../data/defaultPosts'
 
 const STORAGE_KEY = 'media_v1'
 
-function seedImages(): string[] {
-  return Array.from(new Set(defaultPosts.map((post) => post.image)))
-}
-
 export function useMediaLibrary() {
   const [images, setImages] = useState<string[]>(() => {
-    const stored = readJSON<string[]>(STORAGE_KEY, seedImages())
-    return Array.isArray(stored) ? stored : seedImages()
+    const stored = readJSON<string[]>(STORAGE_KEY, [])
+    return Array.isArray(stored) ? stored : []
   })
 
   useEffect(() => {

@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import type { Post } from '../types'
 import { readJSON, writeJSON } from '../lib/storage'
-import { defaultPosts } from '../data/defaultPosts'
 
 const STORAGE_KEY = 'posts_v1'
 
 export function usePosts() {
   const [posts, setPosts] = useState<Post[]>(() => {
-    const stored = readJSON<Post[]>(STORAGE_KEY, defaultPosts)
-    return Array.isArray(stored) ? stored : defaultPosts
+    const stored = readJSON<Post[]>(STORAGE_KEY, [])
+    return Array.isArray(stored) ? stored : []
   })
 
   useEffect(() => {
