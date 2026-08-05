@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Post } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
+import { PageBanner } from './PageBanner'
 
 interface IMemoriesViewProps {
   posts: Post[]
@@ -10,12 +11,23 @@ interface IMemoriesViewProps {
   onDelete: (id: string) => void
   onAdd: () => void
   highlightId?: string | null
+  banner: string | null
+  onChangeBanner: (url: string) => void
 }
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
 
-const MemoriesView = ({ posts, isAdmin, onEdit, onDelete, onAdd, highlightId }: IMemoriesViewProps) => {
+const MemoriesView = ({
+  posts,
+  isAdmin,
+  onEdit,
+  onDelete,
+  onAdd,
+  highlightId,
+  banner,
+  onChangeBanner,
+}: IMemoriesViewProps) => {
   const itemRefs = useRef<Record<string, HTMLElement | null>>({})
   const [highlighted, setHighlighted] = useState(highlightId ?? null)
 
@@ -26,13 +38,9 @@ const MemoriesView = ({ posts, isAdmin, onEdit, onDelete, onAdd, highlightId }: 
     return () => clearTimeout(timeout)
   }, [highlightId])
 
-  if (posts.length === 0) {
-    return <EmptyState message="Brak wspomnień w tej kategorii." isAdmin={isAdmin} onAdd={onAdd} />
-  }
-
-  return (
-    <section>
-      <div className="flex justify-between items-center mb-8">
+  const header = (
+    <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
+      <div className="flex justify-between items-center">
         <h2 className="uppercase text-sm text-gray-300">Oś wspomnień</h2>
         {isAdmin && (
           <button onClick={onAdd} className="flex items-center gap-2 text-neon">
@@ -40,6 +48,21 @@ const MemoriesView = ({ posts, isAdmin, onEdit, onDelete, onAdd, highlightId }: 
           </button>
         )}
       </div>
+    </PageBanner>
+  )
+
+  if (posts.length === 0) {
+    return (
+      <section>
+        {header}
+        <EmptyState message="Brak wspomnień w tej kategorii." isAdmin={isAdmin} onAdd={onAdd} />
+      </section>
+    )
+  }
+
+  return (
+    <section>
+      {header}
 
       <div className="relative">
         <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 bg-neon/40 lg:-translate-x-1/2" />

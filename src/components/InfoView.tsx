@@ -1,6 +1,7 @@
 import type { IInfoEntry } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
+import { PageBanner } from './PageBanner'
 
 interface IInfoViewProps {
   entries: IInfoEntry[]
@@ -8,16 +9,14 @@ interface IInfoViewProps {
   onEdit: (entry: IInfoEntry) => void
   onDelete: (id: string) => void
   onAdd: () => void
+  banner: string | null
+  onChangeBanner: (url: string) => void
 }
 
-const InfoView = ({ entries, isAdmin, onEdit, onDelete, onAdd }: IInfoViewProps) => {
-  if (entries.length === 0) {
-    return <EmptyState message="Brak danych kontaktowych." isAdmin={isAdmin} onAdd={onAdd} />
-  }
-
-  return (
-    <section>
-      <div className="flex justify-between items-center mb-4">
+const InfoView = ({ entries, isAdmin, onEdit, onDelete, onAdd, banner, onChangeBanner }: IInfoViewProps) => {
+  const header = (
+    <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
+      <div className="flex justify-between items-center">
         <h2 className="uppercase text-sm text-gray-300">Dane kontaktowe</h2>
         {isAdmin && (
           <button onClick={onAdd} className="flex items-center gap-2 text-neon">
@@ -25,6 +24,21 @@ const InfoView = ({ entries, isAdmin, onEdit, onDelete, onAdd }: IInfoViewProps)
           </button>
         )}
       </div>
+    </PageBanner>
+  )
+
+  if (entries.length === 0) {
+    return (
+      <section>
+        {header}
+        <EmptyState message="Brak danych kontaktowych." isAdmin={isAdmin} onAdd={onAdd} />
+      </section>
+    )
+  }
+
+  return (
+    <section>
+      {header}
 
       <div className="border-y border-white/10 divide-y divide-white/10">
         {entries.map((entry) => (
