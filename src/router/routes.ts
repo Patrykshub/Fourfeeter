@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import type { Category } from "../components/CategorySelect";
+import type { Category } from "../lib/categories";
 import { HomePage } from "../pages/home/HomePage";
 import { MemoriesPage } from "../pages/memories/MemoriesPage";
 import { InfoPage } from "../pages/info/InfoPage";

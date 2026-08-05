@@ -5,8 +5,7 @@ import type { Post } from "../../types";
 
 const HomePage = () => {
   const { posts, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
-  const memoryPosts = posts.filter((post) => post.category === "MEMORIES");
-  const [featured, ...rest] = memoryPosts;
+  const [featured, ...rest] = posts;
 
   const handleSelectMemory = (post: Post) => {
     navigate(`/memories?highlight=${post.id}`);

@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import type { Post } from '../types'
-import { CategorySelect, POST_CATEGORIES } from './CategorySelect'
-import type { PostCategory } from './CategorySelect'
 import { ImagePicker } from './ImagePicker'
 
 interface IEditorModalProps {
@@ -14,7 +12,6 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const [title, setTitle] = useState(post?.title ?? '')
   const [content, setContent] = useState(post?.content ?? '')
   const [image, setImage] = useState(post?.image ?? 'https://picsum.photos/seed/new-post/600/400')
-  const [category, setCategory] = useState<PostCategory>(post?.category ?? POST_CATEGORIES[0])
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
@@ -31,9 +28,6 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
           <label className="block text-sm">Treść</label>
           <textarea className="w-full p-3 rounded bg-black/20 h-36" value={content} onChange={(e) => setContent(e.target.value)} />
 
-          <label className="block text-sm">Kategoria</label>
-          <CategorySelect value={category} onChange={setCategory} />
-
           <label className="block text-sm">Zdjęcie</label>
           <ImagePicker value={image} onChange={setImage} />
 
@@ -41,7 +35,7 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
             <button onClick={onClose} className="px-4 py-2 bg-black/20 rounded">Anuluj</button>
             <button
               onClick={() =>
-                onSave({ id: post?.id, title: title || 'Untitled', content, image, category })
+                onSave({ id: post?.id, title: title || 'Untitled', content, image })
               }
               className="px-4 py-2 bg-neon text-black rounded"
             >

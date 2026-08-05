@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV_CATEGORIES as CATEGORIES } from "./CategorySelect";
-import type { Category } from "./CategorySelect";
+import { NAV_CATEGORIES as CATEGORIES } from "../lib/categories";
+import type { Category } from "../lib/categories";
 import { navigate, useRouter } from "../router/useRouter";
 import { CATEGORY_PATHS } from "../router/routes";
 

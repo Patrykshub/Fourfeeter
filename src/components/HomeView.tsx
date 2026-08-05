@@ -37,7 +37,6 @@ const HomeView = ({
             className="w-full h-64 sm:h-96 object-cover"
           />
           <div className="p-6">
-            <div className="text-sm text-neon font-medium">{featured.category}</div>
             <h2 className="text-2xl sm:text-3xl font-bold mt-2">{featured.title}</h2>
             <p className="mt-3 text-gray-300">{featured.content}</p>
             {isAdmin && (
@@ -73,7 +72,6 @@ const HomeView = ({
                   className="w-20 h-14 object-cover rounded"
                 />
                 <div className="flex-1">
-                  <div className="text-xs text-neon font-medium">{post.category}</div>
                   <div className="font-semibold">{post.title}</div>
                   <div className="text-sm text-gray-400">{post.content.slice(0, 70)}...</div>
                 </div>
@@ -95,7 +93,6 @@ const HomeView = ({
             <article key={post.id} className="bg-[#071018] rounded-lg overflow-hidden">
               <img src={post.image} alt={post.title} className="w-full h-40 object-cover" />
               <div className="p-4">
-                <div className="text-xs text-neon font-medium">{post.category}</div>
                 <h5 className="font-semibold mt-1">{post.title}</h5>
                 <p className="text-gray-400 text-sm mt-2">{post.content.slice(0, 100)}...</p>
                 {isAdmin && (
