@@ -4,6 +4,8 @@ import { EmptyState } from './EmptyState'
 
 interface IHomeViewProps {
   posts: Post[]
+  featured: Post | undefined
+  rest: Post[]
   isAdmin: boolean
   onEdit: (post: Post) => void
   onDelete: (id: string) => void
@@ -11,9 +13,16 @@ interface IHomeViewProps {
   onSelectMemory: (post: Post) => void
 }
 
-const HomeView = ({ posts, isAdmin, onEdit, onDelete, onAdd, onSelectMemory }: IHomeViewProps) => {
-  const [featured, ...rest] = posts
-
+const HomeView = ({
+  posts,
+  featured,
+  rest,
+  isAdmin,
+  onEdit,
+  onDelete,
+  onAdd,
+  onSelectMemory,
+}: IHomeViewProps) => {
   if (!featured) {
     return <EmptyState message="Brak postów w tej kategorii." isAdmin={isAdmin} onAdd={onAdd} />
   }
