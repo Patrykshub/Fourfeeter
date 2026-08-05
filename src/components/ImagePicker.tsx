@@ -8,8 +8,9 @@ interface IImagePickerProps {
 }
 
 const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
-  const { images, addImage } = useMediaLibrary()
+  const { images, uploadImage } = useMediaLibrary()
   const [isOpen, setOpen] = useState(false)
+  const [isUploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const select = (url: string) => {
@@ -17,17 +18,20 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
     setOpen(false)
   }
 
-  const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => {
-      const url = reader.result as string
-      addImage(url)
-      select(url)
-    }
-    reader.readAsDataURL(file)
     e.target.value = ''
+    if (!file) return
+
+    setUploading(true)
+    const url = await uploadImage(file)
+    setUploading(false)
+
+    if (url) {
+      select(url)
+    } else {
+      alert('Nie udało się przesłać zdjęcia.')
+    }
   }
 
   return (
@@ -67,14 +71,13 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-4 py-2 bg-black/20 rounded"
+                  disabled={isUploading}
+                  className="px-4 py-2 bg-black/20 rounded disabled:opacity-50"
                 >
-                  Wgraj nowe zdjęcie
+                  {isUploading ? 'Przesyłanie…' : 'Wgraj nowe zdjęcie'}
                 </button>
                 <p className="mt-2 text-xs text-gray-400 max-w-xs">
-                  Zalecane ok. 1200×700px (poziomo, ~16:9), JPG/PNG/WebP. Plik poniżej ~1–2MB — zdjęcia są
-                  zapisywane jako base64 w local storage przeglądarki, a zbyt duże mogą nie zapisać się lub
-                  spowolnić stronę.
+                  Zalecane ok. 1200×700px (poziomo, ~16:9), JPG/PNG/WebP.
                 </p>
               </div>
               <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 bg-neon text-black rounded">

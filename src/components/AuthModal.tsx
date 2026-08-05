@@ -5,14 +5,14 @@ export function AuthModal({
   onLogin,
 }: {
   onClose: () => void
-  onLogin: (user: string, pass: string) => boolean
+  onLogin: (user: string, pass: string) => Promise<boolean>
 }) {
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   const [hasError, setHasError] = useState(false)
 
-  function handleLogin() {
-    const success = onLogin(user, pass)
+  async function handleLogin() {
+    const success = await onLogin(user, pass)
     if (success) {
       onClose()
     } else {
@@ -31,7 +31,7 @@ export function AuthModal({
         <div className="mt-4 space-y-3">
           <input
             className="w-full p-3 rounded bg-black/20"
-            placeholder="Login"
+            placeholder="Email"
             value={user}
             onChange={(e) => setUser(e.target.value)}
           />

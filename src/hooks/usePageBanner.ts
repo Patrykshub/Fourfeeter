@@ -1,22 +1,34 @@
 import { useEffect, useState } from "react";
-import { readJSON, writeJSON } from "../lib/storage";
+import { supabase } from "../lib/supabaseClient";
 
 type PageBannerKey = "memories" | "info";
 
-const storageKeyFor = (key: PageBannerKey): string => `banner_v1_${key}`;
-
 const usePageBanner = (key: PageBannerKey) => {
-  const storageKey = storageKeyFor(key);
-  const [banner, setBanner] = useState<string | null>(() =>
-    readJSON<string | null>(storageKey, null),
-  );
+  const [banner, setBannerState] = useState<string | null>(null);
 
   useEffect(() => {
-    const didSave = writeJSON(storageKey, banner);
-    if (!didSave) {
-      alert("Nie udało się zapisać tła — zdjęcie jest zbyt duże dla local storage przeglądarki.");
+    let cancelled = false;
+    supabase
+      .from("page_banners")
+      .select("image")
+      .eq("key", key)
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (!cancelled && !error) setBannerState(data?.image ?? null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [key]);
+
+  const setBanner = async (image: string | null) => {
+    const { error } = await supabase.from("page_banners").upsert({ key, image });
+    if (error) {
+      alert("Nie udało się zapisać tła sekcji.");
+      return;
     }
-  }, [banner, storageKey]);
+    setBannerState(image);
+  };
 
   return { banner, setBanner };
 };

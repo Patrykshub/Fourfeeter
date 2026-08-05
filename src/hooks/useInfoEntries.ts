@@ -1,33 +1,55 @@
 import { useEffect, useState } from "react";
 import type { IInfoEntry } from "../types";
-import { readJSON, writeJSON } from "../lib/storage";
-
-const STORAGE_KEY = "info_entries_v1";
+import { supabase } from "../lib/supabaseClient";
 
 const useInfoEntries = () => {
-  const [entries, setEntries] = useState<IInfoEntry[]>(() => {
-    const stored = readJSON<IInfoEntry[]>(STORAGE_KEY, []);
-    return Array.isArray(stored) ? stored : [];
-  });
+  const [entries, setEntries] = useState<IInfoEntry[]>([]);
 
   useEffect(() => {
-    writeJSON(STORAGE_KEY, entries);
-  }, [entries]);
+    let cancelled = false;
+    supabase
+      .from("info_entries")
+      .select("*")
+      .then(({ data, error }) => {
+        if (!cancelled && !error && data) setEntries(data as IInfoEntry[]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-  const saveEntry = (data: Omit<IInfoEntry, "id"> & { id?: string }) => {
+  const saveEntry = async (data: Omit<IInfoEntry, "id"> & { id?: string }) => {
     if (data.id) {
-      const { id } = data;
-      setEntries((prev) =>
-        prev.map((entry) => (entry.id === id ? { ...entry, ...data, id } : entry)),
-      );
-    } else {
-      const newEntry: IInfoEntry = { id: crypto.randomUUID(), ...data };
-      setEntries((prev) => [...prev, newEntry]);
+      const { id, ...rest } = data;
+      const { data: updated, error } = await supabase
+        .from("info_entries")
+        .update(rest)
+        .eq("id", id)
+        .select()
+        .single();
+      if (!error && updated) {
+        setEntries((prev) =>
+          prev.map((entry) => (entry.id === id ? (updated as IInfoEntry) : entry)),
+        );
+      }
+      return;
+    }
+
+    const { data: inserted, error } = await supabase
+      .from("info_entries")
+      .insert(data)
+      .select()
+      .single();
+    if (!error && inserted) {
+      setEntries((prev) => [...prev, inserted as IInfoEntry]);
     }
   };
 
-  const deleteEntry = (id: string) => {
-    setEntries((prev) => prev.filter((entry) => entry.id !== id));
+  const deleteEntry = async (id: string) => {
+    const { error } = await supabase.from("info_entries").delete().eq("id", id);
+    if (!error) {
+      setEntries((prev) => prev.filter((entry) => entry.id !== id));
+    }
   };
 
   return { entries, saveEntry, deleteEntry };

@@ -1,21 +1,37 @@
 import { useEffect, useState } from 'react'
-import { readJSON, writeJSON } from '../lib/storage'
+import { supabase } from '../lib/supabaseClient'
 
-const STORAGE_KEY = 'media_v1'
+const BUCKET = 'post-images'
 
 export function useMediaLibrary() {
-  const [images, setImages] = useState<string[]>(() => {
-    const stored = readJSON<string[]>(STORAGE_KEY, [])
-    return Array.isArray(stored) ? stored : []
-  })
+  const [images, setImages] = useState<string[]>([])
 
   useEffect(() => {
-    writeJSON(STORAGE_KEY, images)
-  }, [images])
+    let cancelled = false
+    supabase.storage
+      .from(BUCKET)
+      .list(undefined, { sortBy: { column: 'created_at', order: 'desc' } })
+      .then(({ data, error }) => {
+        if (cancelled || error || !data) return
+        const urls = data.map(
+          (file) => supabase.storage.from(BUCKET).getPublicUrl(file.name).data.publicUrl,
+        )
+        setImages(urls)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
-  function addImage(url: string) {
-    setImages((prev) => (prev.includes(url) ? prev : [url, ...prev]))
+  async function uploadImage(file: File): Promise<string | null> {
+    const path = `${crypto.randomUUID()}-${file.name}`
+    const { error } = await supabase.storage.from(BUCKET).upload(path, file)
+    if (error) return null
+
+    const url = supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
+    setImages((prev) => [url, ...prev])
+    return url
   }
 
-  return { images, addImage }
+  return { images, uploadImage }
 }
