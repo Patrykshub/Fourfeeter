@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Post } from '../types'
+import type { IPost } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
 import { PageBanner } from './PageBanner'
 
 interface IMemoriesViewProps {
-  posts: Post[]
+  posts: IPost[]
   isAdmin: boolean
-  onEdit: (post: Post) => void
+  onEdit: (post: IPost) => void
   onDelete: (id: string) => void
   onAdd: () => void
   highlightId?: string | null

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 
-export function useAdminSession() {
+export const useAdminSession = () => {
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
@@ -16,12 +16,12 @@ export function useAdminSession() {
     return () => listener.subscription.unsubscribe()
   }, [])
 
-  async function login(email: string, password: string): Promise<boolean> {
+  const login = async (email: string, password: string): Promise<boolean> => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     return !error
   }
 
-  async function logout() {
+  const logout = async () => {
     await supabase.auth.signOut()
   }
 

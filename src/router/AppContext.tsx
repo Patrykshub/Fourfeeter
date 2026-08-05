@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
-import type { Post } from "../types";
+import type { IPost } from "../types";
 
 interface IAppContextValue {
-  posts: Post[];
+  posts: IPost[];
   isAdmin: boolean;
-  onEdit: (post: Post) => void;
+  onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
 }

@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import { useMediaLibrary } from '../hooks/useMediaLibrary'
+import { ModalHeader } from './ModalHeader'
 
 interface IImagePickerProps {
   value: string
@@ -46,10 +47,7 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-10">
           <div className="bg-[#061018] max-w-2xl w-full rounded-lg p-6">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Wybierz zdjęcie</h3>
-              <button onClick={() => setOpen(false)} className="p-1">✕</button>
-            </div>
+            <ModalHeader title="Wybierz zdjęcie" onClose={() => setOpen(false)} />
 
             <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-80 overflow-y-auto">
               {images.map((url) => (

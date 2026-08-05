@@ -26,7 +26,7 @@ const Header = () => {
               <button
                 key={category}
                 onClick={() => select(category)}
-                className={isActive(category) ? 'text-white' : 'hover:text-white'}
+                className={isActive(category) ? "text-white" : "hover:text-white"}
               >
                 {category}
               </button>
@@ -54,7 +54,7 @@ const Header = () => {
               <button
                 key={category}
                 onClick={() => select(category)}
-                className={`text-left ${isActive(category) ? 'text-white' : ''}`}
+                className={`text-left ${isActive(category) ? "text-white" : ""}`}
               >
                 {category}
               </button>
@@ -63,7 +63,7 @@ const Header = () => {
         </div>
       )}
     </header>
-  )
-}
+  );
+};
 
-export { Header }
+export { Header };

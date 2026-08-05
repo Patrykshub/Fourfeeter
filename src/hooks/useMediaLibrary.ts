@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabaseClient'
 
 const BUCKET = 'post-images'
 
-export function useMediaLibrary() {
+export const useMediaLibrary = () => {
   const [images, setImages] = useState<string[]>([])
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function useMediaLibrary() {
     }
   }, [])
 
-  async function uploadImage(file: File): Promise<string | null> {
+  const uploadImage = async (file: File): Promise<string | null> => {
     const path = `${crypto.randomUUID()}-${file.name}`
     const { error } = await supabase.storage.from(BUCKET).upload(path, file)
     if (error) return null

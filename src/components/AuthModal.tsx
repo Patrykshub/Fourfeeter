@@ -1,17 +1,17 @@
 import { useState } from 'react'
+import { ModalHeader } from './ModalHeader'
 
-export function AuthModal({
-  onClose,
-  onLogin,
-}: {
+interface IAuthModalProps {
   onClose: () => void
   onLogin: (user: string, pass: string) => Promise<boolean>
-}) {
+}
+
+const AuthModal = ({ onClose, onLogin }: IAuthModalProps) => {
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   const [hasError, setHasError] = useState(false)
 
-  async function handleLogin() {
+  const handleLogin = async () => {
     const success = await onLogin(user, pass)
     if (success) {
       onClose()
@@ -24,10 +24,7 @@ export function AuthModal({
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
       <div className="bg-[#061018] max-w-sm w-full rounded-lg p-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold">Admin Login</h3>
-          <button onClick={onClose} className="p-1">✕</button>
-        </div>
+        <ModalHeader title="Admin Login" onClose={onClose} />
         <div className="mt-4 space-y-3">
           <input
             className="w-full p-3 rounded bg-black/20"
@@ -53,3 +50,5 @@ export function AuthModal({
     </div>
   )
 }
+
+export { AuthModal }

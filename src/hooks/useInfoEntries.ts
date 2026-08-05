@@ -31,6 +31,8 @@ const useInfoEntries = () => {
         setEntries((prev) =>
           prev.map((entry) => (entry.id === id ? (updated as IInfoEntry) : entry)),
         );
+      } else {
+        alert("Nie udało się zapisać pozycji.");
       }
       return;
     }
@@ -42,6 +44,8 @@ const useInfoEntries = () => {
       .single();
     if (!error && inserted) {
       setEntries((prev) => [...prev, inserted as IInfoEntry]);
+    } else {
+      alert("Nie udało się zapisać pozycji.");
     }
   };
 
@@ -49,6 +53,8 @@ const useInfoEntries = () => {
     const { error } = await supabase.from("info_entries").delete().eq("id", id);
     if (!error) {
       setEntries((prev) => prev.filter((entry) => entry.id !== id));
+    } else {
+      alert("Nie udało się usunąć pozycji.");
     }
   };
 

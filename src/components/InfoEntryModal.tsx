@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { IInfoEntry } from '../types'
+import { ModalHeader } from './ModalHeader'
 
 interface IInfoEntryModalProps {
   entry: IInfoEntry | null
@@ -14,10 +15,7 @@ const InfoEntryModal = ({ entry, onClose, onSave }: IInfoEntryModalProps) => {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
       <div className="bg-[#061018] max-w-sm w-full rounded-lg p-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold">{entry ? 'Edytuj pozycję' : 'Dodaj pozycję'}</h3>
-          <button onClick={onClose} className="p-1">✕</button>
-        </div>
+        <ModalHeader title={entry ? 'Edytuj pozycję' : 'Dodaj pozycję'} onClose={onClose} />
 
         <div className="mt-4 space-y-3">
           <label className="block text-sm">Klucz</label>

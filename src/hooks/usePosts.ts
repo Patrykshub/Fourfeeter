@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import type { Post } from '../types'
+import type { IPost } from '../types'
 import { supabase } from '../lib/supabaseClient'
 
-export function usePosts() {
-  const [posts, setPosts] = useState<Post[]>([])
+export const usePosts = () => {
+  const [posts, setPosts] = useState<IPost[]>([])
 
   useEffect(() => {
     let cancelled = false
@@ -12,14 +12,14 @@ export function usePosts() {
       .select('*')
       .order('date', { ascending: false })
       .then(({ data, error }) => {
-        if (!cancelled && !error && data) setPosts(data as Post[])
+        if (!cancelled && !error && data) setPosts(data as IPost[])
       })
     return () => {
       cancelled = true
     }
   }, [])
 
-  async function savePost(data: Omit<Post, 'id' | 'date'> & { id?: string }) {
+  const savePost = async (data: Omit<IPost, 'id' | 'date'> & { id?: string }) => {
     if (data.id) {
       const { id, ...rest } = data
       const { data: updated, error } = await supabase
@@ -29,21 +29,27 @@ export function usePosts() {
         .select()
         .single()
       if (!error && updated) {
-        setPosts((prev) => prev.map((post) => (post.id === id ? (updated as Post) : post)))
+        setPosts((prev) => prev.map((post) => (post.id === id ? (updated as IPost) : post)))
+      } else {
+        alert('Nie udało się zapisać posta.')
       }
       return
     }
 
     const { data: inserted, error } = await supabase.from('posts').insert(data).select().single()
     if (!error && inserted) {
-      setPosts((prev) => [inserted as Post, ...prev])
+      setPosts((prev) => [inserted as IPost, ...prev])
+    } else {
+      alert('Nie udało się zapisać posta.')
     }
   }
 
-  async function deletePost(id: string) {
+  const deletePost = async (id: string) => {
     const { error } = await supabase.from('posts').delete().eq('id', id)
     if (!error) {
       setPosts((prev) => prev.filter((post) => post.id !== id))
+    } else {
+      alert('Nie udało się usunąć posta.')
     }
   }
 

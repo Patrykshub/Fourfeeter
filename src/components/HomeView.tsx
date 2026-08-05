@@ -1,16 +1,16 @@
-import type { Post } from '../types'
+import type { IPost } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
 
 interface IHomeViewProps {
-  posts: Post[]
-  featured: Post | undefined
-  rest: Post[]
+  posts: IPost[]
+  featured: IPost | undefined
+  rest: IPost[]
   isAdmin: boolean
-  onEdit: (post: Post) => void
+  onEdit: (post: IPost) => void
   onDelete: (id: string) => void
   onAdd: () => void
-  onSelectMemory: (post: Post) => void
+  onSelectMemory: (post: IPost) => void
 }
 
 const HomeView = ({

@@ -1,16 +1,13 @@
 import { Edit2, Trash2 } from 'lucide-react'
 
-export function AdminActions({
-  onEdit,
-  onDelete,
-  compact = false,
-  className = '',
-}: {
+interface IAdminActionsProps {
   onEdit: () => void
   onDelete: () => void
   compact?: boolean
   className?: string
-}) {
+}
+
+const AdminActions = ({ onEdit, onDelete, compact = false, className = '' }: IAdminActionsProps) => {
   if (compact) {
     return (
       <div className={`flex flex-col gap-2 ${className}`}>
@@ -35,3 +32,5 @@ export function AdminActions({
     </div>
   )
 }
+
+export { AdminActions }

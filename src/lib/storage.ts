@@ -1,4 +1,4 @@
-export function readJSON<T>(key: string, fallback: T): T {
+export const readJSON = <T>(key: string, fallback: T): T => {
   try {
     const raw = localStorage.getItem(key)
     return raw ? (JSON.parse(raw) as T) : fallback
@@ -7,7 +7,7 @@ export function readJSON<T>(key: string, fallback: T): T {
   }
 }
 
-export function writeJSON(key: string, value: unknown): boolean {
+export const writeJSON = (key: string, value: unknown): boolean => {
   try {
     localStorage.setItem(key, JSON.stringify(value))
     return true

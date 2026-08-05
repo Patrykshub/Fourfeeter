@@ -11,7 +11,7 @@ export const FONT_STACKS = {
 
 export type FontOption = keyof typeof FONT_STACKS
 
-export function useFontPreference() {
+export const useFontPreference = () => {
   const [font, setFont] = useState<FontOption>(() => readJSON<FontOption>(STORAGE_KEY, 'sans'))
 
   useEffect(() => {

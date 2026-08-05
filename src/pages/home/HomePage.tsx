@@ -1,13 +1,13 @@
 import { useAppContext } from "../../router/AppContext";
 import { navigate } from "../../router/useRouter";
 import { HomeView } from "../../components/HomeView";
-import type { Post } from "../../types";
+import type { IPost } from "../../types";
 
 const HomePage = () => {
   const { posts, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
   const [featured, ...rest] = posts;
 
-  const handleSelectMemory = (post: Post) => {
+  const handleSelectMemory = (post: IPost) => {
     navigate(`/memories?highlight=${post.id}`);
   };
 

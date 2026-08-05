@@ -1,16 +1,16 @@
 import { useState } from "react";
-import type { Post } from "../types";
+import type { IPost } from "../types";
 
 interface IUsePostEditorParams {
-  savePost: (data: Omit<Post, "id" | "date"> & { id?: string }) => void;
+  savePost: (data: Omit<IPost, "id" | "date"> & { id?: string }) => void;
   deletePost: (id: string) => void;
 }
 
 const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
-  const [editing, setEditing] = useState<Post | null>(null);
+  const [editing, setEditing] = useState<IPost | null>(null);
   const [isFormOpen, setFormOpen] = useState(false);
 
-  const openEditor = (post?: Post) => {
+  const openEditor = (post?: IPost) => {
     setEditing(post ?? null);
     setFormOpen(true);
   };
@@ -19,7 +19,7 @@ const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
     setFormOpen(false);
   };
 
-  const handleSave = (data: Omit<Post, "id" | "date"> & { id?: string }) => {
+  const handleSave = (data: Omit<IPost, "id" | "date"> & { id?: string }) => {
     savePost(data);
     setFormOpen(false);
   };

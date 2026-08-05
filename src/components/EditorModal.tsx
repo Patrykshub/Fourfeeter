@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import type { Post } from '../types'
+import type { IPost } from '../types'
 import { ImagePicker } from './ImagePicker'
+import { ModalHeader } from './ModalHeader'
 
 interface IEditorModalProps {
-  post: Post | null
+  post: IPost | null
   onClose: () => void
-  onSave: (data: Omit<Post, 'id' | 'date'> & { id?: string }) => void
+  onSave: (data: Omit<IPost, 'id' | 'date'> & { id?: string }) => void
 }
 
 const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
@@ -16,10 +17,7 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
       <div className="bg-[#061018] max-w-2xl w-full rounded-lg p-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold">{post ? 'Edytuj post' : 'Dodaj post'}</h3>
-          <button onClick={onClose} className="p-1">✕</button>
-        </div>
+        <ModalHeader title={post ? 'Edytuj post' : 'Dodaj post'} onClose={onClose} />
 
         <div className="mt-4 space-y-3">
           <label className="block text-sm">Tytuł</label>
