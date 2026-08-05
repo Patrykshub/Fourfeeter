@@ -1,24 +1,20 @@
-import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
-import { NAV_CATEGORIES as CATEGORIES } from './CategorySelect'
-import type { Category } from './CategorySelect'
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { NAV_CATEGORIES as CATEGORIES } from "./CategorySelect";
+import type { Category } from "./CategorySelect";
+import { navigate, useRouter } from "../router/useRouter";
+import { CATEGORY_PATHS } from "../router/routes";
 
-interface IHeaderProps {
-  activeCategory: Category | null
-  onSelectCategory: (category: Category | null) => void
-}
-
-const Header = ({ activeCategory, onSelectCategory }: IHeaderProps) => {
-  const [isMenuOpen, setMenuOpen] = useState(false)
+const Header = () => {
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const { pathname } = useRouter();
 
   const select = (category: Category) => {
-    onSelectCategory(category === 'HOME' ? null : category)
-    setMenuOpen(false)
-  }
+    navigate(CATEGORY_PATHS[category]);
+    setMenuOpen(false);
+  };
 
-  const isActive = (category: Category) => {
-    return category === 'HOME' ? activeCategory === null : activeCategory === category
-  }
+  const isActive = (category: Category) => pathname === CATEGORY_PATHS[category];
 
   return (
     <header className="pt-8 pb-6">
