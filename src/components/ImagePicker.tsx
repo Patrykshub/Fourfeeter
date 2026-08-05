@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
+import { useIntl } from 'react-intl'
 import { useMediaLibrary } from '../hooks/useMediaLibrary'
 import { ModalHeader } from './ModalHeader'
 
@@ -9,6 +10,7 @@ interface IImagePickerProps {
 }
 
 const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
+  const intl = useIntl()
   const { images, uploadImage } = useMediaLibrary()
   const [isOpen, setOpen] = useState(false)
   const [isUploading, setUploading] = useState(false)
@@ -31,7 +33,7 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
     if (url) {
       select(url)
     } else {
-      alert('Nie udało się przesłać zdjęcia.')
+      alert(intl.formatMessage({ id: 'imagePicker.uploadError' }))
     }
   }
 
@@ -40,14 +42,17 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
       <div className="flex gap-3 items-center">
         <img src={value} alt="" className="w-20 h-14 object-cover rounded bg-black/20" />
         <button type="button" onClick={() => setOpen(true)} className="px-4 py-2 bg-black/20 rounded">
-          Wybierz z galerii
+          {intl.formatMessage({ id: 'imagePicker.chooseFromGallery' })}
         </button>
       </div>
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-10">
           <div className="bg-[#061018] max-w-2xl w-full rounded-lg p-6">
-            <ModalHeader title="Wybierz zdjęcie" onClose={() => setOpen(false)} />
+            <ModalHeader
+              title={intl.formatMessage({ id: 'imagePicker.modalTitle' })}
+              onClose={() => setOpen(false)}
+            />
 
             <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-80 overflow-y-auto">
               {images.map((url) => (
@@ -72,14 +77,16 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
                   disabled={isUploading}
                   className="px-4 py-2 bg-black/20 rounded disabled:opacity-50"
                 >
-                  {isUploading ? 'Przesyłanie…' : 'Wgraj nowe zdjęcie'}
+                  {isUploading
+                    ? intl.formatMessage({ id: 'imagePicker.uploading' })
+                    : intl.formatMessage({ id: 'imagePicker.uploadNew' })}
                 </button>
                 <p className="mt-2 text-xs text-gray-400 max-w-xs">
-                  Zalecane ok. 1200×700px (poziomo, ~16:9), JPG/PNG/WebP.
+                  {intl.formatMessage({ id: 'imagePicker.helperText' })}
                 </p>
               </div>
               <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 bg-neon text-black rounded">
-                Zamknij
+                {intl.formatMessage({ id: 'common.close' })}
               </button>
             </div>
 

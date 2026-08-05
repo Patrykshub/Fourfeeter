@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useIntl } from "react-intl";
 import { NAV_CATEGORIES as CATEGORIES } from "../lib/categories";
 import type { Category } from "../lib/categories";
+import type { LocaleKey } from "../i18n/utils";
 import { navigate, useRouter } from "../router/useRouter";
 import { CATEGORY_PATHS } from "../router/routes";
+
+const CATEGORY_LABEL_IDS: Record<Category, LocaleKey> = {
+  HOME: "nav.home",
+  MEMORIES: "nav.memories",
+  INFO: "nav.info",
+};
 
 const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { pathname } = useRouter();
+  const intl = useIntl();
 
   const select = (category: Category) => {
     navigate(CATEGORY_PATHS[category]);
@@ -28,7 +37,7 @@ const Header = () => {
                 onClick={() => select(category)}
                 className={isActive(category) ? "text-white" : "hover:text-white"}
               >
-                {category}
+                {intl.formatMessage({ id: CATEGORY_LABEL_IDS[category] })}
               </button>
             ))}
           </nav>
@@ -36,7 +45,7 @@ const Header = () => {
 
         <div className="md:hidden absolute right-4 top-6">
           <button
-            aria-label="menu"
+            aria-label={intl.formatMessage({ id: "nav.menuAriaLabel" })}
             onClick={() => setMenuOpen((s) => !s)}
             className="p-2 rounded-md bg-black/20"
           >
@@ -56,7 +65,7 @@ const Header = () => {
                 onClick={() => select(category)}
                 className={`text-left ${isActive(category) ? "text-white" : ""}`}
               >
-                {category}
+                {intl.formatMessage({ id: CATEGORY_LABEL_IDS[category] })}
               </button>
             ))}
           </nav>

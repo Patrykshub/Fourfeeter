@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
@@ -15,9 +16,6 @@ interface IMemoriesViewProps {
   onChangeBanner: (url: string) => void
 }
 
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
-
 const MemoriesView = ({
   posts,
   isAdmin,
@@ -28,6 +26,7 @@ const MemoriesView = ({
   banner,
   onChangeBanner,
 }: IMemoriesViewProps) => {
+  const intl = useIntl()
   const itemRefs = useRef<Record<string, HTMLElement | null>>({})
   const [highlighted, setHighlighted] = useState(highlightId ?? null)
 
@@ -41,10 +40,12 @@ const MemoriesView = ({
   const header = (
     <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
       <div className="flex justify-between items-center">
-        <h2 className="uppercase text-sm text-gray-300">Oś wspomnień</h2>
+        <h2 className="uppercase text-sm text-gray-300">
+          {intl.formatMessage({ id: 'memories.heading' })}
+        </h2>
         {isAdmin && (
           <button onClick={onAdd} className="flex items-center gap-2 text-neon">
-            Dodaj nowy
+            {intl.formatMessage({ id: 'common.addNew' })}
           </button>
         )}
       </div>
@@ -55,7 +56,11 @@ const MemoriesView = ({
     return (
       <section>
         {header}
-        <EmptyState message="Brak wspomnień w tej kategorii." isAdmin={isAdmin} onAdd={onAdd} />
+        <EmptyState
+          message={intl.formatMessage({ id: 'memories.emptyState' })}
+          isAdmin={isAdmin}
+          onAdd={onAdd}
+        />
       </section>
     )
   }
@@ -87,7 +92,9 @@ const MemoriesView = ({
                     className="w-full h-56 sm:h-64 lg:h-72 object-cover"
                   />
                   <div className="p-5">
-                    <div className="text-xs text-neon font-medium">{formatDate(post.date)}</div>
+                    <div className="text-xs text-neon font-medium">
+                      {intl.formatDate(post.date, { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </div>
                     <h3 className="text-xl font-semibold mt-1">{post.title}</h3>
                     <p className="mt-2 text-gray-300 text-sm">{post.content}</p>
                     {isAdmin && (

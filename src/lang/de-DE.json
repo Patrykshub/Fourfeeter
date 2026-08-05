@@ -1,0 +1,64 @@
+{
+  "nav.home": "Start",
+  "nav.memories": "Erinnerungen",
+  "nav.info": "Info",
+  "nav.menuAriaLabel": "Menü",
+
+  "footer.logout": "Abmelden",
+  "footer.adminLogin": "Admin",
+  "footer.font": "Schriftart",
+  "footer.language": "Sprache",
+
+  "common.edit": "Bearbeiten",
+  "common.delete": "Löschen",
+  "common.addNew": "Neu hinzufügen",
+  "common.cancel": "Abbrechen",
+  "common.save": "Speichern",
+  "common.close": "Schließen",
+
+  "auth.title": "Admin-Login",
+  "auth.emailPlaceholder": "E-Mail",
+  "auth.passwordPlaceholder": "Passwort",
+  "auth.submit": "Anmelden",
+  "auth.error": "Ungültige Anmeldedaten",
+
+  "post.editTitle": "Beitrag bearbeiten",
+  "post.addTitle": "Beitrag hinzufügen",
+  "post.titleLabel": "Titel",
+  "post.contentLabel": "Inhalt",
+  "post.imageLabel": "Bild",
+  "post.untitled": "Ohne Titel",
+
+  "home.emptyState": "Keine Beiträge in dieser Kategorie.",
+  "home.recommended": "Empfohlen",
+  "home.allPosts": "Alle Beiträge",
+
+  "memories.heading": "Erinnerungs-Zeitleiste",
+  "memories.emptyState": "Keine Erinnerungen in dieser Kategorie.",
+
+  "info.heading": "Kontaktdaten",
+  "info.emptyState": "Noch keine Kontaktdaten.",
+  "info.editTitle": "Eintrag bearbeiten",
+  "info.addTitle": "Eintrag hinzufügen",
+  "info.labelField": "Schlüssel",
+  "info.valueField": "Wert",
+  "info.unnamed": "Unbenannt",
+
+  "imagePicker.chooseFromGallery": "Aus Galerie wählen",
+  "imagePicker.modalTitle": "Bild auswählen",
+  "imagePicker.uploading": "Wird hochgeladen…",
+  "imagePicker.uploadNew": "Neues Bild hochladen",
+  "imagePicker.helperText": "Empfohlen ca. 1200×700px (Querformat, ~16:9), JPG/PNG/WebP.",
+  "imagePicker.uploadError": "Bild konnte nicht hochgeladen werden.",
+
+  "pageBanner.sectionBackground": "Abschnittshintergrund",
+  "pageBanner.saveError": "Abschnittshintergrund konnte nicht gespeichert werden.",
+
+  "confirm.deletePost": "Diesen Beitrag löschen?",
+  "confirm.deleteInfoEntry": "Diesen Eintrag löschen?",
+
+  "error.savePost": "Beitrag konnte nicht gespeichert werden.",
+  "error.deletePost": "Beitrag konnte nicht gelöscht werden.",
+  "error.saveInfoEntry": "Eintrag konnte nicht gespeichert werden.",
+  "error.deleteInfoEntry": "Eintrag konnte nicht gelöscht werden."
+}

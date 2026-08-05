@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../types";
 
 interface IUseInfoEntryEditorParams {
@@ -7,6 +8,7 @@ interface IUseInfoEntryEditorParams {
 }
 
 const useInfoEntryEditor = ({ saveEntry, deleteEntry }: IUseInfoEntryEditorParams) => {
+  const intl = useIntl();
   const [editing, setEditing] = useState<IInfoEntry | null>(null);
   const [isFormOpen, setFormOpen] = useState(false);
 
@@ -25,7 +27,7 @@ const useInfoEntryEditor = ({ saveEntry, deleteEntry }: IUseInfoEntryEditorParam
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm("Usunąć tę pozycję?")) return;
+    if (!confirm(intl.formatMessage({ id: "confirm.deleteInfoEntry" }))) return;
     deleteEntry(id);
   };
 

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../types";
 import { supabase } from "../lib/supabaseClient";
 
 const useInfoEntries = () => {
+  const intl = useIntl();
   const [entries, setEntries] = useState<IInfoEntry[]>([]);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const useInfoEntries = () => {
           prev.map((entry) => (entry.id === id ? (updated as IInfoEntry) : entry)),
         );
       } else {
-        alert("Nie udało się zapisać pozycji.");
+        alert(intl.formatMessage({ id: "error.saveInfoEntry" }));
       }
       return;
     }
@@ -45,7 +47,7 @@ const useInfoEntries = () => {
     if (!error && inserted) {
       setEntries((prev) => [...prev, inserted as IInfoEntry]);
     } else {
-      alert("Nie udało się zapisać pozycji.");
+      alert(intl.formatMessage({ id: "error.saveInfoEntry" }));
     }
   };
 
@@ -54,7 +56,7 @@ const useInfoEntries = () => {
     if (!error) {
       setEntries((prev) => prev.filter((entry) => entry.id !== id));
     } else {
-      alert("Nie udało się usunąć pozycji.");
+      alert(intl.formatMessage({ id: "error.deleteInfoEntry" }));
     }
   };
 

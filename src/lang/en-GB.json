@@ -1,3 +1,64 @@
 {
-  "message": "EN message"
+  "nav.home": "Home",
+  "nav.memories": "Memories",
+  "nav.info": "Info",
+  "nav.menuAriaLabel": "Menu",
+
+  "footer.logout": "Log out",
+  "footer.adminLogin": "Admin",
+  "footer.font": "Font",
+  "footer.language": "Language",
+
+  "common.edit": "Edit",
+  "common.delete": "Delete",
+  "common.addNew": "Add new",
+  "common.cancel": "Cancel",
+  "common.save": "Save",
+  "common.close": "Close",
+
+  "auth.title": "Admin Login",
+  "auth.emailPlaceholder": "Email",
+  "auth.passwordPlaceholder": "Password",
+  "auth.submit": "Log in",
+  "auth.error": "Invalid login credentials",
+
+  "post.editTitle": "Edit post",
+  "post.addTitle": "Add post",
+  "post.titleLabel": "Title",
+  "post.contentLabel": "Content",
+  "post.imageLabel": "Image",
+  "post.untitled": "Untitled",
+
+  "home.emptyState": "No posts in this category.",
+  "home.recommended": "Recommended",
+  "home.allPosts": "All posts",
+
+  "memories.heading": "Memory timeline",
+  "memories.emptyState": "No memories in this category.",
+
+  "info.heading": "Contact info",
+  "info.emptyState": "No contact info yet.",
+  "info.editTitle": "Edit entry",
+  "info.addTitle": "Add entry",
+  "info.labelField": "Key",
+  "info.valueField": "Value",
+  "info.unnamed": "Unnamed",
+
+  "imagePicker.chooseFromGallery": "Choose from gallery",
+  "imagePicker.modalTitle": "Choose image",
+  "imagePicker.uploading": "Uploading…",
+  "imagePicker.uploadNew": "Upload new image",
+  "imagePicker.helperText": "Recommended ~1200×700px (landscape, ~16:9), JPG/PNG/WebP.",
+  "imagePicker.uploadError": "Failed to upload the image.",
+
+  "pageBanner.sectionBackground": "Section background",
+  "pageBanner.saveError": "Failed to save the section background.",
+
+  "confirm.deletePost": "Delete this post?",
+  "confirm.deleteInfoEntry": "Delete this entry?",
+
+  "error.savePost": "Failed to save the post.",
+  "error.deletePost": "Failed to delete the post.",
+  "error.saveInfoEntry": "Failed to save the entry.",
+  "error.deleteInfoEntry": "Failed to delete the entry."
 }

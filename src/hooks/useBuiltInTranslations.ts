@@ -7,7 +7,7 @@ export const useBuiltInTranslations = () => {
   );
 
   useEffect(() => {
-    importAllMessages(["en-GB"])
+    importAllMessages(["pl-PL", "en-GB", "de-DE"])
       .then((msgs) => {
         setBuiltInMessages(msgs);
       })

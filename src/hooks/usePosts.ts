@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
 import { supabase } from '../lib/supabaseClient'
 
 export const usePosts = () => {
+  const intl = useIntl()
   const [posts, setPosts] = useState<IPost[]>([])
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export const usePosts = () => {
       if (!error && updated) {
         setPosts((prev) => prev.map((post) => (post.id === id ? (updated as IPost) : post)))
       } else {
-        alert('Nie udało się zapisać posta.')
+        alert(intl.formatMessage({ id: 'error.savePost' }))
       }
       return
     }
@@ -40,7 +42,7 @@ export const usePosts = () => {
     if (!error && inserted) {
       setPosts((prev) => [inserted as IPost, ...prev])
     } else {
-      alert('Nie udało się zapisać posta.')
+      alert(intl.formatMessage({ id: 'error.savePost' }))
     }
   }
 
@@ -49,7 +51,7 @@ export const usePosts = () => {
     if (!error) {
       setPosts((prev) => prev.filter((post) => post.id !== id))
     } else {
-      alert('Nie udało się usunąć posta.')
+      alert(intl.formatMessage({ id: 'error.deletePost' }))
     }
   }
 

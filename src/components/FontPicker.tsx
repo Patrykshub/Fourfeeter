@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl'
 import type { FontOption } from '../hooks/useFontPreference'
 
 const FONT_LABELS: Record<FontOption, string> = {
@@ -12,9 +13,11 @@ interface IFontPickerProps {
 }
 
 const FontPicker = ({ font, onChange }: IFontPickerProps) => {
+  const intl = useIntl()
+
   return (
     <label className="flex items-center gap-1 text-xs text-gray-400">
-      <span className="hidden sm:inline">Czcionka</span>
+      <span className="hidden sm:inline">{intl.formatMessage({ id: 'footer.font' })}</span>
       <select
         value={font}
         onChange={(e) => onChange(e.target.value as FontOption)}

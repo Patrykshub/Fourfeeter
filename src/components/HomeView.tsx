@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
@@ -23,8 +24,16 @@ const HomeView = ({
   onAdd,
   onSelectMemory,
 }: IHomeViewProps) => {
+  const intl = useIntl()
+
   if (!featured) {
-    return <EmptyState message="Brak postów w tej kategorii." isAdmin={isAdmin} onAdd={onAdd} />
+    return (
+      <EmptyState
+        message={intl.formatMessage({ id: 'home.emptyState' })}
+        isAdmin={isAdmin}
+        onAdd={onAdd}
+      />
+    )
   }
 
   return (
@@ -51,10 +60,12 @@ const HomeView = ({
 
         <aside className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="uppercase text-sm text-gray-300">Polecane</h3>
+            <h3 className="uppercase text-sm text-gray-300">
+              {intl.formatMessage({ id: 'home.recommended' })}
+            </h3>
             {isAdmin && (
               <button onClick={onAdd} className="flex items-center gap-2 text-neon">
-                Dodaj nowy
+                {intl.formatMessage({ id: 'common.addNew' })}
               </button>
             )}
           </div>
@@ -87,7 +98,9 @@ const HomeView = ({
       </section>
 
       <section className="mt-10">
-        <h4 className="uppercase text-sm text-gray-300 mb-4">Wszystkie posty</h4>
+        <h4 className="uppercase text-sm text-gray-300 mb-4">
+          {intl.formatMessage({ id: 'home.allPosts' })}
+        </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
             <article key={post.id} className="bg-[#071018] rounded-lg overflow-hidden">

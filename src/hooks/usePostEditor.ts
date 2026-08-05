@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import type { IPost } from "../types";
 
 interface IUsePostEditorParams {
@@ -7,6 +8,7 @@ interface IUsePostEditorParams {
 }
 
 const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
+  const intl = useIntl();
   const [editing, setEditing] = useState<IPost | null>(null);
   const [isFormOpen, setFormOpen] = useState(false);
 
@@ -25,7 +27,7 @@ const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm("Usuń ten post?")) return;
+    if (!confirm(intl.formatMessage({ id: "confirm.deletePost" }))) return;
     deletePost(id);
   };
 

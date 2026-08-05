@@ -1,4 +1,5 @@
 import { Edit2, Trash2 } from 'lucide-react'
+import { useIntl } from 'react-intl'
 
 interface IAdminActionsProps {
   onEdit: () => void
@@ -8,6 +9,8 @@ interface IAdminActionsProps {
 }
 
 const AdminActions = ({ onEdit, onDelete, compact = false, className = '' }: IAdminActionsProps) => {
+  const intl = useIntl()
+
   if (compact) {
     return (
       <div className={`flex flex-col gap-2 ${className}`}>
@@ -24,10 +27,10 @@ const AdminActions = ({ onEdit, onDelete, compact = false, className = '' }: IAd
   return (
     <div className={`flex gap-2 ${className}`}>
       <button onClick={onEdit} className="btn-admin">
-        <Edit2 className="inline-block mr-2" /> Edytuj
+        <Edit2 className="inline-block mr-2" /> {intl.formatMessage({ id: 'common.edit' })}
       </button>
       <button onClick={onDelete} className="btn-admin">
-        <Trash2 className="inline-block mr-2" /> Usuń
+        <Trash2 className="inline-block mr-2" /> {intl.formatMessage({ id: 'common.delete' })}
       </button>
     </div>
   )

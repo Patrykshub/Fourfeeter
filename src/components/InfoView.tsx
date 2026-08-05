@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl'
 import type { IInfoEntry } from '../types'
 import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
@@ -14,13 +15,17 @@ interface IInfoViewProps {
 }
 
 const InfoView = ({ entries, isAdmin, onEdit, onDelete, onAdd, banner, onChangeBanner }: IInfoViewProps) => {
+  const intl = useIntl()
+
   const header = (
     <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
       <div className="flex justify-between items-center">
-        <h2 className="uppercase text-sm text-gray-300">Dane kontaktowe</h2>
+        <h2 className="uppercase text-sm text-gray-300">
+          {intl.formatMessage({ id: 'info.heading' })}
+        </h2>
         {isAdmin && (
           <button onClick={onAdd} className="flex items-center gap-2 text-neon">
-            Dodaj nowy
+            {intl.formatMessage({ id: 'common.addNew' })}
           </button>
         )}
       </div>
@@ -31,7 +36,11 @@ const InfoView = ({ entries, isAdmin, onEdit, onDelete, onAdd, banner, onChangeB
     return (
       <section>
         {header}
-        <EmptyState message="Brak danych kontaktowych." isAdmin={isAdmin} onAdd={onAdd} />
+        <EmptyState
+          message={intl.formatMessage({ id: 'info.emptyState' })}
+          isAdmin={isAdmin}
+          onAdd={onAdd}
+        />
       </section>
     )
   }

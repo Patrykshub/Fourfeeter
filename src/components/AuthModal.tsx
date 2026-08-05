@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useIntl } from 'react-intl'
 import { ModalHeader } from './ModalHeader'
 
 interface IAuthModalProps {
@@ -7,6 +8,7 @@ interface IAuthModalProps {
 }
 
 const AuthModal = ({ onClose, onLogin }: IAuthModalProps) => {
+  const intl = useIntl()
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   const [hasError, setHasError] = useState(false)
@@ -24,26 +26,32 @@ const AuthModal = ({ onClose, onLogin }: IAuthModalProps) => {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
       <div className="bg-[#061018] max-w-sm w-full rounded-lg p-6">
-        <ModalHeader title="Admin Login" onClose={onClose} />
+        <ModalHeader title={intl.formatMessage({ id: 'auth.title' })} onClose={onClose} />
         <div className="mt-4 space-y-3">
           <input
             className="w-full p-3 rounded bg-black/20"
-            placeholder="Email"
+            placeholder={intl.formatMessage({ id: 'auth.emailPlaceholder' })}
             value={user}
             onChange={(e) => setUser(e.target.value)}
           />
           <input
             className="w-full p-3 rounded bg-black/20"
-            placeholder="Hasło"
+            placeholder={intl.formatMessage({ id: 'auth.passwordPlaceholder' })}
             type="password"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
           />
-          {hasError && <div className="text-xs text-red-400">Nieprawidłowe dane logowania</div>}
+          {hasError && (
+            <div className="text-xs text-red-400">{intl.formatMessage({ id: 'auth.error' })}</div>
+          )}
           <div className="flex justify-end gap-3">
-            <button onClick={onClose} className="px-4 py-2 bg-black/20 rounded">Anuluj</button>
-            <button onClick={handleLogin} className="px-4 py-2 bg-neon text-black rounded">Zaloguj</button>
+            <button onClick={onClose} className="px-4 py-2 bg-black/20 rounded">
+              {intl.formatMessage({ id: 'common.cancel' })}
+            </button>
+            <button onClick={handleLogin} className="px-4 py-2 bg-neon text-black rounded">
+              {intl.formatMessage({ id: 'auth.submit' })}
+            </button>
           </div>
         </div>
       </div>

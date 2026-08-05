@@ -1,5 +1,7 @@
 import { Lock, LogOut } from "lucide-react";
+import { useIntl } from "react-intl";
 import { FontPicker } from "./FontPicker";
+import { LanguagePicker } from "./LanguagePicker";
 import type { FontOption } from "../hooks/useFontPreference";
 
 interface IAdminFooterProps {
@@ -17,13 +19,15 @@ const AdminFooter = ({
   font,
   onFontChange,
 }: IAdminFooterProps) => {
+  const intl = useIntl();
+
   return (
     <footer className="fixed bottom-4 left-0 right-0 flex justify-center px-4">
       <div className="bg-black/30 px-4 py-2 rounded-full flex items-center gap-2 sm:gap-3 max-w-full">
         {isAdmin ? (
           <button
             onClick={onLogout}
-            title="Wyloguj"
+            title={intl.formatMessage({ id: "footer.logout" })}
             className="flex items-center gap-2 shrink-0"
           >
             <LogOut size={20} />
@@ -31,7 +35,7 @@ const AdminFooter = ({
         ) : (
           <button
             onClick={onLoginClick}
-            title="Admin"
+            title={intl.formatMessage({ id: "footer.adminLogin" })}
             className="flex items-center gap-2 shrink-0"
           >
             <Lock size={20} />
@@ -39,6 +43,7 @@ const AdminFooter = ({
         )}
 
         <FontPicker font={font} onChange={onFontChange} />
+        <LanguagePicker />
       </div>
     </footer>
   );

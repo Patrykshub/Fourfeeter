@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
 import { supabase } from "../lib/supabaseClient";
 
 type PageBannerKey = "memories" | "info";
 
 const usePageBanner = (key: PageBannerKey) => {
+  const intl = useIntl();
   const [banner, setBannerState] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const usePageBanner = (key: PageBannerKey) => {
   const setBanner = async (image: string | null) => {
     const { error } = await supabase.from("page_banners").upsert({ key, image });
     if (error) {
-      alert("Nie udało się zapisać tła sekcji.");
+      alert(intl.formatMessage({ id: "pageBanner.saveError" }));
       return;
     }
     setBannerState(image);

@@ -1,0 +1,64 @@
+{
+  "nav.home": "Główna",
+  "nav.memories": "Wspomnienia",
+  "nav.info": "Info",
+  "nav.menuAriaLabel": "Menu",
+
+  "footer.logout": "Wyloguj",
+  "footer.adminLogin": "Admin",
+  "footer.font": "Czcionka",
+  "footer.language": "Język",
+
+  "common.edit": "Edytuj",
+  "common.delete": "Usuń",
+  "common.addNew": "Dodaj nowy",
+  "common.cancel": "Anuluj",
+  "common.save": "Zapisz",
+  "common.close": "Zamknij",
+
+  "auth.title": "Admin Login",
+  "auth.emailPlaceholder": "Email",
+  "auth.passwordPlaceholder": "Hasło",
+  "auth.submit": "Zaloguj",
+  "auth.error": "Nieprawidłowe dane logowania",
+
+  "post.editTitle": "Edytuj post",
+  "post.addTitle": "Dodaj post",
+  "post.titleLabel": "Tytuł",
+  "post.contentLabel": "Treść",
+  "post.imageLabel": "Zdjęcie",
+  "post.untitled": "Bez tytułu",
+
+  "home.emptyState": "Brak postów w tej kategorii.",
+  "home.recommended": "Polecane",
+  "home.allPosts": "Wszystkie posty",
+
+  "memories.heading": "Oś wspomnień",
+  "memories.emptyState": "Brak wspomnień w tej kategorii.",
+
+  "info.heading": "Dane kontaktowe",
+  "info.emptyState": "Brak danych kontaktowych.",
+  "info.editTitle": "Edytuj pozycję",
+  "info.addTitle": "Dodaj pozycję",
+  "info.labelField": "Klucz",
+  "info.valueField": "Wartość",
+  "info.unnamed": "Bez nazwy",
+
+  "imagePicker.chooseFromGallery": "Wybierz z galerii",
+  "imagePicker.modalTitle": "Wybierz zdjęcie",
+  "imagePicker.uploading": "Przesyłanie…",
+  "imagePicker.uploadNew": "Wgraj nowe zdjęcie",
+  "imagePicker.helperText": "Zalecane ok. 1200×700px (poziomo, ~16:9), JPG/PNG/WebP.",
+  "imagePicker.uploadError": "Nie udało się przesłać zdjęcia.",
+
+  "pageBanner.sectionBackground": "Tło sekcji",
+  "pageBanner.saveError": "Nie udało się zapisać tła sekcji.",
+
+  "confirm.deletePost": "Usuń ten post?",
+  "confirm.deleteInfoEntry": "Usunąć tę pozycję?",
+
+  "error.savePost": "Nie udało się zapisać posta.",
+  "error.deletePost": "Nie udało się usunąć posta.",
+  "error.saveInfoEntry": "Nie udało się zapisać pozycji.",
+  "error.deleteInfoEntry": "Nie udało się usunąć pozycji."
+}

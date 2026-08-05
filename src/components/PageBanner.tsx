@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useIntl } from 'react-intl'
 import { ImagePicker } from './ImagePicker'
 
 interface IPageBannerProps {
@@ -9,6 +10,8 @@ interface IPageBannerProps {
 }
 
 const PageBanner = ({ image, isAdmin, onChangeImage, children }: IPageBannerProps) => {
+  const intl = useIntl()
+
   return (
     <div
       className="relative rounded-xl overflow-hidden bg-[#071018] bg-cover bg-center mb-8"
@@ -21,7 +24,9 @@ const PageBanner = ({ image, isAdmin, onChangeImage, children }: IPageBannerProp
 
         {isAdmin && (
           <div className="pt-2 border-t border-white/10">
-            <span className="block text-xs text-gray-300 mb-1">Tło sekcji</span>
+            <span className="block text-xs text-gray-300 mb-1">
+              {intl.formatMessage({ id: 'pageBanner.sectionBackground' })}
+            </span>
             <ImagePicker value={image ?? ''} onChange={onChangeImage} />
           </div>
         )}
