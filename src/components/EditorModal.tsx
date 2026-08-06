@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
+import { readJSON, removeItem, writeJSON } from '../lib/storage'
 import { ImagePicker } from './ImagePicker'
 import { ModalHeader } from './ModalHeader'
 
@@ -10,11 +11,28 @@ interface IEditorModalProps {
   onSave: (data: Omit<IPost, 'id' | 'date'> & { id?: string }) => void
 }
 
+interface IPostDraft {
+  title: string
+  content: string
+  image: string
+}
+
 const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const intl = useIntl()
-  const [title, setTitle] = useState(post?.title ?? '')
-  const [content, setContent] = useState(post?.content ?? '')
-  const [image, setImage] = useState(post?.image ?? 'https://picsum.photos/seed/new-post/600/400')
+  const draftKey = post ? `post_draft_v1_${post.id}` : 'post_draft_v1'
+  const [draft] = useState(() => readJSON<IPostDraft | null>(draftKey, null))
+  const [title, setTitle] = useState(draft?.title ?? post?.title ?? '')
+  const [content, setContent] = useState(draft?.content ?? post?.content ?? '')
+  const [image, setImage] = useState(
+    draft?.image ?? post?.image ?? 'https://picsum.photos/seed/new-post/600/400',
+  )
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      writeJSON(draftKey, { title, content, image })
+    }, 400)
+    return () => clearTimeout(timeout)
+  }, [draftKey, title, content, image])
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
@@ -39,14 +57,15 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
               {intl.formatMessage({ id: 'common.cancel' })}
             </button>
             <button
-              onClick={() =>
+              onClick={() => {
+                removeItem(draftKey)
                 onSave({
                   id: post?.id,
                   title: title || intl.formatMessage({ id: 'post.untitled' }),
                   content,
                   image,
                 })
-              }
+              }}
               className="px-4 py-2 bg-neon text-black rounded"
             >
               {intl.formatMessage({ id: 'common.save' })}

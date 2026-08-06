@@ -16,3 +16,11 @@ export const writeJSON = (key: string, value: unknown): boolean => {
     return false
   }
 }
+
+export const removeItem = (key: string): void => {
+  try {
+    localStorage.removeItem(key)
+  } catch (error) {
+    console.error(`Failed to remove "${key}" from localStorage`, error)
+  }
+}
