@@ -29,13 +29,17 @@ const Header = () => {
     <header className="pt-8 pb-6">
       <div className="flex items-center justify-between">
         <div className="text-center w-full">
-          <div className="logo text-4xl sm:text-5xl font-semibold tracking-tight">Fourfeeter</div>
+          <div className="text-4xl sm:text-5xl font-semibold tracking-tight">Fourfeeter</div>
           <nav className="hidden md:flex justify-center gap-8 mt-4 uppercase text-sm text-gray-300">
             {CATEGORIES.map((category) => (
               <button
                 key={category}
                 onClick={() => select(category)}
-                className={isActive(category) ? "text-white" : "hover:text-white"}
+                className={`border-b-2 pb-1 ${
+                  isActive(category)
+                    ? "text-neon border-neon font-semibold"
+                    : "border-transparent hover:text-white"
+                }`}
               >
                 {intl.formatMessage({ id: CATEGORY_LABEL_IDS[category] })}
               </button>
@@ -63,7 +67,7 @@ const Header = () => {
               <button
                 key={category}
                 onClick={() => select(category)}
-                className={`text-left ${isActive(category) ? "text-white" : ""}`}
+                className={`text-left ${isActive(category) ? "text-neon font-semibold" : ""}`}
               >
                 {intl.formatMessage({ id: CATEGORY_LABEL_IDS[category] })}
               </button>
