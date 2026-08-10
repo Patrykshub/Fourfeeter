@@ -52,12 +52,13 @@
   "imagePicker.uploadNew": "Wgraj nowe zdjęcie",
   "imagePicker.helperText": "Zalecane ok. 1200×700px (poziomo, ~16:9), JPG/PNG/WebP.",
   "imagePicker.uploadError": "Nie udało się przesłać zdjęcia.",
+  "imagePicker.deleteError": "Nie udało się usunąć zdjęcia.",
 
   "pageBanner.sectionBackground": "Tło sekcji",
   "pageBanner.saveError": "Nie udało się zapisać tła sekcji.",
 
-  "confirm.deletePost": "Usuń ten post?",
   "confirm.deleteInfoEntry": "Usunąć tę pozycję?",
+  "confirm.deleteImage": "Usunąć to zdjęcie?",
 
   "error.savePost": "Nie udało się zapisać posta.",
   "error.deletePost": "Nie udało się usunąć posta.",

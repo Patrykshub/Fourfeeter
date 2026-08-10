@@ -52,12 +52,13 @@
   "imagePicker.uploadNew": "Neues Bild hochladen",
   "imagePicker.helperText": "Empfohlen ca. 1200×700px (Querformat, ~16:9), JPG/PNG/WebP.",
   "imagePicker.uploadError": "Bild konnte nicht hochgeladen werden.",
+  "imagePicker.deleteError": "Bild konnte nicht gelöscht werden.",
 
   "pageBanner.sectionBackground": "Abschnittshintergrund",
   "pageBanner.saveError": "Abschnittshintergrund konnte nicht gespeichert werden.",
 
-  "confirm.deletePost": "Diesen Beitrag löschen?",
   "confirm.deleteInfoEntry": "Diesen Eintrag löschen?",
+  "confirm.deleteImage": "Dieses Bild löschen?",
 
   "error.savePost": "Beitrag konnte nicht gespeichert werden.",
   "error.deletePost": "Beitrag konnte nicht gelöscht werden.",

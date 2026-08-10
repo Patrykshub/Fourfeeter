@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 
 const BUCKET = 'post-images'
+const PUBLIC_PREFIX = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/${BUCKET}/`
 
 export const useMediaLibrary = () => {
   const [images, setImages] = useState<string[]>([])
@@ -33,5 +34,14 @@ export const useMediaLibrary = () => {
     return url
   }
 
-  return { images, uploadImage }
+  const deleteImage = async (url: string): Promise<boolean> => {
+    const path = url.replace(PUBLIC_PREFIX, '')
+    const { error } = await supabase.storage.from(BUCKET).remove([path])
+    if (error) return false
+
+    setImages((prev) => prev.filter((image) => image !== url))
+    return true
+  }
+
+  return { images, uploadImage, deleteImage }
 }

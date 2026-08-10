@@ -1,15 +1,27 @@
+import { useIntl } from "react-intl";
 import { useInfoEntries } from "../../hooks/useInfoEntries";
 import { useInfoEntryEditor } from "../../hooks/useInfoEntryEditor";
 import { usePageBanner } from "../../hooks/usePageBanner";
 import { useAppContext } from "../../router/AppContext";
 import { InfoView } from "../../components/InfoView";
 import { InfoEntryModal } from "../../components/InfoEntryModal";
+import { ConfirmDialog } from "../../components/ConfirmDialog";
 
 const InfoPage = () => {
+  const intl = useIntl();
   const { isAdmin } = useAppContext();
   const { entries, saveEntry, deleteEntry } = useInfoEntries();
-  const { editing, isFormOpen, openEditor, closeEditor, handleSave, handleDelete } =
-    useInfoEntryEditor({ saveEntry, deleteEntry });
+  const {
+    editing,
+    isFormOpen,
+    pendingDeleteId,
+    openEditor,
+    closeEditor,
+    handleSave,
+    handleDelete,
+    confirmDelete,
+    cancelDelete,
+  } = useInfoEntryEditor({ saveEntry, deleteEntry });
   const { banner, setBanner } = usePageBanner("info");
 
   return (
@@ -26,6 +38,17 @@ const InfoPage = () => {
 
       {isFormOpen && (
         <InfoEntryModal entry={editing} onClose={closeEditor} onSave={handleSave} />
+      )}
+
+      {pendingDeleteId && (
+        <ConfirmDialog
+          title={intl.formatMessage({ id: "common.delete" })}
+          message={intl.formatMessage({ id: "confirm.deleteInfoEntry" })}
+          confirmLabel={intl.formatMessage({ id: "common.delete" })}
+          cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
       )}
     </>
   );

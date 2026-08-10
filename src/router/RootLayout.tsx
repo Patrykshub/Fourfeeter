@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
+import { useIntl } from "react-intl";
 import { usePosts } from "../hooks/usePosts";
 import { useAdminSession } from "../hooks/useAdminSession";
 import { useFontPreference } from "../hooks/useFontPreference";
@@ -8,6 +9,8 @@ import { Header } from "../components/Header";
 import { AdminFooter } from "../components/AdminFooter";
 import { EditorModal } from "../components/EditorModal";
 import { AuthModal } from "../components/AuthModal";
+import { ConfirmDialog } from "../components/ConfirmDialog";
+import areYouSureImage from "../assets/are-you-sure.png";
 import { AppContext } from "./AppContext";
 
 interface IRootLayoutProps {
@@ -15,11 +18,21 @@ interface IRootLayoutProps {
 }
 
 const RootLayout = ({ children }: IRootLayoutProps) => {
+  const intl = useIntl();
   const { posts, savePost, deletePost } = usePosts();
   const { isAdmin, login, logout } = useAdminSession();
   const { font, setFont } = useFontPreference();
-  const { editing, isFormOpen, openEditor, closeEditor, handleSave, handleDelete } =
-    usePostEditor({ savePost, deletePost });
+  const {
+    editing,
+    isFormOpen,
+    pendingDeleteId,
+    openEditor,
+    closeEditor,
+    handleSave,
+    handleDelete,
+    confirmDelete,
+    cancelDelete,
+  } = usePostEditor({ savePost, deletePost });
 
   const [authOpen, setAuthOpen] = useState(false);
 
@@ -52,6 +65,18 @@ const RootLayout = ({ children }: IRootLayoutProps) => {
 
         {authOpen && (
           <AuthModal onClose={() => setAuthOpen(false)} onLogin={login} />
+        )}
+
+        {pendingDeleteId && (
+          <ConfirmDialog
+            title={intl.formatMessage({ id: "common.delete" })}
+            imageSrc={areYouSureImage}
+            imageAlt="Are you sure about that?"
+            confirmLabel={intl.formatMessage({ id: "common.delete" })}
+            cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+            onConfirm={confirmDelete}
+            onCancel={cancelDelete}
+          />
         )}
       </div>
     </AppContext.Provider>

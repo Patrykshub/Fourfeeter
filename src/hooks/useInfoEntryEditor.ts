@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../types";
 
 interface IUseInfoEntryEditorParams {
@@ -8,9 +7,9 @@ interface IUseInfoEntryEditorParams {
 }
 
 const useInfoEntryEditor = ({ saveEntry, deleteEntry }: IUseInfoEntryEditorParams) => {
-  const intl = useIntl();
   const [editing, setEditing] = useState<IInfoEntry | null>(null);
   const [isFormOpen, setFormOpen] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
   const openEditor = (entry?: IInfoEntry) => {
     setEditing(entry ?? null);
@@ -27,11 +26,29 @@ const useInfoEntryEditor = ({ saveEntry, deleteEntry }: IUseInfoEntryEditorParam
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm(intl.formatMessage({ id: "confirm.deleteInfoEntry" }))) return;
-    deleteEntry(id);
+    setPendingDeleteId(id);
   };
 
-  return { editing, isFormOpen, openEditor, closeEditor, handleSave, handleDelete };
+  const confirmDelete = () => {
+    if (pendingDeleteId) deleteEntry(pendingDeleteId);
+    setPendingDeleteId(null);
+  };
+
+  const cancelDelete = () => {
+    setPendingDeleteId(null);
+  };
+
+  return {
+    editing,
+    isFormOpen,
+    pendingDeleteId,
+    openEditor,
+    closeEditor,
+    handleSave,
+    handleDelete,
+    confirmDelete,
+    cancelDelete,
+  };
 };
 
 export { useInfoEntryEditor };
