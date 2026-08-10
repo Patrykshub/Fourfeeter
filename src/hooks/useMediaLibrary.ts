@@ -40,6 +40,12 @@ export const useMediaLibrary = () => {
     if (error) return false
 
     setImages((prev) => prev.filter((image) => image !== url))
+
+    await Promise.all([
+      supabase.from('page_banners').update({ image: null }).eq('image', url),
+      supabase.from('posts').update({ image: '' }).eq('image', url),
+    ])
+
     return true
   }
 
