@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { useIntl } from 'react-intl'
 import type { IInfoEntry } from '../types'
 import { AdminActions } from './AdminActions'
@@ -49,19 +50,19 @@ const InfoView = ({ entries, isAdmin, onEdit, onDelete, onAdd, banner, onChangeB
     <section>
       {header}
 
-      <div className="border-y border-white/10 divide-y divide-white/10">
+      <div className="max-w-md mx-auto grid grid-cols-2 gap-x-4 gap-y-4 py-8">
         {entries.map((entry) => (
-          <article key={entry.id} className="flex items-center gap-4 py-4">
-            <span className="shrink-0 w-32 text-xs uppercase tracking-wide text-neon truncate">
+          <Fragment key={entry.id}>
+            <span className="self-center text-right text-xs uppercase tracking-wide text-neon">
               {entry.label}
             </span>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm text-gray-200 truncate">{entry.value}</p>
+            <div className="flex items-center gap-3">
+              <p className="text-sm text-gray-200">{entry.value}</p>
+              {isAdmin && (
+                <AdminActions compact onEdit={() => onEdit(entry)} onDelete={() => onDelete(entry.id)} />
+              )}
             </div>
-            {isAdmin && (
-              <AdminActions compact onEdit={() => onEdit(entry)} onDelete={() => onDelete(entry.id)} />
-            )}
-          </article>
+          </Fragment>
         ))}
       </div>
     </section>
