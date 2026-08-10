@@ -1,45 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import type { IPost } from "../types";
-import { AdminActions } from "./AdminActions";
+import { TIMELINE_LINE_GRADIENT } from "../lib/timelineGradient";
 import { EmptyState } from "./EmptyState";
+import { MemoryTimelineItem } from "./MemoryTimelineItem";
 import { PageBanner } from "./PageBanner";
-
-type RgbTuple = [number, number, number];
-
-const TIMELINE_GRADIENT_STOPS = ["#06B6D4", "#3B82F6", "#A855F7"] as const;
-
-const TIMELINE_LINE_GRADIENT = `linear-gradient(to bottom, transparent, ${TIMELINE_GRADIENT_STOPS.join(
-  ", ",
-)}, transparent)`;
-
-const hexToRgb = (hex: string): RgbTuple => {
-  const value = parseInt(hex.slice(1), 16);
-  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
-};
-
-// Linearly interpolates a color along TIMELINE_GRADIENT_STOPS.
-// `progress` is 0 at the first stop and 1 at the last stop.
-const getTimelineDotColor = (progress: number): string => {
-  const clamped = Math.min(1, Math.max(0, progress));
-  const segment = clamped * (TIMELINE_GRADIENT_STOPS.length - 1);
-  const index = Math.min(
-    TIMELINE_GRADIENT_STOPS.length - 2,
-    Math.floor(segment),
-  );
-  const localProgress = segment - index;
-  const [r1, g1, b1] = hexToRgb(TIMELINE_GRADIENT_STOPS[index]);
-  const [r2, g2, b2] = hexToRgb(TIMELINE_GRADIENT_STOPS[index + 1]);
-  const r = Math.round(r1 + (r2 - r1) * localProgress);
-  const g = Math.round(g1 + (g2 - g1) * localProgress);
-  const b = Math.round(b1 + (b2 - b1) * localProgress);
-  return `rgb(${r}, ${g}, ${b})`;
-};
-
-// Maps a post's position in the list to a 0-1 progress value along the
-// timeline gradient.
-const getTimelineProgress = (index: number, totalPosts: number): number =>
-  totalPosts > 1 ? index / (totalPosts - 1) : 0;
 
 interface IMemoriesViewProps {
   posts: IPost[];
@@ -76,6 +41,14 @@ const MemoriesView = ({
     const timeout = setTimeout(() => setHighlighted(null), 2000);
     return () => clearTimeout(timeout);
   }, [highlightId]);
+
+  const registerItemRef = (id: string, el: HTMLElement | null) => {
+    itemRefs.current[id] = el;
+  };
+
+  const toggleExpanded = (id: string) => {
+    setExpandedId((current) => (current === id ? null : id));
+  };
 
   const header = (
     <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
@@ -116,76 +89,21 @@ const MemoriesView = ({
         />
 
         <div className="space-y-10">
-          {posts.map((post, index) => {
-            const isRight = index % 2 === 1;
-            const isExpanded = expandedId === post.id;
-            const dotColor = getTimelineDotColor(
-              getTimelineProgress(index, posts.length),
-            );
-            return (
-              <div
-                key={post.id}
-                className="relative pl-10 lg:pl-0 lg:grid lg:grid-cols-2 lg:gap-x-12"
-              >
-                <span
-                  className="absolute left-4 lg:left-1/2 top-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                  style={{ backgroundColor: dotColor }}
-                />
-                <article
-                  ref={(el) => {
-                    itemRefs.current[post.id] = el;
-                  }}
-                  onClick={() => setExpandedId(isExpanded ? null : post.id)}
-                  className={`bg-[#071018] rounded-xl overflow-hidden transition-shadow duration-500 cursor-pointer ${
-                    isRight ? "lg:col-start-2" : "lg:col-start-1"
-                  } ${highlighted === post.id ? "ring-2 ring-neon" : ""}`}
-                >
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-56 sm:h-64 lg:h-72 object-cover"
-                  />
-                  <div className="p-5">
-                    <div className="text-xs text-neon font-medium">
-                      {intl.formatDate(post.date, {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </div>
-                    <h3 className="text-xl font-semibold mt-1">{post.title}</h3>
-                    <p
-                      className={`mt-2 text-gray-300 text-sm whitespace-pre-wrap ${
-                        isExpanded ? "" : "line-clamp-3"
-                      }`}
-                    >
-                      {post.content}
-                    </p>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setExpandedId(isExpanded ? null : post.id);
-                      }}
-                      className="mt-2 text-xs text-neon"
-                    >
-                      {intl.formatMessage({
-                        id: isExpanded ? "common.showLess" : "common.showMore",
-                      })}
-                    </button>
-                    {isAdmin && (
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <AdminActions
-                          className="mt-4"
-                          onEdit={() => onEdit(post)}
-                          onDelete={() => onDelete(post.id)}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </article>
-              </div>
-            );
-          })}
+          {posts.map((post, index) => (
+            <MemoryTimelineItem
+              key={post.id}
+              post={post}
+              index={index}
+              totalPosts={posts.length}
+              isAdmin={isAdmin}
+              isExpanded={expandedId === post.id}
+              isHighlighted={highlighted === post.id}
+              onToggleExpand={toggleExpanded}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              registerRef={registerItemRef}
+            />
+          ))}
         </div>
       </div>
     </section>
