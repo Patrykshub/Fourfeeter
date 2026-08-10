@@ -13,7 +13,7 @@ const CATEGORY_LABEL_IDS: Record<Category, LocaleKey> = {
   INFO: "nav.info",
 };
 
-const Header = () => {
+export const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { pathname } = useRouter();
   const intl = useIntl();
@@ -23,19 +23,22 @@ const Header = () => {
     setMenuOpen(false);
   };
 
-  const isActive = (category: Category) => pathname === CATEGORY_PATHS[category];
+  const isActive = (category: Category) =>
+    pathname === CATEGORY_PATHS[category];
 
   return (
     <header className="pt-8 pb-6">
       <div className="flex items-center justify-between">
         <div className="text-center w-full">
-          <div className="text-4xl sm:text-5xl font-semibold tracking-tight">Fourfeeter</div>
-          <nav className="hidden md:flex justify-center gap-8 mt-4 uppercase text-sm text-gray-300">
+          <div className="text-4xl sm:text-5xl font-semibold tracking-tight">
+            Fourfeeter
+          </div>
+          <nav className="hidden md:flex justify-center gap-8 mt-4 uppercase text-base text-gray-300">
             {CATEGORIES.map((category) => (
               <button
                 key={category}
                 onClick={() => select(category)}
-                className={`border-b-2 pb-1 ${
+                className={`border-b px-2 ${
                   isActive(category)
                     ? "text-neon border-neon font-semibold"
                     : "border-transparent hover:text-white"
@@ -78,5 +81,3 @@ const Header = () => {
     </header>
   );
 };
-
-export { Header };
