@@ -1,6 +1,6 @@
 // based on https://github.com/formatjs/formatjs/blob/main/packages/react-intl/examples/StaticTypeSafetyAndCodeSplitting/intlHelpers.tsx
 
-import * as sourceOfTruth from "../lang/pl-PL.json";
+import sourceOfTruth from "../lang/pl-PL.json";
 
 export type LocaleMessages = typeof sourceOfTruth;
 export type LocaleKey = Extract<keyof LocaleMessages, string>;
@@ -15,11 +15,11 @@ export const importMessages = (
 ): Promise<LocaleMessages> => {
   switch (locale) {
     case "pl-PL":
-      return import("../lang/pl-PL.json");
+      return import("../lang/pl-PL.json").then((m) => m.default);
     case "en-GB":
-      return import("../lang/en-GB.json");
+      return import("../lang/en-GB.json").then((m) => m.default);
     case "de-DE":
-      return import("../lang/de-DE.json");
+      return import("../lang/de-DE.json").then((m) => m.default);
     default:
       throw new Error("Attempt to import unsupported locale!!!");
   }
