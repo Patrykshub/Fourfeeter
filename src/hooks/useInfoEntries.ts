@@ -1,24 +1,15 @@
-import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../types";
 import { supabase } from "../lib/supabaseClient";
+import { useCachedResource } from "./useCachedResource";
 
 const useInfoEntries = () => {
   const intl = useIntl();
-  const [entries, setEntries] = useState<IInfoEntry[]>([]);
-
-  useEffect(() => {
-    let cancelled = false;
-    supabase
-      .from("info_entries")
-      .select("*")
-      .then(({ data, error }) => {
-        if (!cancelled && !error && data) setEntries(data as IInfoEntry[]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const [entries, writeEntries] = useCachedResource<IInfoEntry[]>("info-entries", async () => {
+    const { data, error } = await supabase.from("info_entries").select("*");
+    if (error || !data) return undefined;
+    return data as IInfoEntry[];
+  });
 
   const saveEntry = async (data: Omit<IInfoEntry, "id"> & { id?: string }) => {
     if (data.id) {
@@ -30,8 +21,8 @@ const useInfoEntries = () => {
         .select()
         .single();
       if (!error && updated) {
-        setEntries((prev) =>
-          prev.map((entry) => (entry.id === id ? (updated as IInfoEntry) : entry)),
+        writeEntries((prev) =>
+          (prev ?? []).map((entry) => (entry.id === id ? (updated as IInfoEntry) : entry)),
         );
       } else {
         alert(intl.formatMessage({ id: "error.saveInfoEntry" }));
@@ -45,7 +36,7 @@ const useInfoEntries = () => {
       .select()
       .single();
     if (!error && inserted) {
-      setEntries((prev) => [...prev, inserted as IInfoEntry]);
+      writeEntries((prev) => [...(prev ?? []), inserted as IInfoEntry]);
     } else {
       alert(intl.formatMessage({ id: "error.saveInfoEntry" }));
     }
@@ -54,13 +45,13 @@ const useInfoEntries = () => {
   const deleteEntry = async (id: string) => {
     const { error } = await supabase.from("info_entries").delete().eq("id", id);
     if (!error) {
-      setEntries((prev) => prev.filter((entry) => entry.id !== id));
+      writeEntries((prev) => (prev ?? []).filter((entry) => entry.id !== id));
     } else {
       alert(intl.formatMessage({ id: "error.deleteInfoEntry" }));
     }
   };
 
-  return { entries, saveEntry, deleteEntry };
+  return { entries: entries ?? [], saveEntry, deleteEntry };
 };
 
 export { useInfoEntries };
