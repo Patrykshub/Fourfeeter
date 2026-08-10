@@ -29,6 +29,7 @@ const MemoriesView = ({
   const intl = useIntl()
   const itemRefs = useRef<Record<string, HTMLElement | null>>({})
   const [highlighted, setHighlighted] = useState(highlightId ?? null)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
 
   useEffect(() => {
     if (!highlightId) return
@@ -75,6 +76,7 @@ const MemoriesView = ({
         <div className="space-y-10">
           {posts.map((post, index) => {
             const isRight = index % 2 === 1
+            const isExpanded = expandedId === post.id
             return (
               <div key={post.id} className="relative pl-10 lg:pl-0 lg:grid lg:grid-cols-2 lg:gap-x-12">
                 <span className="absolute left-4 lg:left-1/2 top-2 w-3 h-3 -translate-x-1/2 rounded-full bg-neon" />
@@ -82,7 +84,8 @@ const MemoriesView = ({
                   ref={(el) => {
                     itemRefs.current[post.id] = el
                   }}
-                  className={`bg-[#071018] rounded-xl overflow-hidden transition-shadow duration-500 ${
+                  onClick={() => setExpandedId(isExpanded ? null : post.id)}
+                  className={`bg-[#071018] rounded-xl overflow-hidden transition-shadow duration-500 cursor-pointer ${
                     isRight ? 'lg:col-start-2' : 'lg:col-start-1'
                   } ${highlighted === post.id ? 'ring-2 ring-neon' : ''}`}
                 >
@@ -96,13 +99,30 @@ const MemoriesView = ({
                       {intl.formatDate(post.date, { day: 'numeric', month: 'long', year: 'numeric' })}
                     </div>
                     <h3 className="text-xl font-semibold mt-1">{post.title}</h3>
-                    <p className="mt-2 text-gray-300 text-sm">{post.content}</p>
+                    <p
+                      className={`mt-2 text-gray-300 text-sm whitespace-pre-wrap ${
+                        isExpanded ? '' : 'line-clamp-3'
+                      }`}
+                    >
+                      {post.content}
+                    </p>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setExpandedId(isExpanded ? null : post.id)
+                      }}
+                      className="mt-2 text-xs text-neon"
+                    >
+                      {intl.formatMessage({ id: isExpanded ? 'common.showLess' : 'common.showMore' })}
+                    </button>
                     {isAdmin && (
-                      <AdminActions
-                        className="mt-4"
-                        onEdit={() => onEdit(post)}
-                        onDelete={() => onDelete(post.id)}
-                      />
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <AdminActions
+                          className="mt-4"
+                          onEdit={() => onEdit(post)}
+                          onDelete={() => onDelete(post.id)}
+                        />
+                      </div>
                     )}
                   </div>
                 </article>

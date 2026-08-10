@@ -47,7 +47,7 @@ const HomeView = ({
           />
           <div className="p-6">
             <h2 className="text-2xl sm:text-3xl font-bold mt-2">{featured.title}</h2>
-            <p className="mt-3 text-gray-300">{featured.content}</p>
+            <p className="mt-3 text-gray-300 whitespace-pre-wrap">{featured.content}</p>
             {isAdmin && (
               <AdminActions
                 className="mt-4"
