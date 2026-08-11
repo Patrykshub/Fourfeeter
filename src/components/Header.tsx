@@ -38,10 +38,8 @@ export const Header = () => {
               <button
                 key={category}
                 onClick={() => select(category)}
-                className={`border-b px-2 ${
-                  isActive(category)
-                    ? "text-neon border-neon font-semibold"
-                    : "border-transparent hover:text-white"
+                className={`px-2 ${
+                  isActive(category) ? "text-neon font-semibold" : "hover:text-white"
                 }`}
               >
                 {intl.formatMessage({ id: CATEGORY_LABEL_IDS[category] })}
