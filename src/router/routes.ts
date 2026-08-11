@@ -4,24 +4,21 @@ import { HomePage } from "../pages/home/HomePage";
 import { MemoriesPage } from "../pages/memories/MemoriesPage";
 import { InfoPage } from "../pages/info/InfoPage";
 
-type RoutePath = "/" | "/memories" | "/info";
+export type RoutePath = "/" | "/memories" | "/info";
 
-interface IRouteConfig {
+export interface IRouteConfig {
   path: RoutePath;
   Page: ComponentType;
 }
 
-const routes: IRouteConfig[] = [
+export const routes: IRouteConfig[] = [
   { path: "/", Page: HomePage },
   { path: "/memories", Page: MemoriesPage },
   { path: "/info", Page: InfoPage },
 ];
 
-const CATEGORY_PATHS: Record<Category, RoutePath> = {
+export const CATEGORY_PATHS: Record<Category, RoutePath> = {
   HOME: "/",
   MEMORIES: "/memories",
   INFO: "/info",
 };
-
-export { routes, CATEGORY_PATHS };
-export type { RoutePath, IRouteConfig };

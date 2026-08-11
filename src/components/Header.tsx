@@ -31,7 +31,7 @@ export const Header = () => {
       <div className="flex items-center justify-between">
         <div className="text-center w-full">
           <div className="text-4xl sm:text-5xl font-semibold tracking-tight">
-            Fourfeeter
+            Equilibrio
           </div>
           <nav className="hidden md:flex justify-center gap-8 mt-4 uppercase text-base text-gray-300">
             {CATEGORIES.map((category) => (

@@ -57,6 +57,8 @@
   "pageBanner.sectionBackground": "Tło sekcji",
   "pageBanner.saveError": "Nie udało się zapisać tła sekcji.",
 
+  "siteName.label": "Nazwa strony",
+
   "confirm.deleteInfoEntry": "Usunąć tę pozycję?",
   "confirm.deleteImage": "Usunąć to zdjęcie?",
 

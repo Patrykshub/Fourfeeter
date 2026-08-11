@@ -57,6 +57,8 @@
   "pageBanner.sectionBackground": "Section background",
   "pageBanner.saveError": "Failed to save the section background.",
 
+  "siteName.label": "Site name",
+
   "confirm.deleteInfoEntry": "Delete this entry?",
   "confirm.deleteImage": "Delete this image?",
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-interface INavigationState {
+export interface INavigationState {
   pathname: string;
   search: string;
 }
@@ -12,12 +12,12 @@ const getNavigationState = (): INavigationState => ({
   search: window.location.search,
 });
 
-const navigate = (path: string): void => {
+export const navigate = (path: string): void => {
   window.history.pushState(null, "", path);
   window.dispatchEvent(new Event(NAVIGATE_EVENT));
 };
 
-const useRouter = () => {
+export const useRouter = () => {
   const [state, setState] = useState<INavigationState>(getNavigationState);
 
   useEffect(() => {
@@ -32,5 +32,3 @@ const useRouter = () => {
 
   return { ...state, navigate };
 };
-
-export { useRouter, navigate };

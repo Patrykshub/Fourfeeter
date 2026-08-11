@@ -17,7 +17,7 @@ interface IRootLayoutProps {
   children: ReactNode;
 }
 
-const RootLayout = ({ children }: IRootLayoutProps) => {
+export const RootLayout = ({ children }: IRootLayoutProps) => {
   const intl = useIntl();
   const { posts, savePost, deletePost } = usePosts();
   const { isAdmin, login, logout } = useAdminSession();
@@ -60,7 +60,11 @@ const RootLayout = ({ children }: IRootLayoutProps) => {
         />
 
         {isFormOpen && (
-          <EditorModal post={editing} onClose={closeEditor} onSave={handleSave} />
+          <EditorModal
+            post={editing}
+            onClose={closeEditor}
+            onSave={handleSave}
+          />
         )}
 
         {authOpen && (
@@ -82,5 +86,3 @@ const RootLayout = ({ children }: IRootLayoutProps) => {
     </AppContext.Provider>
   );
 };
-
-export { RootLayout };

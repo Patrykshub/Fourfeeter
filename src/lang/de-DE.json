@@ -57,6 +57,8 @@
   "pageBanner.sectionBackground": "Abschnittshintergrund",
   "pageBanner.saveError": "Abschnittshintergrund konnte nicht gespeichert werden.",
 
+  "siteName.label": "Seitenname",
+
   "confirm.deleteInfoEntry": "Diesen Eintrag löschen?",
   "confirm.deleteImage": "Dieses Bild löschen?",
 
