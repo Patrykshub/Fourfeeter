@@ -1,5 +1,6 @@
 import { useIntl } from 'react-intl'
 import type { FontOption } from '../hooks/useFontPreference'
+import { LabeledSelect } from './LabeledSelect'
 
 const FONT_LABELS: Record<FontOption, string> = {
   sans: 'Sans',
@@ -16,20 +17,15 @@ const FontPicker = ({ font, onChange }: IFontPickerProps) => {
   const intl = useIntl()
 
   return (
-    <label className="flex items-center gap-1 text-xs text-gray-400">
-      <span className="hidden sm:inline">{intl.formatMessage({ id: 'footer.font' })}</span>
-      <select
-        value={font}
-        onChange={(e) => onChange(e.target.value as FontOption)}
-        className="bg-black/20 rounded px-1 py-1 text-xs text-gray-200"
-      >
-        {(Object.keys(FONT_LABELS) as FontOption[]).map((option) => (
-          <option key={option} value={option}>
-            {FONT_LABELS[option]}
-          </option>
-        ))}
-      </select>
-    </label>
+    <LabeledSelect
+      label={intl.formatMessage({ id: 'footer.font' })}
+      value={font}
+      onChange={(value) => onChange(value as FontOption)}
+      options={(Object.keys(FONT_LABELS) as FontOption[]).map((option) => ({
+        value: option,
+        label: FONT_LABELS[option],
+      }))}
+    />
   )
 }
 

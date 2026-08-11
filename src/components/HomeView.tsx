@@ -1,7 +1,9 @@
 import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
-import { AdminActions } from './AdminActions'
 import { EmptyState } from './EmptyState'
+import { FeaturedPostCard } from './FeaturedPostCard'
+import { HomeRecommendedItem } from './HomeRecommendedItem'
+import { HomePostCard } from './HomePostCard'
 
 interface IHomeViewProps {
   posts: IPost[]
@@ -39,24 +41,7 @@ const HomeView = ({
   return (
     <>
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <article className="lg:col-span-2 bg-[#071018] rounded-xl overflow-hidden">
-          <img
-            src={featured.image}
-            alt={featured.title}
-            className="w-full h-64 sm:h-96 object-cover"
-          />
-          <div className="p-6">
-            <h2 className="text-2xl sm:text-3xl font-bold mt-2">{featured.title}</h2>
-            <p className="mt-3 text-gray-300 whitespace-pre-wrap">{featured.content}</p>
-            {isAdmin && (
-              <AdminActions
-                className="mt-4"
-                onEdit={() => onEdit(featured)}
-                onDelete={() => onDelete(featured.id)}
-              />
-            )}
-          </div>
-        </article>
+        <FeaturedPostCard post={featured} isAdmin={isAdmin} onEdit={onEdit} onDelete={onDelete} />
 
         <aside className="space-y-4">
           <div className="flex justify-between items-center">
@@ -72,26 +57,14 @@ const HomeView = ({
 
           <div className="grid grid-cols-1 gap-4">
             {rest.map((post) => (
-              <div
+              <HomeRecommendedItem
                 key={post.id}
-                onClick={() => onSelectMemory(post)}
-                className="flex gap-3 items-center bg-[#071018] p-3 rounded-lg cursor-pointer hover:bg-[#0c1c29]"
-              >
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-20 h-14 object-cover rounded"
-                />
-                <div className="flex-1">
-                  <div className="font-semibold">{post.title}</div>
-                  <div className="text-sm text-gray-400">{post.content.slice(0, 70)}...</div>
-                </div>
-                {isAdmin && (
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <AdminActions compact onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />
-                  </div>
-                )}
-              </div>
+                post={post}
+                isAdmin={isAdmin}
+                onSelectMemory={onSelectMemory}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
             ))}
           </div>
         </aside>
@@ -103,20 +76,7 @@ const HomeView = ({
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
-            <article key={post.id} className="bg-[#071018] rounded-lg overflow-hidden">
-              <img src={post.image} alt={post.title} className="w-full h-40 object-cover" />
-              <div className="p-4">
-                <h5 className="font-semibold mt-1">{post.title}</h5>
-                <p className="text-gray-400 text-sm mt-2">{post.content.slice(0, 100)}...</p>
-                {isAdmin && (
-                  <AdminActions
-                    className="mt-3"
-                    onEdit={() => onEdit(post)}
-                    onDelete={() => onDelete(post.id)}
-                  />
-                )}
-              </div>
-            </article>
+            <HomePostCard key={post.id} post={post} isAdmin={isAdmin} onEdit={onEdit} onDelete={onDelete} />
           ))}
         </div>
       </section>

@@ -3,6 +3,7 @@ import type { IPost } from '../types'
 import { useDraftState } from '../hooks/useDraftState'
 import { ImagePicker } from './ImagePicker'
 import { ModalHeader } from './ModalHeader'
+import { ModalShell } from './ModalShell'
 import { SaveCancelButtons } from './SaveCancelButtons'
 
 interface IEditorModalProps {
@@ -31,38 +32,36 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const setImage = (nextImage: string) => setDraft((prev) => ({ ...prev, image: nextImage }))
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
-      <div className="bg-[#061018] max-w-2xl w-full rounded-lg p-6">
-        <ModalHeader
-          title={intl.formatMessage({ id: post ? 'post.editTitle' : 'post.addTitle' })}
-          onClose={onClose}
+    <ModalShell maxWidth="2xl">
+      <ModalHeader
+        title={intl.formatMessage({ id: post ? 'post.editTitle' : 'post.addTitle' })}
+        onClose={onClose}
+      />
+
+      <div className="mt-4 space-y-3">
+        <label className="block text-sm">{intl.formatMessage({ id: 'post.titleLabel' })}</label>
+        <input className="w-full p-3 rounded bg-black/20" value={title} onChange={(e) => setTitle(e.target.value)} />
+
+        <label className="block text-sm">{intl.formatMessage({ id: 'post.contentLabel' })}</label>
+        <textarea className="w-full p-3 rounded bg-black/20 h-36" value={content} onChange={(e) => setContent(e.target.value)} />
+
+        <label className="block text-sm">{intl.formatMessage({ id: 'post.imageLabel' })}</label>
+        <ImagePicker value={image} onChange={setImage} />
+
+        <SaveCancelButtons
+          onCancel={onClose}
+          onSave={() => {
+            clearDraft()
+            onSave({
+              id: post?.id,
+              title: title || intl.formatMessage({ id: 'post.untitled' }),
+              content,
+              image,
+            })
+          }}
         />
-
-        <div className="mt-4 space-y-3">
-          <label className="block text-sm">{intl.formatMessage({ id: 'post.titleLabel' })}</label>
-          <input className="w-full p-3 rounded bg-black/20" value={title} onChange={(e) => setTitle(e.target.value)} />
-
-          <label className="block text-sm">{intl.formatMessage({ id: 'post.contentLabel' })}</label>
-          <textarea className="w-full p-3 rounded bg-black/20 h-36" value={content} onChange={(e) => setContent(e.target.value)} />
-
-          <label className="block text-sm">{intl.formatMessage({ id: 'post.imageLabel' })}</label>
-          <ImagePicker value={image} onChange={setImage} />
-
-          <SaveCancelButtons
-            onCancel={onClose}
-            onSave={() => {
-              clearDraft()
-              onSave({
-                id: post?.id,
-                title: title || intl.formatMessage({ id: 'post.untitled' }),
-                content,
-                image,
-              })
-            }}
-          />
-        </div>
       </div>
-    </div>
+    </ModalShell>
   )
 }
 
