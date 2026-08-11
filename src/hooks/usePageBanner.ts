@@ -4,31 +4,42 @@ import { useCachedResource } from "./useCachedResource";
 
 type PageBannerKey = "memories" | "info";
 
+interface IPageBannerData {
+  image: string | null;
+  description: string | null;
+}
+
 const usePageBanner = (key: PageBannerKey) => {
   const intl = useIntl();
-  const [banner, writeBanner] = useCachedResource<string | null>(
+  const [data, writeData] = useCachedResource<IPageBannerData>(
     `page-banner:${key}`,
     async () => {
       const { data, error } = await supabase
         .from("page_banners")
-        .select("image")
+        .select("image, description")
         .eq("key", key)
         .maybeSingle();
       if (error) return undefined;
-      return data?.image ?? null;
+      return { image: data?.image ?? null, description: data?.description ?? null };
     },
   );
 
-  const setBanner = async (image: string | null) => {
-    const { error } = await supabase.from("page_banners").upsert({ key, image });
+  const save = async (next: IPageBannerData) => {
+    const { error } = await supabase.from("page_banners").upsert({ key, ...next });
     if (error) {
       alert(intl.formatMessage({ id: "pageBanner.saveError" }));
       return;
     }
-    writeBanner(image);
+    writeData(next);
   };
 
-  return { banner: banner ?? null, setBanner };
+  const banner = data?.image ?? null;
+  const description = data?.description ?? null;
+
+  const setBanner = (image: string | null) => save({ image, description });
+  const setDescription = (nextDescription: string | null) => save({ image: banner, description: nextDescription });
+
+  return { banner, setBanner, description, setDescription };
 };
 
 export { usePageBanner };

@@ -55,6 +55,7 @@
   "imagePicker.deleteError": "Bild konnte nicht gelöscht werden.",
 
   "pageBanner.sectionBackground": "Abschnittshintergrund",
+  "pageBanner.description": "Beschreibung",
   "pageBanner.saveError": "Abschnittshintergrund konnte nicht gespeichert werden.",
 
   "siteName.label": "Seitenname",

@@ -55,6 +55,7 @@
   "imagePicker.deleteError": "Nie udało się usunąć zdjęcia.",
 
   "pageBanner.sectionBackground": "Tło sekcji",
+  "pageBanner.description": "Opis",
   "pageBanner.saveError": "Nie udało się zapisać tła sekcji.",
 
   "siteName.label": "Nazwa strony",

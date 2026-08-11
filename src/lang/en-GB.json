@@ -55,6 +55,7 @@
   "imagePicker.deleteError": "Failed to delete the image.",
 
   "pageBanner.sectionBackground": "Section background",
+  "pageBanner.description": "Description",
   "pageBanner.saveError": "Failed to save the section background.",
 
   "siteName.label": "Site name",

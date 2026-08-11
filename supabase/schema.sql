@@ -43,11 +43,14 @@ create policy "Only authenticated users can write info entries"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
--- Page banners (background image for the Memories/Info top section)
+-- Page banners (background image + optional description for the Memories/Info top section)
 create table if not exists page_banners (
   key text primary key,
-  image text
+  image text,
+  description text
 );
+
+alter table page_banners add column if not exists description text;
 
 alter table page_banners enable row level security;
 

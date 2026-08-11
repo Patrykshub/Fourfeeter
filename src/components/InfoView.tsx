@@ -13,6 +13,8 @@ interface IInfoViewProps {
   onAdd: () => void;
   banner: string | null;
   onChangeBanner: (url: string) => void;
+  description: string | null;
+  onChangeDescription: (text: string) => void;
 }
 
 const InfoView = ({
@@ -23,11 +25,19 @@ const InfoView = ({
   onAdd,
   banner,
   onChangeBanner,
+  description,
+  onChangeDescription,
 }: IInfoViewProps) => {
   const intl = useIntl();
 
   const header = (
-    <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
+    <PageBanner
+      image={banner}
+      isAdmin={isAdmin}
+      onChangeImage={onChangeBanner}
+      description={description}
+      onChangeDescription={onChangeDescription}
+    >
       <div className="flex justify-between items-center">
         <h2 className="uppercase text-sm text-gray-300">
           {intl.formatMessage({ id: "info.heading" })}
