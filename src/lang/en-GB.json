@@ -56,6 +56,7 @@
 
   "pageBanner.sectionBackground": "Section background",
   "pageBanner.description": "Description",
+  "pageBanner.addDescription": "Add description",
   "pageBanner.saveError": "Failed to save the section background.",
 
   "siteName.label": "Site name",

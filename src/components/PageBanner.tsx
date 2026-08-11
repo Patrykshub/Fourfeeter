@@ -7,18 +7,9 @@ interface IPageBannerProps {
   isAdmin: boolean
   onChangeImage: (url: string) => void
   children: ReactNode
-  description?: string | null
-  onChangeDescription?: (text: string) => void
 }
 
-const PageBanner = ({
-  image,
-  isAdmin,
-  onChangeImage,
-  children,
-  description,
-  onChangeDescription,
-}: IPageBannerProps) => {
+const PageBanner = ({ image, isAdmin, onChangeImage, children }: IPageBannerProps) => {
   const intl = useIntl()
 
   return (
@@ -33,30 +24,12 @@ const PageBanner = ({
       <div className="relative p-4 sm:p-6 space-y-3 [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">
         {children}
 
-        {!isAdmin && description && (
-          <p className="text-sm text-gray-200 whitespace-pre-wrap">{description}</p>
-        )}
-
         {isAdmin && (
           <div className="pt-2 border-t border-white/10">
             <span className="block text-xs text-gray-300 mb-1">
               {intl.formatMessage({ id: 'pageBanner.sectionBackground' })}
             </span>
             <ImagePicker value={image ?? ''} onChange={onChangeImage} />
-
-            {onChangeDescription && (
-              <div className="pt-2 mt-2 border-t border-white/10">
-                <span className="block text-xs text-gray-300 mb-1">
-                  {intl.formatMessage({ id: 'pageBanner.description' })}
-                </span>
-                <textarea
-                  value={description ?? ''}
-                  onChange={(e) => onChangeDescription(e.target.value)}
-                  rows={3}
-                  className="w-full rounded bg-black/20 p-2 text-sm text-white placeholder-gray-400"
-                />
-              </div>
-            )}
           </div>
         )}
       </div>

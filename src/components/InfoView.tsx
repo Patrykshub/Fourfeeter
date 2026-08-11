@@ -4,6 +4,7 @@ import type { IInfoEntry } from "../types";
 import { AdminActions } from "./AdminActions";
 import { EmptyState } from "./EmptyState";
 import { PageBanner } from "./PageBanner";
+import { PageDescription } from "./PageDescription";
 
 interface IInfoViewProps {
   entries: IInfoEntry[];
@@ -31,24 +32,32 @@ const InfoView = ({
   const intl = useIntl();
 
   const header = (
-    <PageBanner
-      image={banner}
-      isAdmin={isAdmin}
-      onChangeImage={onChangeBanner}
-      description={description}
-      onChangeDescription={onChangeDescription}
-    >
-      <div className="flex justify-between items-center">
-        <h2 className="uppercase text-sm text-gray-300">
-          {intl.formatMessage({ id: "info.heading" })}
-        </h2>
-        {isAdmin && (
-          <button onClick={onAdd} className="flex items-center gap-2 text-neon">
-            {intl.formatMessage({ id: "common.addNew" })}
-          </button>
-        )}
-      </div>
-    </PageBanner>
+    <>
+      <PageBanner
+        image={banner}
+        isAdmin={isAdmin}
+        onChangeImage={onChangeBanner}
+      >
+        <div className="flex justify-between items-center">
+          <h2 className="uppercase text-sm text-gray-300">
+            {intl.formatMessage({ id: "info.heading" })}
+          </h2>
+          {isAdmin && (
+            <button
+              onClick={onAdd}
+              className="flex items-center gap-2 text-neon"
+            >
+              {intl.formatMessage({ id: "common.addNew" })}
+            </button>
+          )}
+        </div>
+      </PageBanner>
+      <PageDescription
+        description={description}
+        isAdmin={isAdmin}
+        onChangeDescription={onChangeDescription}
+      />
+    </>
   );
 
   if (entries.length === 0) {
@@ -68,7 +77,7 @@ const InfoView = ({
     <section>
       {header}
 
-      <div className="max-w-md mx-auto grid grid-cols-2 gap-x-4 gap-y-4 py-8">
+      <div className="max-w-md mx-auto grid grid-cols-2 gap-x-4 gap-y-2 py-8">
         {entries.map((entry) => (
           <Fragment key={entry.id}>
             <span className="self-center text-right text-base uppercase tracking-wide text-neon">

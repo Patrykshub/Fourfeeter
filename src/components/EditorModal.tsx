@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
-import { readJSON, removeItem, writeJSON } from '../lib/storage'
+import { useDraftState } from '../hooks/useDraftState'
 import { ImagePicker } from './ImagePicker'
 import { ModalHeader } from './ModalHeader'
+import { SaveCancelButtons } from './SaveCancelButtons'
 
 interface IEditorModalProps {
   post: IPost | null
@@ -20,19 +20,15 @@ interface IPostDraft {
 const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const intl = useIntl()
   const draftKey = post ? `post_draft_v1_${post.id}` : 'post_draft_v1'
-  const [draft] = useState(() => readJSON<IPostDraft | null>(draftKey, null))
-  const [title, setTitle] = useState(draft?.title ?? post?.title ?? '')
-  const [content, setContent] = useState(draft?.content ?? post?.content ?? '')
-  const [image, setImage] = useState(
-    draft?.image ?? post?.image ?? 'https://picsum.photos/seed/new-post/600/400',
-  )
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      writeJSON(draftKey, { title, content, image })
-    }, 400)
-    return () => clearTimeout(timeout)
-  }, [draftKey, title, content, image])
+  const [draft, setDraft, clearDraft] = useDraftState<IPostDraft>(draftKey, {
+    title: post?.title ?? '',
+    content: post?.content ?? '',
+    image: post?.image ?? 'https://picsum.photos/seed/new-post/600/400',
+  })
+  const { title, content, image } = draft
+  const setTitle = (nextTitle: string) => setDraft((prev) => ({ ...prev, title: nextTitle }))
+  const setContent = (nextContent: string) => setDraft((prev) => ({ ...prev, content: nextContent }))
+  const setImage = (nextImage: string) => setDraft((prev) => ({ ...prev, image: nextImage }))
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4">
@@ -52,25 +48,18 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
           <label className="block text-sm">{intl.formatMessage({ id: 'post.imageLabel' })}</label>
           <ImagePicker value={image} onChange={setImage} />
 
-          <div className="flex justify-end gap-3">
-            <button onClick={onClose} className="px-4 py-2 bg-black/20 rounded">
-              {intl.formatMessage({ id: 'common.cancel' })}
-            </button>
-            <button
-              onClick={() => {
-                removeItem(draftKey)
-                onSave({
-                  id: post?.id,
-                  title: title || intl.formatMessage({ id: 'post.untitled' }),
-                  content,
-                  image,
-                })
-              }}
-              className="px-4 py-2 bg-neon text-black rounded"
-            >
-              {intl.formatMessage({ id: 'common.save' })}
-            </button>
-          </div>
+          <SaveCancelButtons
+            onCancel={onClose}
+            onSave={() => {
+              clearDraft()
+              onSave({
+                id: post?.id,
+                title: title || intl.formatMessage({ id: 'post.untitled' }),
+                content,
+                image,
+              })
+            }}
+          />
         </div>
       </div>
     </div>
