@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Edit2 } from 'lucide-react'
 import { useIntl } from 'react-intl'
-import { useDraftState } from '../hooks/useDraftState'
+import { useDraftState } from '../../hooks/useDraftState'
 import { SaveCancelButtons } from './SaveCancelButtons'
 
 interface IPageDescriptionProps {

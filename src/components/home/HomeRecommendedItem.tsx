@@ -1,6 +1,6 @@
 import type { FC } from 'react'
-import type { IPost } from '../types'
-import { AdminActions } from './AdminActions'
+import type { IPost } from '../../types'
+import { AdminActions } from '../common/AdminActions'
 
 interface IHomeRecommendedItemProps {
   post: IPost

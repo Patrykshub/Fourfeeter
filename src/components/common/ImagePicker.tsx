@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 import type { ChangeEvent } from 'react'
 import { useIntl } from 'react-intl'
-import { useImagePicker } from '../hooks/useImagePicker'
-import { ModalHeader } from './ModalHeader'
-import { ModalShell } from './ModalShell'
-import { ConfirmDialog } from './ConfirmDialog'
+import { useImagePicker } from '../../hooks/useImagePicker'
+import { ModalHeader } from '../modals/ModalHeader'
+import { ModalShell } from '../modals/ModalShell'
+import { ConfirmDialog } from '../modals/ConfirmDialog'
 import { ImagePickerThumbnail } from './ImagePickerThumbnail'
 
 interface IImagePickerProps {

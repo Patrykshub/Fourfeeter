@@ -1,6 +1,6 @@
 import { useIntl } from "react-intl";
-import { useLocale } from "../i18n/LocaleContext";
-import type { SupportedLocale } from "../i18n/utils";
+import { useLocale } from "../../i18n/LocaleContext";
+import type { SupportedLocale } from "../../i18n/utils";
 import { LabeledSelect } from "./LabeledSelect";
 
 const LOCALE_LABELS: Record<SupportedLocale, string> = {

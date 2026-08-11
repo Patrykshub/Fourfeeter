@@ -1,9 +1,9 @@
 import { useAppContext } from "../../router/AppContext";
 import { useRouter } from "../../router/useRouter";
 import { usePageBanner } from "../../hooks/usePageBanner";
-import { MemoriesView } from "../../components/MemoriesView";
+import { MemoriesView } from "../../components/memories/MemoriesView";
 
-const MemoriesPage = () => {
+export const MemoriesPage = () => {
   const { posts, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
   const { search } = useRouter();
   const highlightId = new URLSearchParams(search).get("highlight");
@@ -22,5 +22,3 @@ const MemoriesPage = () => {
     />
   );
 };
-
-export { MemoriesPage };

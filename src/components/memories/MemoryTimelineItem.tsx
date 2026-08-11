@@ -1,7 +1,7 @@
 import { useIntl } from "react-intl";
-import type { IPost } from "../types";
-import { getTimelineDotColor, getTimelineProgress } from "../lib/timelineGradient";
-import { AdminActions } from "./AdminActions";
+import type { IPost } from "../../types";
+import { getTimelineDotColor, getTimelineProgress } from "../../lib/timelineGradient";
+import { AdminActions } from "../common/AdminActions";
 
 interface IMemoryTimelineItemProps {
   post: IPost;

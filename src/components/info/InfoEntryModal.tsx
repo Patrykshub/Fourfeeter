@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useIntl } from 'react-intl'
-import type { IInfoEntry } from '../types'
-import { ModalHeader } from './ModalHeader'
-import { ModalShell } from './ModalShell'
+import type { IInfoEntry } from '../../types'
+import { ModalHeader } from '../modals/ModalHeader'
+import { ModalShell } from '../modals/ModalShell'
 
 interface IInfoEntryModalProps {
   entry: IInfoEntry | null

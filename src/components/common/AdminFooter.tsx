@@ -2,7 +2,7 @@ import { Lock, LogOut } from "lucide-react";
 import { useIntl } from "react-intl";
 import { FontPicker } from "./FontPicker";
 import { LanguagePicker } from "./LanguagePicker";
-import type { FontOption } from "../hooks/useFontPreference";
+import type { FontOption } from "../../hooks/useFontPreference";
 
 interface IAdminFooterProps {
   isAdmin: boolean;

@@ -1,10 +1,10 @@
 import { Fragment } from "react";
 import { useIntl } from "react-intl";
-import type { IInfoEntry } from "../types";
-import { AdminActions } from "./AdminActions";
-import { EmptyState } from "./EmptyState";
-import { PageBanner } from "./PageBanner";
-import { PageDescription } from "./PageDescription";
+import type { IInfoEntry } from "../../types";
+import { AdminActions } from "../common/AdminActions";
+import { EmptyState } from "../common/EmptyState";
+import { PageBanner } from "../common/PageBanner";
+import { PageDescription } from "../common/PageDescription";
 
 interface IInfoViewProps {
   entries: IInfoEntry[];

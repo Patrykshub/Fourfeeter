@@ -5,11 +5,11 @@ import { usePosts } from "../hooks/usePosts";
 import { useAdminSession } from "../hooks/useAdminSession";
 import { useFontPreference } from "../hooks/useFontPreference";
 import { usePostEditor } from "../hooks/usePostEditor";
-import { Header } from "../components/Header";
-import { AdminFooter } from "../components/AdminFooter";
-import { EditorModal } from "../components/EditorModal";
-import { AuthModal } from "../components/AuthModal";
-import { ConfirmDialog } from "../components/ConfirmDialog";
+import { Header } from "../components/common/Header";
+import { AdminFooter } from "../components/common/AdminFooter";
+import { EditorModal } from "../components/modals/EditorModal";
+import { AuthModal } from "../components/modals/AuthModal";
+import { ConfirmDialog } from "../components/modals/ConfirmDialog";
 import areYouSureImage from "../assets/are-you-sure.png";
 import { AppContext } from "./AppContext";
 

@@ -3,11 +3,11 @@ import { useInfoEntries } from "../../hooks/useInfoEntries";
 import { useInfoEntryEditor } from "../../hooks/useInfoEntryEditor";
 import { usePageBanner } from "../../hooks/usePageBanner";
 import { useAppContext } from "../../router/AppContext";
-import { InfoView } from "../../components/InfoView";
-import { InfoEntryModal } from "../../components/InfoEntryModal";
-import { ConfirmDialog } from "../../components/ConfirmDialog";
+import { InfoView } from "../../components/info/InfoView";
+import { InfoEntryModal } from "../../components/info/InfoEntryModal";
+import { ConfirmDialog } from "../../components/modals/ConfirmDialog";
 
-const InfoPage = () => {
+export const InfoPage = () => {
   const intl = useIntl();
   const { isAdmin } = useAppContext();
   const { entries, saveEntry, deleteEntry } = useInfoEntries();
@@ -22,7 +22,8 @@ const InfoPage = () => {
     confirmDelete,
     cancelDelete,
   } = useInfoEntryEditor({ saveEntry, deleteEntry });
-  const { banner, setBanner, description, setDescription } = usePageBanner("info");
+  const { banner, setBanner, description, setDescription } =
+    usePageBanner("info");
 
   return (
     <>
@@ -39,7 +40,11 @@ const InfoPage = () => {
       />
 
       {isFormOpen && (
-        <InfoEntryModal entry={editing} onClose={closeEditor} onSave={handleSave} />
+        <InfoEntryModal
+          entry={editing}
+          onClose={closeEditor}
+          onSave={handleSave}
+        />
       )}
 
       {pendingDeleteId && (
@@ -55,5 +60,3 @@ const InfoPage = () => {
     </>
   );
 };
-
-export { InfoPage };

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
-import type { IPost } from "../types";
-import { TIMELINE_LINE_GRADIENT } from "../lib/timelineGradient";
-import { EmptyState } from "./EmptyState";
+import type { IPost } from "../../types";
+import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
+import { EmptyState } from "../common/EmptyState";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
-import { PageBanner } from "./PageBanner";
+import { PageBanner } from "../common/PageBanner";
 
 interface IMemoriesViewProps {
   posts: IPost[];

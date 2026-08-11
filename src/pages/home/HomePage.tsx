@@ -1,9 +1,9 @@
 import { useAppContext } from "../../router/AppContext";
 import { navigate } from "../../router/useRouter";
-import { HomeView } from "../../components/HomeView";
+import { HomeView } from "../../components/home/HomeView";
 import type { IPost } from "../../types";
 
-const HomePage = () => {
+export const HomePage = () => {
   const { posts, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
   const [featured, ...rest] = posts;
 
@@ -24,5 +24,3 @@ const HomePage = () => {
     />
   );
 };
-
-export { HomePage };

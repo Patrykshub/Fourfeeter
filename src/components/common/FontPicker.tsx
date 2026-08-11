@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl'
-import type { FontOption } from '../hooks/useFontPreference'
+import type { FontOption } from '../../hooks/useFontPreference'
 import { LabeledSelect } from './LabeledSelect'
 
 const FONT_LABELS: Record<FontOption, string> = {

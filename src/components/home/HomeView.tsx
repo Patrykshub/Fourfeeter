@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl'
-import type { IPost } from '../types'
-import { EmptyState } from './EmptyState'
+import type { IPost } from '../../types'
+import { EmptyState } from '../common/EmptyState'
 import { FeaturedPostCard } from './FeaturedPostCard'
 import { HomeRecommendedItem } from './HomeRecommendedItem'
 import { HomePostCard } from './HomePostCard'

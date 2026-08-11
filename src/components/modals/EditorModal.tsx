@@ -1,10 +1,10 @@
 import { useIntl } from 'react-intl'
-import type { IPost } from '../types'
-import { useDraftState } from '../hooks/useDraftState'
-import { ImagePicker } from './ImagePicker'
+import type { IPost } from '../../types'
+import { useDraftState } from '../../hooks/useDraftState'
+import { ImagePicker } from '../common/ImagePicker'
 import { ModalHeader } from './ModalHeader'
 import { ModalShell } from './ModalShell'
-import { SaveCancelButtons } from './SaveCancelButtons'
+import { SaveCancelButtons } from '../common/SaveCancelButtons'
 
 interface IEditorModalProps {
   post: IPost | null
