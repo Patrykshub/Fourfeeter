@@ -6,26 +6,7 @@ vi.mock('../supabaseClient', () => ({
 
 import { supabase } from '../supabaseClient'
 import { createPost, deletePost, fetchPosts, updatePost } from '../posts'
-
-interface IQueryResult {
-  data: unknown
-  error: unknown
-}
-
-const createQueryBuilder = (result: IQueryResult) => {
-  const builder: Record<string, unknown> = {
-    select: vi.fn(() => builder),
-    order: vi.fn(() => builder),
-    insert: vi.fn(() => builder),
-    update: vi.fn(() => builder),
-    delete: vi.fn(() => builder),
-    eq: vi.fn(() => builder),
-    single: vi.fn(() => builder),
-    then: (onFulfilled: (result: IQueryResult) => unknown) =>
-      Promise.resolve(result).then(onFulfilled),
-  }
-  return builder
-}
+import { createQueryBuilder, type IQueryResult } from '../../test/supabaseQueryBuilder'
 
 const mockFrom = supabase.from as unknown as ReturnType<typeof vi.fn>
 
