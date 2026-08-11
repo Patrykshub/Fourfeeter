@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
-import { supabase } from '../lib/supabaseClient'
+import { createPost, deletePost as deletePostRequest, fetchPosts, updatePost } from '../lib/posts'
 
 export const usePosts = () => {
   const intl = useIntl()
@@ -9,13 +9,11 @@ export const usePosts = () => {
 
   useEffect(() => {
     let cancelled = false
-    supabase
-      .from('posts')
-      .select('*')
-      .order('date', { ascending: false })
-      .then(({ data, error }) => {
-        if (!cancelled && !error && data) setPosts(data as IPost[])
+    fetchPosts()
+      .then((data) => {
+        if (!cancelled) setPosts(data)
       })
+      .catch(() => {})
     return () => {
       cancelled = true
     }
@@ -24,33 +22,28 @@ export const usePosts = () => {
   const savePost = async (data: Omit<IPost, 'id' | 'date'> & { id?: string }) => {
     if (data.id) {
       const { id, ...rest } = data
-      const { data: updated, error } = await supabase
-        .from('posts')
-        .update(rest)
-        .eq('id', id)
-        .select()
-        .single()
-      if (!error && updated) {
-        setPosts((prev) => prev.map((post) => (post.id === id ? (updated as IPost) : post)))
-      } else {
+      try {
+        const updated = await updatePost(id, rest)
+        setPosts((prev) => prev.map((post) => (post.id === id ? updated : post)))
+      } catch {
         alert(intl.formatMessage({ id: 'error.savePost' }))
       }
       return
     }
 
-    const { data: inserted, error } = await supabase.from('posts').insert(data).select().single()
-    if (!error && inserted) {
-      setPosts((prev) => [inserted as IPost, ...prev])
-    } else {
+    try {
+      const inserted = await createPost(data)
+      setPosts((prev) => [inserted, ...prev])
+    } catch {
       alert(intl.formatMessage({ id: 'error.savePost' }))
     }
   }
 
   const deletePost = async (id: string) => {
-    const { error } = await supabase.from('posts').delete().eq('id', id)
-    if (!error) {
+    try {
+      await deletePostRequest(id)
       setPosts((prev) => prev.filter((post) => post.id !== id))
-    } else {
+    } catch {
       alert(intl.formatMessage({ id: 'error.deletePost' }))
     }
   }
