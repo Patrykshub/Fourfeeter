@@ -5,6 +5,8 @@ import { usePosts } from "../hooks/usePosts";
 import { useAdminSession } from "../hooks/useAdminSession";
 import { useFontPreference } from "../hooks/useFontPreference";
 import { usePostEditor } from "../hooks/usePostEditor";
+import { useLocale } from "../i18n/LocaleContext";
+import { hasPostTranslation } from "../lib/postLocalization";
 import { Header } from "../components/common/Header";
 import { AdminFooter } from "../components/common/AdminFooter";
 import { EditorModal } from "../components/modals/EditorModal";
@@ -22,6 +24,7 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
   const { posts, savePost, deletePost } = usePosts();
   const { isAdmin, login, logout } = useAdminSession();
   const { font, setFont } = useFontPreference();
+  const { locale } = useLocale();
   const {
     editing,
     isFormOpen,
@@ -36,8 +39,12 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
 
   const [authOpen, setAuthOpen] = useState(false);
 
+  const visiblePosts = isAdmin
+    ? posts
+    : posts.filter((post) => hasPostTranslation(post, locale));
+
   const contextValue = {
-    posts,
+    posts: visiblePosts,
     isAdmin,
     onEdit: openEditor,
     onDelete: handleDelete,

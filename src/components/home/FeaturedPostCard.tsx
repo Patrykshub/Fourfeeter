@@ -1,5 +1,8 @@
 import type { FC } from 'react'
+import { useIntl } from 'react-intl'
 import type { IPost } from '../../types'
+import { useLocale } from '../../i18n/LocaleContext'
+import { getPostContent, getPostTitle, hasPostTranslation } from '../../lib/postLocalization'
 import { AdminActions } from '../common/AdminActions'
 
 interface IFeaturedPostCardProps {
@@ -10,14 +13,27 @@ interface IFeaturedPostCardProps {
 }
 
 const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, onEdit, onDelete }) => {
+  const intl = useIntl()
+  const { locale } = useLocale()
+  const isTranslated = hasPostTranslation(post, locale)
+  const title = getPostTitle(post, locale) ?? intl.formatMessage({ id: 'post.missingTranslationTitle' })
+  const content = getPostContent(post, locale) ?? intl.formatMessage({ id: 'post.missingTranslationContent' })
+
   return (
     <article className="lg:col-span-2 bg-[#071018] rounded-xl overflow-hidden">
-      <img src={post.image} alt={post.title} className="w-full h-64 sm:h-96 object-cover" />
+      <img src={post.image} alt={title} className="w-full h-64 sm:h-96 object-cover" />
       <div className="p-6">
-        <h2 className="text-2xl sm:text-3xl font-bold mt-2">{post.title}</h2>
-        <p className="mt-3 text-gray-300 whitespace-pre-wrap">{post.content}</p>
+        <h2 className="text-2xl sm:text-3xl font-bold mt-2">{title}</h2>
+        <p className="mt-3 text-gray-300 whitespace-pre-wrap">{content}</p>
         {isAdmin && (
-          <AdminActions className="mt-4" onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />
+          <div className="mt-4 flex items-center gap-3">
+            <AdminActions onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />
+            {!isTranslated && (
+              <span className="text-xs text-amber-400">
+                {intl.formatMessage({ id: 'post.untranslatedBadge' })}
+              </span>
+            )}
+          </div>
         )}
       </div>
     </article>

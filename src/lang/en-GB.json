@@ -30,6 +30,9 @@
   "post.contentLabel": "Content",
   "post.imageLabel": "Image",
   "post.untitled": "Untitled",
+  "post.missingTranslationTitle": "No translation available",
+  "post.missingTranslationContent": "This post hasn't been translated into this language yet.",
+  "post.untranslatedBadge": "Untranslated",
 
   "home.emptyState": "No posts in this category.",
   "home.recommended": "Recommended",

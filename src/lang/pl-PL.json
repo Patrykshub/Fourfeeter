@@ -30,6 +30,9 @@
   "post.contentLabel": "Treść",
   "post.imageLabel": "Zdjęcie",
   "post.untitled": "Bez tytułu",
+  "post.missingTranslationTitle": "Brak tłumaczenia",
+  "post.missingTranslationContent": "Ten post nie został jeszcze przetłumaczony na ten język.",
+  "post.untranslatedBadge": "Nieprzetłumaczone",
 
   "home.emptyState": "Brak postów w tej kategorii.",
   "home.recommended": "Polecane",

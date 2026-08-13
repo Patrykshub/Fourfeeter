@@ -16,7 +16,17 @@ const mockQueryResult = (result: IQueryResult) => {
   return builder
 }
 
-const post = { id: '1', title: 'Title', content: 'Content', image: 'img.png', date: '2026-01-01' }
+const post = {
+  id: '1',
+  title_pl: 'Tytuł',
+  title_en: 'Title',
+  title_de: 'Titel',
+  content_pl: 'Treść',
+  content_en: 'Content',
+  content_de: 'Inhalt',
+  image: 'img.png',
+  date: '2026-01-01',
+}
 
 beforeEach(() => {
   mockFrom.mockReset()
@@ -48,7 +58,15 @@ describe('fetchPosts', () => {
 })
 
 describe('createPost', () => {
-  const input = { title: 'New', content: 'Body', image: 'new.png' }
+  const input = {
+    title_pl: 'Nowy',
+    title_en: 'New',
+    title_de: 'Neu',
+    content_pl: 'Treść',
+    content_en: 'Body',
+    content_de: 'Inhalt',
+    image: 'new.png',
+  }
 
   it('inserts the post and returns the created row', async () => {
     const builder = mockQueryResult({ data: post, error: null })
@@ -68,7 +86,15 @@ describe('createPost', () => {
 })
 
 describe('updatePost', () => {
-  const input = { title: 'Updated', content: 'Body', image: 'updated.png' }
+  const input = {
+    title_pl: 'Zaktualizowany',
+    title_en: 'Updated',
+    title_de: 'Aktualisiert',
+    content_pl: 'Treść',
+    content_en: 'Body',
+    content_de: 'Inhalt',
+    image: 'updated.png',
+  }
 
   it('updates the post by id and returns the updated row', async () => {
     const builder = mockQueryResult({ data: post, error: null })

@@ -1,7 +1,11 @@
 export interface IPost {
   id: string
-  title: string
-  content: string
+  title_pl: string
+  title_en: string | null
+  title_de: string | null
+  content_pl: string
+  content_en: string | null
+  content_de: string | null
   image: string
   date: string
 }

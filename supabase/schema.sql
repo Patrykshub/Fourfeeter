@@ -25,6 +25,22 @@ create policy "Only authenticated users can write posts"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
+-- Per-language post translations (pl-PL is required, en-GB/de-DE are optional)
+alter table posts add column if not exists title_pl text;
+alter table posts add column if not exists title_en text;
+alter table posts add column if not exists title_de text;
+alter table posts add column if not exists content_pl text;
+alter table posts add column if not exists content_en text;
+alter table posts add column if not exists content_de text;
+
+update posts set title_pl = title, content_pl = content where title_pl is null;
+
+alter table posts drop column if exists title;
+alter table posts drop column if exists content;
+
+alter table posts alter column title_pl set not null;
+alter table posts alter column content_pl set not null;
+
 -- Info entries (key/value contact info)
 create table if not exists info_entries (
   id uuid primary key default gen_random_uuid(),

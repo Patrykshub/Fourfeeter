@@ -6,6 +6,12 @@ export type LocaleMessages = typeof sourceOfTruth;
 export type LocaleKey = Extract<keyof LocaleMessages, string>;
 export type SupportedLocale = "pl-PL" | "en-GB" | "de-DE";
 
+export const LOCALE_LABELS: Record<SupportedLocale, string> = {
+  "pl-PL": "PL",
+  "en-GB": "EN",
+  "de-DE": "DE",
+};
+
 export type IMessages = {
   [key in SupportedLocale]: LocaleMessages;
 };

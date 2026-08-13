@@ -5,8 +5,12 @@ import type { IPost } from '../../types'
 
 const post: IPost = {
   id: '1',
-  title: 'Title',
-  content: 'Content',
+  title_pl: 'Tytuł',
+  title_en: 'Title',
+  title_de: 'Titel',
+  content_pl: 'Treść',
+  content_en: 'Content',
+  content_de: 'Inhalt',
   image: 'img.png',
   date: '2026-01-01',
 }
@@ -49,7 +53,15 @@ describe('usePostEditor', () => {
 
   it('handleSave saves the post and closes the form', () => {
     const { result, savePost } = setup()
-    const data = { title: 'New', content: 'Body', image: 'new.png' }
+    const data = {
+      title_pl: 'Nowy',
+      title_en: 'New',
+      title_de: 'Neu',
+      content_pl: 'Treść',
+      content_en: 'Body',
+      content_de: 'Inhalt',
+      image: 'new.png',
+    }
     act(() => result.current.openEditor())
     act(() => result.current.handleSave(data))
     expect(savePost).toHaveBeenCalledWith(data)
