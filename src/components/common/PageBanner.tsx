@@ -14,7 +14,9 @@ const PageBanner = ({ image, isAdmin, onChangeImage, children }: IPageBannerProp
 
   return (
     <div
-      className="relative rounded-xl overflow-hidden bg-[#071018] bg-cover bg-center mb-8 min-h-[160px] sm:min-h-[220px] flex flex-col justify-end"
+      className={`relative rounded-xl overflow-hidden bg-[#071018] bg-cover bg-center mb-8 flex flex-col justify-end ${
+        image ? 'min-h-[160px] sm:min-h-[220px]' : ''
+      }`}
       style={image ? { backgroundImage: `url(${image})` } : undefined}
     >
       {image && (

@@ -56,7 +56,7 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
       <div className="min-h-screen px-4 sm:px-8 lg:px-16 pb-16">
         <Header />
 
-        <main className="max-w-6xl mx-auto">{children}</main>
+        <main className="max-w-[1600px] mx-auto">{children}</main>
 
         <AdminFooter
           isAdmin={isAdmin}

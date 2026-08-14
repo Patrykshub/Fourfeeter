@@ -72,7 +72,7 @@ const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChange
           value={activeValue}
           onChange={(e) => setActiveValue(e.target.value)}
           rows={3}
-          className="w-full rounded bg-black/20 p-2 text-sm text-white placeholder-gray-400"
+          className="w-full rounded bg-black/20 p-2 text-base text-white placeholder-gray-400"
         />
         <SaveCancelButtons size="sm" onSave={handleSave} onCancel={handleCancel} />
       </div>
@@ -82,7 +82,7 @@ const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChange
   if (description) {
     return (
       <div className="mb-8 flex items-start justify-between gap-3">
-        <p className="text-sm text-gray-200 whitespace-pre-wrap">{description}</p>
+        <p className="text-base leading-relaxed text-gray-200 whitespace-pre-wrap">{description}</p>
         {isAdmin && (
           <button
             onClick={() => setIsEditing(true)}
