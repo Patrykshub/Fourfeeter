@@ -79,6 +79,15 @@ create policy "Only authenticated users can write page banners"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
+-- Per-language page banner descriptions (all three optional — a banner can have no description at all)
+alter table page_banners add column if not exists description_pl text;
+alter table page_banners add column if not exists description_en text;
+alter table page_banners add column if not exists description_de text;
+
+update page_banners set description_pl = description where description_pl is null;
+
+alter table page_banners drop column if exists description;
+
 -- Storage: create the bucket manually first —
 -- Dashboard -> Storage -> New bucket -> name it "post-images" -> toggle "Public bucket" on.
 -- Then run the policies below (Supabase manages bucket objects in storage.objects).

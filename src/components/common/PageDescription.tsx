@@ -2,29 +2,51 @@ import { useState } from 'react'
 import { Edit2 } from 'lucide-react'
 import { useIntl } from 'react-intl'
 import { useDraftState } from '../../hooks/useDraftState'
+import { useLocale } from '../../i18n/LocaleContext'
+import { LOCALE_LABELS } from '../../i18n/utils'
+import type { SupportedLocale } from '../../i18n/utils'
+import type { IPageBannerDescriptions, PageBannerKey } from '../../hooks/usePageBanner'
 import { SaveCancelButtons } from './SaveCancelButtons'
 
 interface IPageDescriptionProps {
+  pageKey: PageBannerKey
   description: string | null
+  descriptions: IPageBannerDescriptions
   isAdmin: boolean
-  onChangeDescription: (text: string) => void
+  onChangeDescriptions: (next: IPageBannerDescriptions) => void
 }
 
-const DESCRIPTION_DRAFT_KEY = 'info_description_draft_v1'
+const LOCALE_SUFFIXES: Record<SupportedLocale, 'pl' | 'en' | 'de'> = {
+  'pl-PL': 'pl',
+  'en-GB': 'en',
+  'de-DE': 'de',
+}
 
-const PageDescription = ({ description, isAdmin, onChangeDescription }: IPageDescriptionProps) => {
+const LOCALES: SupportedLocale[] = ['pl-PL', 'en-GB', 'de-DE']
+
+const descriptionsEqual = (a: IPageBannerDescriptions, b: IPageBannerDescriptions): boolean =>
+  a.description_pl === b.description_pl && a.description_en === b.description_en && a.description_de === b.description_de
+
+const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChangeDescriptions }: IPageDescriptionProps) => {
   const intl = useIntl()
-  const [draft, setDraft, clearDraft] = useDraftState(DESCRIPTION_DRAFT_KEY, description ?? '', isAdmin)
-  const [isEditing, setIsEditing] = useState(() => isAdmin && draft !== (description ?? ''))
+  const { locale: currentLocale } = useLocale()
+  const [activeTab, setActiveTab] = useState<SupportedLocale>(currentLocale)
+  const draftKey = `page_description_draft_v1_${pageKey}`
+  const [draft, setDraft, clearDraft] = useDraftState<IPageBannerDescriptions>(draftKey, descriptions, isAdmin)
+  const [isEditing, setIsEditing] = useState(() => isAdmin && !descriptionsEqual(draft, descriptions))
+
+  const activeField = `description_${LOCALE_SUFFIXES[activeTab]}` as const
+  const activeValue = draft[activeField] ?? ''
+  const setActiveValue = (text: string) => setDraft((prev) => ({ ...prev, [activeField]: text || null }))
 
   const handleSave = () => {
-    onChangeDescription(draft)
+    onChangeDescriptions(draft)
     clearDraft()
     setIsEditing(false)
   }
 
   const handleCancel = () => {
-    setDraft(description ?? '')
+    setDraft(descriptions)
     clearDraft()
     setIsEditing(false)
   }
@@ -32,9 +54,23 @@ const PageDescription = ({ description, isAdmin, onChangeDescription }: IPageDes
   if (isEditing) {
     return (
       <div className="mb-8 space-y-2">
+        <div className="flex gap-2">
+          {LOCALES.map((localeOption) => (
+            <button
+              key={localeOption}
+              type="button"
+              onClick={() => setActiveTab(localeOption)}
+              className={`px-3 py-1 rounded text-sm ${
+                activeTab === localeOption ? 'bg-neon text-black' : 'bg-black/20'
+              }`}
+            >
+              {LOCALE_LABELS[localeOption]}
+            </button>
+          ))}
+        </div>
         <textarea
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
+          value={activeValue}
+          onChange={(e) => setActiveValue(e.target.value)}
           rows={3}
           className="w-full rounded bg-black/20 p-2 text-sm text-white placeholder-gray-400"
         />

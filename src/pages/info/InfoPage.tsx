@@ -22,7 +22,7 @@ export const InfoPage = () => {
     confirmDelete,
     cancelDelete,
   } = useInfoEntryEditor({ saveEntry, deleteEntry });
-  const { banner, setBanner, description, setDescription } =
+  const { banner, setBanner, description, descriptions, setDescriptions } =
     usePageBanner("info");
 
   return (
@@ -36,7 +36,8 @@ export const InfoPage = () => {
         banner={banner}
         onChangeBanner={setBanner}
         description={description}
-        onChangeDescription={setDescription}
+        descriptions={descriptions}
+        onChangeDescriptions={setDescriptions}
       />
 
       {isFormOpen && (

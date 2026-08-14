@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../../types";
+import type { IPageBannerDescriptions } from "../../hooks/usePageBanner";
 import { AdminActions } from "../common/AdminActions";
 import { EmptyState } from "../common/EmptyState";
 import { PageBanner } from "../common/PageBanner";
@@ -15,7 +16,8 @@ interface IInfoViewProps {
   banner: string | null;
   onChangeBanner: (url: string) => void;
   description: string | null;
-  onChangeDescription: (text: string) => void;
+  descriptions: IPageBannerDescriptions;
+  onChangeDescriptions: (next: IPageBannerDescriptions) => void;
 }
 
 const InfoView = ({
@@ -27,7 +29,8 @@ const InfoView = ({
   banner,
   onChangeBanner,
   description,
-  onChangeDescription,
+  descriptions,
+  onChangeDescriptions,
 }: IInfoViewProps) => {
   const intl = useIntl();
 
@@ -53,9 +56,11 @@ const InfoView = ({
         </div>
       </PageBanner>
       <PageDescription
+        pageKey="info"
         description={description}
+        descriptions={descriptions}
         isAdmin={isAdmin}
-        onChangeDescription={onChangeDescription}
+        onChangeDescriptions={onChangeDescriptions}
       />
     </>
   );
