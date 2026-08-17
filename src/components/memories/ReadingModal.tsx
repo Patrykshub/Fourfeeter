@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState, type UIEvent } from "react";
+import { ReadingProgressBar } from "./ReadingProgressBar";
 
 interface IReadingModalProps {
   image: string;
@@ -19,6 +20,8 @@ const ReadingModal = ({
   untranslatedLabel,
   onClose,
 }: IReadingModalProps) => {
+  const [progress, setProgress] = useState(0);
+
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -27,35 +30,46 @@ const ReadingModal = ({
     };
   }, []);
 
-  return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 bg-black/80 backdrop-blur-md overflow-y-auto z-50"
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="max-w-5xl mx-auto px-4 py-12"
-      >
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-80 sm:h-[28rem] lg:h-[34rem] object-cover rounded-xl"
-        />
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const scrollable = el.scrollHeight - el.clientHeight;
+    setProgress(scrollable > 0 ? (el.scrollTop / scrollable) * 100 : 0);
+  };
 
-        <div className="max-w-3xl mx-auto mt-10 text-center">
-          <div className="text-sm text-neon font-medium">{date}</div>
-          <h2 className="text-3xl sm:text-4xl font-bold mt-2">{title}</h2>
-          {!isTranslated && (
-            <span className="mt-2 inline-block text-xs text-amber-400">
-              {untranslatedLabel}
-            </span>
-          )}
-          <p className="mt-8 text-gray-200 text-xl sm:text-2xl leading-relaxed whitespace-pre-wrap text-center">
-            {content}
-          </p>
+  return (
+    <>
+      <ReadingProgressBar progress={progress} />
+
+      <div
+        onClick={onClose}
+        onScroll={handleScroll}
+        className="fixed inset-0 bg-black/80 backdrop-blur-md overflow-y-auto z-50"
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="max-w-5xl mx-auto px-4 py-12"
+        >
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-80 sm:h-[28rem] lg:h-[34rem] object-cover rounded-xl"
+          />
+
+          <div className="max-w-3xl mx-auto mt-10 text-center">
+            <div className="text-sm text-neon font-medium">{date}</div>
+            <h2 className="text-3xl sm:text-4xl font-bold mt-2">{title}</h2>
+            {!isTranslated && (
+              <span className="mt-2 inline-block text-xs text-amber-400">
+                {untranslatedLabel}
+              </span>
+            )}
+            <p className="mt-8 text-gray-200 text-xl sm:text-2xl leading-relaxed whitespace-pre-wrap text-center">
+              {content}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
