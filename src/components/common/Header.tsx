@@ -30,7 +30,7 @@ export const Header = () => {
     <header className="pt-8 pb-6">
       <div className="flex items-center justify-between">
         <div className="text-center w-full">
-          <div className="text-4xl sm:text-5xl font-semibold tracking-tight">
+          <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold tracking-tight">
             Equilibrio
           </div>
           <nav className="hidden md:flex justify-center gap-8 mt-4 uppercase text-base text-gray-300">
