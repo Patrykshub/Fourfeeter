@@ -41,7 +41,13 @@ const HomeView = ({
   return (
     <>
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <FeaturedPostCard post={featured} isAdmin={isAdmin} onEdit={onEdit} onDelete={onDelete} />
+        <FeaturedPostCard
+          post={featured}
+          isAdmin={isAdmin}
+          onSelectMemory={onSelectMemory}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
 
         <aside className="space-y-4">
           <div className="flex justify-between items-center">

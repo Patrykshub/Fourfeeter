@@ -10,12 +10,9 @@ interface IMemoryTimelineItemProps {
   index: number;
   totalPosts: number;
   isAdmin: boolean;
-  isExpanded: boolean;
-  isHighlighted: boolean;
-  onToggleExpand: (id: string) => void;
+  onOpenPost: (post: IPost) => void;
   onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;
-  registerRef: (id: string, el: HTMLElement | null) => void;
 }
 
 const MemoryTimelineItem = ({
@@ -23,12 +20,9 @@ const MemoryTimelineItem = ({
   index,
   totalPosts,
   isAdmin,
-  isExpanded,
-  isHighlighted,
-  onToggleExpand,
+  onOpenPost,
   onEdit,
   onDelete,
-  registerRef,
 }: IMemoryTimelineItemProps) => {
   const intl = useIntl();
   const { locale } = useLocale();
@@ -45,11 +39,10 @@ const MemoryTimelineItem = ({
         style={{ backgroundColor: dotColor }}
       />
       <article
-        ref={(el) => registerRef(post.id, el)}
-        onClick={() => onToggleExpand(post.id)}
+        onClick={() => onOpenPost(post)}
         className={`bg-[#071018] rounded-xl overflow-hidden transition-shadow duration-500 cursor-pointer ${
           isRight ? "lg:col-start-2" : "lg:col-start-1"
-        } ${isHighlighted ? "ring-2 ring-neon" : ""}`}
+        }`}
       >
         <img
           src={post.image}
@@ -65,24 +58,9 @@ const MemoryTimelineItem = ({
             })}
           </div>
           <h3 className="text-xl font-semibold mt-1">{title}</h3>
-          <p
-            className={`mt-2 text-gray-300 text-sm whitespace-pre-wrap ${
-              isExpanded ? "" : "line-clamp-3"
-            }`}
-          >
+          <p className="mt-2 text-gray-300 text-sm whitespace-pre-wrap line-clamp-3">
             {content}
           </p>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleExpand(post.id);
-            }}
-            className="mt-2 text-xs text-neon"
-          >
-            {intl.formatMessage({
-              id: isExpanded ? "common.showLess" : "common.showMore",
-            })}
-          </button>
           {isAdmin && (
             <div className="mt-4 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
               <AdminActions

@@ -15,8 +15,6 @@
   "common.cancel": "Anuluj",
   "common.save": "Zapisz",
   "common.close": "Zamknij",
-  "common.showMore": "Pokaż więcej",
-  "common.showLess": "Pokaż mniej",
 
   "auth.title": "Admin Login",
   "auth.emailPlaceholder": "Email",

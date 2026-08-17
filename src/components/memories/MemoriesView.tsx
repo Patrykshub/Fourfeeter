@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
+import { useLocale } from "../../i18n/LocaleContext";
+import { getPostContent, getPostTitle, hasPostTranslation } from "../../lib/postLocalization";
 import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
 import { EmptyState } from "../common/EmptyState";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
+import { ReadingModal } from "./ReadingModal";
 import { PageBanner } from "../common/PageBanner";
 
 interface IMemoriesViewProps {
@@ -28,27 +31,10 @@ const MemoriesView = ({
   onChangeBanner,
 }: IMemoriesViewProps) => {
   const intl = useIntl();
-  const itemRefs = useRef<Record<string, HTMLElement | null>>({});
-  const [highlighted, setHighlighted] = useState(highlightId ?? null);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!highlightId) return;
-    itemRefs.current[highlightId]?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-    const timeout = setTimeout(() => setHighlighted(null), 2000);
-    return () => clearTimeout(timeout);
-  }, [highlightId]);
-
-  const registerItemRef = (id: string, el: HTMLElement | null) => {
-    itemRefs.current[id] = el;
-  };
-
-  const toggleExpanded = (id: string) => {
-    setExpandedId((current) => (current === id ? null : id));
-  };
+  const { locale } = useLocale();
+  const [modalPost, setModalPost] = useState<IPost | null>(
+    () => posts.find((p) => p.id === highlightId) ?? null,
+  );
 
   const header = (
     <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
@@ -96,16 +82,25 @@ const MemoriesView = ({
               index={index}
               totalPosts={posts.length}
               isAdmin={isAdmin}
-              isExpanded={expandedId === post.id}
-              isHighlighted={highlighted === post.id}
-              onToggleExpand={toggleExpanded}
+              onOpenPost={setModalPost}
               onEdit={onEdit}
               onDelete={onDelete}
-              registerRef={registerItemRef}
             />
           ))}
         </div>
       </div>
+
+      {modalPost && (
+        <ReadingModal
+          image={modalPost.image}
+          title={getPostTitle(modalPost, locale) ?? intl.formatMessage({ id: "post.missingTranslationTitle" })}
+          content={getPostContent(modalPost, locale) ?? intl.formatMessage({ id: "post.missingTranslationContent" })}
+          date={intl.formatDate(modalPost.date, { day: "numeric", month: "long", year: "numeric" })}
+          isTranslated={hasPostTranslation(modalPost, locale)}
+          untranslatedLabel={intl.formatMessage({ id: "post.untranslatedBadge" })}
+          onClose={() => setModalPost(null)}
+        />
+      )}
     </section>
   );
 };
