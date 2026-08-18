@@ -2,9 +2,8 @@ import { Fragment } from "react";
 import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../../types";
 import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
-import { AddNewButton } from "../common/AddNewButton";
 import { AdminActions } from "../common/AdminActions";
-import { PageBanner } from "../common/PageBanner";
+import { PageHeader } from "../common/PageHeader";
 import { PageSection } from "../common/PageSection";
 import { PageDescription } from "../common/PageDescription";
 
@@ -36,14 +35,7 @@ export const InfoView = ({
   const intl = useIntl();
 
   const header = (
-    <>
-      <PageBanner
-        image={banner}
-        isAdmin={isAdmin}
-        onChangeImage={onChangeBanner}
-      >
-        <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
-      </PageBanner>
+    <PageHeader banner={banner} isAdmin={isAdmin} onChangeBanner={onChangeBanner} onAdd={onAdd}>
       <PageDescription
         pageKey="info"
         description={description}
@@ -51,7 +43,7 @@ export const InfoView = ({
         isAdmin={isAdmin}
         onChangeDescriptions={onChangeDescriptions}
       />
-    </>
+    </PageHeader>
   );
 
   return (

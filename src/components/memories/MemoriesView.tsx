@@ -3,11 +3,10 @@ import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
 import type { IPostDisplay } from "../../lib/postLocalization";
 import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
-import { AddNewButton } from "../common/AddNewButton";
+import { PageHeader } from "../common/PageHeader";
 import { PageSection } from "../common/PageSection";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
 import { ReadingModal } from "./ReadingModal";
-import { PageBanner } from "../common/PageBanner";
 
 interface IMemoriesViewProps {
   posts: IPostDisplay[];
@@ -36,9 +35,7 @@ export const MemoriesView = ({
   );
 
   const header = (
-    <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
-      <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
-    </PageBanner>
+    <PageHeader banner={banner} isAdmin={isAdmin} onChangeBanner={onChangeBanner} onAdd={onAdd} />
   );
 
   return (
