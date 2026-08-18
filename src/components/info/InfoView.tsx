@@ -4,7 +4,6 @@ import type { IInfoEntry } from "../../types";
 import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
 import { AdminActions } from "../common/AdminActions";
 import { PageSection } from "../common/PageSection";
-import { PageDescription } from "../common/PageDescription";
 
 interface IInfoViewProps {
   entries: IInfoEntry[];
@@ -37,15 +36,12 @@ export const InfoView = ({
     <PageSection
       banner={banner}
       onChangeBanner={onChangeBanner}
-      headerExtra={
-        <PageDescription
-          pageKey="info"
-          description={description}
-          descriptions={descriptions}
-          isAdmin={isAdmin}
-          onChangeDescriptions={onChangeDescriptions}
-        />
-      }
+      pageDescription={{
+        pageKey: "info",
+        description,
+        descriptions,
+        onChangeDescriptions,
+      }}
       isEmpty={entries.length === 0}
       emptyMessage={intl.formatMessage({ id: "info.emptyState" })}
       isAdmin={isAdmin}
