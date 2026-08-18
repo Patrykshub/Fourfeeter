@@ -3,7 +3,6 @@ import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
 import type { IPostDisplay } from "../../lib/postLocalization";
 import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
-import { PageHeader } from "../common/PageHeader";
 import { PageSection } from "../common/PageSection";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
 import { ReadingModal } from "./ReadingModal";
@@ -34,13 +33,10 @@ export const MemoriesView = ({
     () => posts.find((p) => p.id === highlightId) ?? null,
   );
 
-  const header = (
-    <PageHeader banner={banner} isAdmin={isAdmin} onChangeBanner={onChangeBanner} onAdd={onAdd} />
-  );
-
   return (
     <PageSection
-      header={header}
+      banner={banner}
+      onChangeBanner={onChangeBanner}
       isEmpty={posts.length === 0}
       emptyMessage={intl.formatMessage({ id: "memories.emptyState" })}
       isAdmin={isAdmin}

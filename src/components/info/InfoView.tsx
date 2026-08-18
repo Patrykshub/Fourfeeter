@@ -3,7 +3,6 @@ import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../../types";
 import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
 import { AdminActions } from "../common/AdminActions";
-import { PageHeader } from "../common/PageHeader";
 import { PageSection } from "../common/PageSection";
 import { PageDescription } from "../common/PageDescription";
 
@@ -34,21 +33,19 @@ export const InfoView = ({
 }: IInfoViewProps) => {
   const intl = useIntl();
 
-  const header = (
-    <PageHeader banner={banner} isAdmin={isAdmin} onChangeBanner={onChangeBanner} onAdd={onAdd}>
-      <PageDescription
-        pageKey="info"
-        description={description}
-        descriptions={descriptions}
-        isAdmin={isAdmin}
-        onChangeDescriptions={onChangeDescriptions}
-      />
-    </PageHeader>
-  );
-
   return (
     <PageSection
-      header={header}
+      banner={banner}
+      onChangeBanner={onChangeBanner}
+      headerExtra={
+        <PageDescription
+          pageKey="info"
+          description={description}
+          descriptions={descriptions}
+          isAdmin={isAdmin}
+          onChangeDescriptions={onChangeDescriptions}
+        />
+      }
       isEmpty={entries.length === 0}
       emptyMessage={intl.formatMessage({ id: "info.emptyState" })}
       isAdmin={isAdmin}
