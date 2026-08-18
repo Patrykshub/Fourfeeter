@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../../types";
-import type { IPageBannerDescriptions } from "../../hooks/usePageBanner";
+import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
 import { AdminActions } from "../common/AdminActions";
 import { EmptyState } from "../common/EmptyState";
 import { PageBanner } from "../common/PageBanner";

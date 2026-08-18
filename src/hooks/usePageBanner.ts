@@ -43,4 +43,3 @@ const usePageBanner = (key: PageBannerKey) => {
 };
 
 export { usePageBanner };
-export type { PageBannerKey, IPageBannerDescriptions };

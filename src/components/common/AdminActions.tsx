@@ -1,15 +1,20 @@
-import { Edit2, Trash2 } from 'lucide-react'
-import { useIntl } from 'react-intl'
+import { Edit2, Trash2 } from "lucide-react";
+import { useIntl } from "react-intl";
 
 interface IAdminActionsProps {
-  onEdit: () => void
-  onDelete: () => void
-  compact?: boolean
-  className?: string
+  onEdit: () => void;
+  onDelete: () => void;
+  compact?: boolean;
+  className?: string;
 }
 
-const AdminActions = ({ onEdit, onDelete, compact = false, className = '' }: IAdminActionsProps) => {
-  const intl = useIntl()
+export const AdminActions = ({
+  onEdit,
+  onDelete,
+  compact = false,
+  className = "",
+}: IAdminActionsProps) => {
+  const intl = useIntl();
 
   if (compact) {
     return (
@@ -21,19 +26,19 @@ const AdminActions = ({ onEdit, onDelete, compact = false, className = '' }: IAd
           <Trash2 size={16} />
         </button>
       </div>
-    )
+    );
   }
 
   return (
     <div className={`flex gap-2 ${className}`}>
       <button onClick={onEdit} className="btn-admin">
-        <Edit2 className="inline-block mr-2" /> {intl.formatMessage({ id: 'common.edit' })}
+        <Edit2 className="inline-block mr-2" />{" "}
+        {intl.formatMessage({ id: "common.edit" })}
       </button>
       <button onClick={onDelete} className="btn-admin">
-        <Trash2 className="inline-block mr-2" /> {intl.formatMessage({ id: 'common.delete' })}
+        <Trash2 className="inline-block mr-2" />{" "}
+        {intl.formatMessage({ id: "common.delete" })}
       </button>
     </div>
-  )
-}
-
-export { AdminActions }
+  );
+};

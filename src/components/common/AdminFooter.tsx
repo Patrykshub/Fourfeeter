@@ -12,7 +12,7 @@ interface IAdminFooterProps {
   onFontChange: (font: FontOption) => void;
 }
 
-const AdminFooter = ({
+export const AdminFooter = ({
   isAdmin,
   onLogout,
   onLoginClick,
@@ -48,5 +48,3 @@ const AdminFooter = ({
     </footer>
   );
 };
-
-export { AdminFooter };

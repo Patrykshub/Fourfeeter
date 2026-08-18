@@ -1,10 +1,10 @@
 interface IEmptyStateProps {
-  message: string
-  isAdmin: boolean
-  onAdd: () => void
+  message: string;
+  isAdmin: boolean;
+  onAdd: () => void;
 }
 
-const EmptyState = ({ message, isAdmin, onAdd }: IEmptyStateProps) => (
+export const EmptyState = ({ message, isAdmin, onAdd }: IEmptyStateProps) => (
   <div className="text-center text-gray-400 py-16">
     {message}
     {isAdmin && (
@@ -15,6 +15,4 @@ const EmptyState = ({ message, isAdmin, onAdd }: IEmptyStateProps) => (
       </div>
     )}
   </div>
-)
-
-export { EmptyState }
+);

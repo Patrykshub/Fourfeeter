@@ -5,7 +5,7 @@ import { useDraftState } from '../../hooks/useDraftState'
 import { useLocale } from '../../i18n/LocaleContext'
 import { LOCALE_LABELS } from '../../i18n/utils'
 import type { SupportedLocale } from '../../i18n/utils'
-import type { IPageBannerDescriptions, PageBannerKey } from '../../hooks/usePageBanner'
+import type { IPageBannerDescriptions, PageBannerKey } from '../../model/services/PageBannerService'
 import { SaveCancelButtons } from './SaveCancelButtons'
 
 interface IPageDescriptionProps {
