@@ -1,14 +1,7 @@
 import type { IntlShape } from 'react-intl'
+import { LOCALE_SUFFIXES } from '../i18n/utils'
 import type { SupportedLocale } from '../i18n/utils'
 import type { IPost } from '../types'
-
-type TPostLocaleSuffix = 'pl' | 'en' | 'de'
-
-const LOCALE_SUFFIXES: Record<SupportedLocale, TPostLocaleSuffix> = {
-  'pl-PL': 'pl',
-  'en-GB': 'en',
-  'de-DE': 'de',
-}
 
 export const getPostTitle = (post: IPost, locale: SupportedLocale): string | null => {
   const suffix = LOCALE_SUFFIXES[locale]

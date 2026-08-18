@@ -3,9 +3,10 @@ import { Edit2 } from 'lucide-react'
 import { useIntl } from 'react-intl'
 import { useDraftState } from '../../hooks/useDraftState'
 import { useLocale } from '../../i18n/LocaleContext'
-import { LOCALE_LABELS } from '../../i18n/utils'
+import { LOCALE_SUFFIXES } from '../../i18n/utils'
 import type { SupportedLocale } from '../../i18n/utils'
 import type { IPageBannerDescriptions, PageBannerKey } from '../../model/services/PageBannerService'
+import { LocaleTabs } from './LocaleTabs'
 import { SaveCancelButtons } from './SaveCancelButtons'
 
 interface IPageDescriptionProps {
@@ -16,19 +17,70 @@ interface IPageDescriptionProps {
   onChangeDescriptions: (next: IPageBannerDescriptions) => void
 }
 
-const LOCALE_SUFFIXES: Record<SupportedLocale, 'pl' | 'en' | 'de'> = {
-  'pl-PL': 'pl',
-  'en-GB': 'en',
-  'de-DE': 'de',
-}
-
-const LOCALES: SupportedLocale[] = ['pl-PL', 'en-GB', 'de-DE']
-
 const descriptionsEqual = (a: IPageBannerDescriptions, b: IPageBannerDescriptions): boolean =>
   a.description_pl === b.description_pl && a.description_en === b.description_en && a.description_de === b.description_de
 
-export const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChangeDescriptions }: IPageDescriptionProps) => {
+interface IEditFormProps {
+  activeTab: SupportedLocale
+  onChangeTab: (locale: SupportedLocale) => void
+  value: string
+  onChangeValue: (text: string) => void
+  onSave: () => void
+  onCancel: () => void
+}
+
+const EditForm = ({ activeTab, onChangeTab, value, onChangeValue, onSave, onCancel }: IEditFormProps) => (
+  <div className="mb-8 space-y-2">
+    <LocaleTabs activeTab={activeTab} onChange={onChangeTab} />
+    <textarea
+      value={value}
+      onChange={(e) => onChangeValue(e.target.value)}
+      rows={3}
+      className="w-full rounded bg-black/20 p-2 text-base text-white placeholder-gray-400"
+    />
+    <SaveCancelButtons size="sm" onSave={onSave} onCancel={onCancel} />
+  </div>
+)
+
+interface IReadViewProps {
+  description: string
+  isAdmin: boolean
+  onEdit: () => void
+}
+
+const ReadView = ({ description, isAdmin, onEdit }: IReadViewProps) => {
   const intl = useIntl()
+
+  return (
+    <div className="mb-8 flex items-start justify-between gap-3">
+      <p className="text-base leading-relaxed text-gray-200 whitespace-pre-wrap">{description}</p>
+      {isAdmin && (
+        <button
+          onClick={onEdit}
+          aria-label={intl.formatMessage({ id: 'pageBanner.description' })}
+          className="shrink-0 p-1 rounded bg-black/20"
+        >
+          <Edit2 size={16} />
+        </button>
+      )}
+    </div>
+  )
+}
+
+const AddDescriptionPrompt = ({ onClick }: { onClick: () => void }) => {
+  const intl = useIntl()
+
+  return (
+    <div className="mb-8">
+      <button onClick={onClick} className="flex items-center gap-2 text-xs text-gray-400 hover:text-gray-200">
+        <Edit2 size={14} />
+        {intl.formatMessage({ id: 'pageBanner.addDescription' })}
+      </button>
+    </div>
+  )
+}
+
+export const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChangeDescriptions }: IPageDescriptionProps) => {
   const { locale: currentLocale } = useLocale()
   const [activeTab, setActiveTab] = useState<SupportedLocale>(currentLocale)
   const draftKey = `page_description_draft_v1_${pageKey}`
@@ -53,61 +105,23 @@ export const PageDescription = ({ pageKey, description, descriptions, isAdmin, o
 
   if (isEditing) {
     return (
-      <div className="mb-8 space-y-2">
-        <div className="flex gap-2">
-          {LOCALES.map((localeOption) => (
-            <button
-              key={localeOption}
-              type="button"
-              onClick={() => setActiveTab(localeOption)}
-              className={`px-3 py-1 rounded text-sm ${
-                activeTab === localeOption ? 'bg-neon text-black' : 'bg-black/20'
-              }`}
-            >
-              {LOCALE_LABELS[localeOption]}
-            </button>
-          ))}
-        </div>
-        <textarea
-          value={activeValue}
-          onChange={(e) => setActiveValue(e.target.value)}
-          rows={3}
-          className="w-full rounded bg-black/20 p-2 text-base text-white placeholder-gray-400"
-        />
-        <SaveCancelButtons size="sm" onSave={handleSave} onCancel={handleCancel} />
-      </div>
+      <EditForm
+        activeTab={activeTab}
+        onChangeTab={setActiveTab}
+        value={activeValue}
+        onChangeValue={setActiveValue}
+        onSave={handleSave}
+        onCancel={handleCancel}
+      />
     )
   }
 
   if (description) {
-    return (
-      <div className="mb-8 flex items-start justify-between gap-3">
-        <p className="text-base leading-relaxed text-gray-200 whitespace-pre-wrap">{description}</p>
-        {isAdmin && (
-          <button
-            onClick={() => setIsEditing(true)}
-            aria-label={intl.formatMessage({ id: 'pageBanner.description' })}
-            className="shrink-0 p-1 rounded bg-black/20"
-          >
-            <Edit2 size={16} />
-          </button>
-        )}
-      </div>
-    )
+    return <ReadView description={description} isAdmin={isAdmin} onEdit={() => setIsEditing(true)} />
   }
 
   if (isAdmin) {
-    return (
-      <div className="mb-8">
-        <button
-          onClick={() => setIsEditing(true)}
-          className="flex items-center gap-2 text-xs text-gray-400 hover:text-gray-200"
-        >
-          <Edit2 size={14} />
-          {intl.formatMessage({ id: 'pageBanner.addDescription' })}
-        </button>
-      </div>
-    )
+    return <AddDescriptionPrompt onClick={() => setIsEditing(true)} />
   }
 
   return null

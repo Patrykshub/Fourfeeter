@@ -3,9 +3,10 @@ import { useIntl } from 'react-intl'
 import type { IPost } from '../../types'
 import { useDraftState } from '../../hooks/useDraftState'
 import { useLocale } from '../../i18n/LocaleContext'
-import { LOCALE_LABELS } from '../../i18n/utils'
+import { LOCALE_SUFFIXES } from '../../i18n/utils'
 import type { SupportedLocale } from '../../i18n/utils'
 import { ImagePicker } from '../common/ImagePicker'
+import { LocaleTabs } from '../common/LocaleTabs'
 import { ModalHeader } from './ModalHeader'
 import { ModalShell } from './ModalShell'
 import { SaveCancelButtons } from '../common/SaveCancelButtons'
@@ -25,14 +26,6 @@ interface IPostDraft {
   content_de: string
   image: string
 }
-
-const LOCALE_SUFFIXES: Record<SupportedLocale, 'pl' | 'en' | 'de'> = {
-  'pl-PL': 'pl',
-  'en-GB': 'en',
-  'de-DE': 'de',
-}
-
-const LOCALES: SupportedLocale[] = ['pl-PL', 'en-GB', 'de-DE']
 
 export const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const intl = useIntl()
@@ -66,20 +59,7 @@ export const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
       />
 
       <div className="mt-4 space-y-3">
-        <div className="flex gap-2">
-          {LOCALES.map((localeOption) => (
-            <button
-              key={localeOption}
-              type="button"
-              onClick={() => setActiveTab(localeOption)}
-              className={`px-3 py-1 rounded text-sm ${
-                activeTab === localeOption ? 'bg-neon text-black' : 'bg-black/20'
-              }`}
-            >
-              {LOCALE_LABELS[localeOption]}
-            </button>
-          ))}
-        </div>
+        <LocaleTabs activeTab={activeTab} onChange={setActiveTab} />
 
         <label className="block text-sm">{intl.formatMessage({ id: 'post.titleLabel' })}</label>
         <input className="w-full p-3 rounded bg-black/20" value={title} onChange={(e) => setTitle(e.target.value)} />

@@ -12,6 +12,16 @@ export const LOCALE_LABELS: Record<SupportedLocale, string> = {
   "de-DE": "DE",
 };
 
+export const SUPPORTED_LOCALES: SupportedLocale[] = ["pl-PL", "en-GB", "de-DE"];
+
+export type TLocaleSuffix = "pl" | "en" | "de";
+
+export const LOCALE_SUFFIXES: Record<SupportedLocale, TLocaleSuffix> = {
+  "pl-PL": "pl",
+  "en-GB": "en",
+  "de-DE": "de",
+};
+
 export type IMessages = {
   [key in SupportedLocale]: LocaleMessages;
 };

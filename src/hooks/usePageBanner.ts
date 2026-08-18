@@ -2,14 +2,8 @@ import { useIntl } from "react-intl";
 import { app } from "../model/Application";
 import { useCachedResource } from "./useCachedResource";
 import { useLocale } from "../i18n/LocaleContext";
-import type { SupportedLocale } from "../i18n/utils";
+import { LOCALE_SUFFIXES } from "../i18n/utils";
 import type { IPageBannerData, IPageBannerDescriptions, PageBannerKey } from "../model/services/PageBannerService";
-
-const LOCALE_SUFFIXES: Record<SupportedLocale, "pl" | "en" | "de"> = {
-  "pl-PL": "pl",
-  "en-GB": "en",
-  "de-DE": "de",
-};
 
 export const usePageBanner = (key: PageBannerKey) => {
   const intl = useIntl();
