@@ -4,7 +4,7 @@ import type { IPost } from "../../types";
 import type { IPostDisplay } from "../../lib/postLocalization";
 import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
 import { AddNewButton } from "../common/AddNewButton";
-import { EmptyState } from "../common/EmptyState";
+import { PageSection } from "../common/PageSection";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
 import { ReadingModal } from "./ReadingModal";
 import { PageBanner } from "../common/PageBanner";
@@ -41,23 +41,14 @@ export const MemoriesView = ({
     </PageBanner>
   );
 
-  if (posts.length === 0) {
-    return (
-      <section>
-        {header}
-        <EmptyState
-          message={intl.formatMessage({ id: "memories.emptyState" })}
-          isAdmin={isAdmin}
-          onAdd={onAdd}
-        />
-      </section>
-    );
-  }
-
   return (
-    <section>
-      {header}
-
+    <PageSection
+      header={header}
+      isEmpty={posts.length === 0}
+      emptyMessage={intl.formatMessage({ id: "memories.emptyState" })}
+      isAdmin={isAdmin}
+      onAdd={onAdd}
+    >
       <div className="relative">
         <div
           className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 lg:-translate-x-1/2"
@@ -97,6 +88,6 @@ export const MemoriesView = ({
           onClose={() => setModalPost(null)}
         />
       )}
-    </section>
+    </PageSection>
   );
 };

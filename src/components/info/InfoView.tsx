@@ -4,8 +4,8 @@ import type { IInfoEntry } from "../../types";
 import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
 import { AddNewButton } from "../common/AddNewButton";
 import { AdminActions } from "../common/AdminActions";
-import { EmptyState } from "../common/EmptyState";
 import { PageBanner } from "../common/PageBanner";
+import { PageSection } from "../common/PageSection";
 import { PageDescription } from "../common/PageDescription";
 
 interface IInfoViewProps {
@@ -54,23 +54,14 @@ export const InfoView = ({
     </>
   );
 
-  if (entries.length === 0) {
-    return (
-      <section>
-        {header}
-        <EmptyState
-          message={intl.formatMessage({ id: "info.emptyState" })}
-          isAdmin={isAdmin}
-          onAdd={onAdd}
-        />
-      </section>
-    );
-  }
-
   return (
-    <section>
-      {header}
-
+    <PageSection
+      header={header}
+      isEmpty={entries.length === 0}
+      emptyMessage={intl.formatMessage({ id: "info.emptyState" })}
+      isAdmin={isAdmin}
+      onAdd={onAdd}
+    >
       <div className="max-w-md mx-auto grid grid-cols-2 gap-x-4 gap-y-2 py-8">
         {entries.map((entry) => (
           <Fragment key={entry.id}>
@@ -90,6 +81,6 @@ export const InfoView = ({
           </Fragment>
         ))}
       </div>
-    </section>
+    </PageSection>
   );
 };
