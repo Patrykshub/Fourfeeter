@@ -9,7 +9,7 @@ interface IPageBannerProps {
   children: ReactNode
 }
 
-const PageBanner = ({ image, isAdmin, onChangeImage, children }: IPageBannerProps) => {
+export const PageBanner = ({ image, isAdmin, onChangeImage, children }: IPageBannerProps) => {
   const intl = useIntl()
 
   return (
@@ -38,5 +38,3 @@ const PageBanner = ({ image, isAdmin, onChangeImage, children }: IPageBannerProp
     </div>
   )
 }
-
-export { PageBanner }

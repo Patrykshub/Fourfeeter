@@ -8,7 +8,7 @@ interface IAuthModalProps {
   onLogin: (user: string, pass: string) => Promise<boolean>
 }
 
-const AuthModal = ({ onClose, onLogin }: IAuthModalProps) => {
+export const AuthModal = ({ onClose, onLogin }: IAuthModalProps) => {
   const intl = useIntl()
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
@@ -57,5 +57,3 @@ const AuthModal = ({ onClose, onLogin }: IAuthModalProps) => {
     </ModalShell>
   )
 }
-
-export { AuthModal }

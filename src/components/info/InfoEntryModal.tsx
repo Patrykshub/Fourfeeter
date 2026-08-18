@@ -10,7 +10,7 @@ interface IInfoEntryModalProps {
   onSave: (data: Omit<IInfoEntry, 'id'> & { id?: string }) => void
 }
 
-const InfoEntryModal = ({ entry, onClose, onSave }: IInfoEntryModalProps) => {
+export const InfoEntryModal = ({ entry, onClose, onSave }: IInfoEntryModalProps) => {
   const intl = useIntl()
   const [label, setLabel] = useState(entry?.label ?? '')
   const [value, setValue] = useState(entry?.value ?? '')
@@ -58,5 +58,3 @@ const InfoEntryModal = ({ entry, onClose, onSave }: IInfoEntryModalProps) => {
     </ModalShell>
   )
 }
-
-export { InfoEntryModal }

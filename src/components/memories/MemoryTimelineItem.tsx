@@ -15,7 +15,7 @@ interface IMemoryTimelineItemProps {
   onDelete: (id: string) => void;
 }
 
-const MemoryTimelineItem = ({
+export const MemoryTimelineItem = ({
   post,
   index,
   totalPosts,
@@ -79,5 +79,3 @@ const MemoryTimelineItem = ({
     </div>
   );
 };
-
-export { MemoryTimelineItem };

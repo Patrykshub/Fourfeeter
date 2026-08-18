@@ -13,7 +13,7 @@ interface ILabeledSelectProps {
   options: ILabeledSelectOption[]
 }
 
-const LabeledSelect: React.FC<ILabeledSelectProps> = ({ label, value, onChange, options }) => {
+export const LabeledSelect: React.FC<ILabeledSelectProps> = ({ label, value, onChange, options }) => {
   return (
     <label className="flex items-center gap-1 text-xs text-gray-400">
       <span className="hidden sm:inline">{label}</span>
@@ -31,5 +31,3 @@ const LabeledSelect: React.FC<ILabeledSelectProps> = ({ label, value, onChange, 
     </label>
   )
 }
-
-export { LabeledSelect }

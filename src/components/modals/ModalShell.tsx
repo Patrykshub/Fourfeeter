@@ -13,7 +13,7 @@ const MAX_WIDTH_CLASSES: Record<TModalShellMaxWidth, string> = {
   '2xl': 'max-w-2xl',
 }
 
-const ModalShell: FC<IModalShellProps> = ({ maxWidth = 'sm', className, children }) => (
+export const ModalShell: FC<IModalShellProps> = ({ maxWidth = 'sm', className, children }) => (
   <div
     className={['fixed inset-0 bg-black/60 flex items-center justify-center p-4', className]
       .filter(Boolean)
@@ -24,5 +24,3 @@ const ModalShell: FC<IModalShellProps> = ({ maxWidth = 'sm', className, children
     </div>
   </div>
 )
-
-export { ModalShell }

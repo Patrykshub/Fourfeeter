@@ -20,7 +20,7 @@ interface IInfoViewProps {
   onChangeDescriptions: (next: IPageBannerDescriptions) => void;
 }
 
-const InfoView = ({
+export const InfoView = ({
   entries,
   isAdmin,
   onEdit,
@@ -104,5 +104,3 @@ const InfoView = ({
     </section>
   );
 };
-
-export { InfoView };

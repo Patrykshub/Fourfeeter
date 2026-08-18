@@ -9,9 +9,9 @@ interface IAppContextValue {
   onAdd: () => void;
 }
 
-const AppContext = createContext<IAppContextValue | null>(null);
+export const AppContext = createContext<IAppContextValue | null>(null);
 
-const useAppContext = (): IAppContextValue => {
+export const useAppContext = (): IAppContextValue => {
   const value = useContext(AppContext);
   if (!value) {
     throw new Error("useAppContext must be used within RootLayout");
@@ -19,5 +19,4 @@ const useAppContext = (): IAppContextValue => {
   return value;
 };
 
-export { AppContext, useAppContext };
 export type { IAppContextValue };

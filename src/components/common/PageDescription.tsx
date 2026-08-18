@@ -27,7 +27,7 @@ const LOCALES: SupportedLocale[] = ['pl-PL', 'en-GB', 'de-DE']
 const descriptionsEqual = (a: IPageBannerDescriptions, b: IPageBannerDescriptions): boolean =>
   a.description_pl === b.description_pl && a.description_en === b.description_en && a.description_de === b.description_de
 
-const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChangeDescriptions }: IPageDescriptionProps) => {
+export const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChangeDescriptions }: IPageDescriptionProps) => {
   const intl = useIntl()
   const { locale: currentLocale } = useLocale()
   const [activeTab, setActiveTab] = useState<SupportedLocale>(currentLocale)
@@ -112,5 +112,3 @@ const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChange
 
   return null
 }
-
-export { PageDescription }

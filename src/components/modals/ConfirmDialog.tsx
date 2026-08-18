@@ -12,7 +12,7 @@ interface IConfirmDialogProps {
   onCancel: () => void;
 }
 
-const ConfirmDialog = ({
+export const ConfirmDialog = ({
   title,
   message,
   imageSrc,
@@ -45,5 +45,3 @@ const ConfirmDialog = ({
     </div>
   </ModalShell>
 );
-
-export { ConfirmDialog };

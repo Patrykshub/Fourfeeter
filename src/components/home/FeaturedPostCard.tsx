@@ -13,7 +13,7 @@ interface IFeaturedPostCardProps {
   onDelete: (id: string) => void
 }
 
-const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, onSelectMemory, onEdit, onDelete }) => {
+export const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, onSelectMemory, onEdit, onDelete }) => {
   const intl = useIntl()
   const { locale } = useLocale()
   const isTranslated = hasPostTranslation(post, locale)
@@ -43,5 +43,3 @@ const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, onSelectM
     </article>
   )
 }
-
-export { FeaturedPostCard }

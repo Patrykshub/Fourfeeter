@@ -18,7 +18,7 @@ const SIZE_CLASSES: Record<TSaveCancelButtonsSize, ISaveCancelButtonsSizeClasses
   md: { container: 'gap-3', button: 'px-4 py-2' },
 }
 
-const SaveCancelButtons = ({ onSave, onCancel, size = 'md' }: ISaveCancelButtonsProps) => {
+export const SaveCancelButtons = ({ onSave, onCancel, size = 'md' }: ISaveCancelButtonsProps) => {
   const intl = useIntl()
   const { container, button } = SIZE_CLASSES[size]
 
@@ -33,5 +33,3 @@ const SaveCancelButtons = ({ onSave, onCancel, size = 'md' }: ISaveCancelButtons
     </div>
   )
 }
-
-export { SaveCancelButtons }

@@ -6,7 +6,7 @@ interface IUsePostEditorParams {
   deletePost: (id: string) => void;
 }
 
-const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
+export const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
   const [editing, setEditing] = useState<IPost | null>(null);
   const [isFormOpen, setFormOpen] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
@@ -50,5 +50,3 @@ const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
     cancelDelete,
   };
 };
-
-export { usePostEditor };

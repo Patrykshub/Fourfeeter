@@ -2,7 +2,7 @@ type RgbTuple = [number, number, number];
 
 const TIMELINE_GRADIENT_STOPS = ["#06B6D4", "#3B82F6", "#A855F7"] as const;
 
-const TIMELINE_LINE_GRADIENT = `linear-gradient(to bottom, transparent, ${TIMELINE_GRADIENT_STOPS.join(
+export const TIMELINE_LINE_GRADIENT = `linear-gradient(to bottom, transparent, ${TIMELINE_GRADIENT_STOPS.join(
   ", ",
 )}, transparent)`;
 
@@ -11,7 +11,7 @@ const hexToRgb = (hex: string): RgbTuple => {
   return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
 };
 
-const getTimelineDotColor = (progress: number): string => {
+export const getTimelineDotColor = (progress: number): string => {
   const clamped = Math.min(1, Math.max(0, progress));
   const segment = clamped * (TIMELINE_GRADIENT_STOPS.length - 1);
   const index = Math.min(
@@ -27,7 +27,5 @@ const getTimelineDotColor = (progress: number): string => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
-const getTimelineProgress = (index: number, totalPosts: number): number =>
+export const getTimelineProgress = (index: number, totalPosts: number): number =>
   totalPosts > 1 ? index / (totalPosts - 1) : 0;
-
-export { TIMELINE_LINE_GRADIENT, getTimelineDotColor, getTimelineProgress };

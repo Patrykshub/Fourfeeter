@@ -11,7 +11,7 @@ const LOCALE_SUFFIXES: Record<SupportedLocale, "pl" | "en" | "de"> = {
   "de-DE": "de",
 };
 
-const usePageBanner = (key: PageBannerKey) => {
+export const usePageBanner = (key: PageBannerKey) => {
   const intl = useIntl();
   const { locale } = useLocale();
   const [data, writeData] = useCachedResource<IPageBannerData>(
@@ -41,5 +41,3 @@ const usePageBanner = (key: PageBannerKey) => {
 
   return { banner, setBanner, description, descriptions, setDescriptions };
 };
-
-export { usePageBanner };

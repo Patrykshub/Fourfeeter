@@ -34,7 +34,7 @@ const LOCALE_SUFFIXES: Record<SupportedLocale, 'pl' | 'en' | 'de'> = {
 
 const LOCALES: SupportedLocale[] = ['pl-PL', 'en-GB', 'de-DE']
 
-const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
+export const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const intl = useIntl()
   const { locale: currentLocale } = useLocale()
   const [activeTab, setActiveTab] = useState<SupportedLocale>(currentLocale)
@@ -110,5 +110,3 @@ const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
     </ModalShell>
   )
 }
-
-export { EditorModal }

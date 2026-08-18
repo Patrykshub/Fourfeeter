@@ -11,7 +11,7 @@ interface IReadingModalProps {
   onClose: () => void;
 }
 
-const ReadingModal = ({
+export const ReadingModal = ({
   image,
   title,
   content,
@@ -72,5 +72,3 @@ const ReadingModal = ({
     </>
   );
 };
-
-export { ReadingModal };

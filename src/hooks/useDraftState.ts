@@ -6,7 +6,7 @@ const DRAFT_WRITE_DELAY_MS = 400
 
 type TDraftStateResult<T> = [T, Dispatch<SetStateAction<T>>, () => void]
 
-const useDraftState = <T>(
+export const useDraftState = <T>(
   draftKey: string,
   initialValue: T,
   enabled = true,
@@ -28,5 +28,3 @@ const useDraftState = <T>(
 
   return [value, setValue, clearDraft]
 }
-
-export { useDraftState }

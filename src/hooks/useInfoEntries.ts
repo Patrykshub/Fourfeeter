@@ -3,7 +3,7 @@ import type { IInfoEntry } from "../types";
 import { app } from "../model/Application";
 import { useCachedResource } from "./useCachedResource";
 
-const useInfoEntries = () => {
+export const useInfoEntries = () => {
   const intl = useIntl();
   const [entries, writeEntries] = useCachedResource<IInfoEntry[]>("info-entries", () =>
     app().infoEntries.fetchEntries(),
@@ -42,5 +42,3 @@ const useInfoEntries = () => {
 
   return { entries: entries ?? [], saveEntry, deleteEntry };
 };
-
-export { useInfoEntries };

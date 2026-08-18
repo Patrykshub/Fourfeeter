@@ -16,7 +16,7 @@ interface IHomeViewProps {
   onSelectMemory: (post: IPost) => void
 }
 
-const HomeView = ({
+export const HomeView = ({
   posts,
   featured,
   rest,
@@ -89,5 +89,3 @@ const HomeView = ({
     </>
   )
 }
-
-export { HomeView }

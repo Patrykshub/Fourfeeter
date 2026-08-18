@@ -6,9 +6,9 @@ interface ILocaleContextValue {
   setLocale: (locale: SupportedLocale) => void;
 }
 
-const LocaleContext = createContext<ILocaleContextValue | null>(null);
+export const LocaleContext = createContext<ILocaleContextValue | null>(null);
 
-const useLocale = (): ILocaleContextValue => {
+export const useLocale = (): ILocaleContextValue => {
   const value = useContext(LocaleContext);
   if (!value) {
     throw new Error("useLocale must be used within LocaleContext.Provider");
@@ -16,5 +16,4 @@ const useLocale = (): ILocaleContextValue => {
   return value;
 };
 
-export { LocaleContext, useLocale };
 export type { ILocaleContextValue };

@@ -3,11 +3,9 @@ interface IModalHeaderProps {
   onClose: () => void
 }
 
-const ModalHeader = ({ title, onClose }: IModalHeaderProps) => (
+export const ModalHeader = ({ title, onClose }: IModalHeaderProps) => (
   <div className="flex justify-between items-center">
     <h3 className="text-lg font-semibold">{title}</h3>
     <button onClick={onClose} className="p-1">✕</button>
   </div>
 )
-
-export { ModalHeader }

@@ -12,7 +12,7 @@ interface IHomePostCardProps {
   onDelete: (id: string) => void
 }
 
-const HomePostCard: FC<IHomePostCardProps> = ({ post, isAdmin, onEdit, onDelete }) => {
+export const HomePostCard: FC<IHomePostCardProps> = ({ post, isAdmin, onEdit, onDelete }) => {
   const intl = useIntl()
   const { locale } = useLocale()
   const isTranslated = hasPostTranslation(post, locale)
@@ -39,5 +39,3 @@ const HomePostCard: FC<IHomePostCardProps> = ({ post, isAdmin, onEdit, onDelete 
     </article>
   )
 }
-
-export { HomePostCard }

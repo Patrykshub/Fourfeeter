@@ -6,7 +6,7 @@ interface IUseInfoEntryEditorParams {
   deleteEntry: (id: string) => void;
 }
 
-const useInfoEntryEditor = ({ saveEntry, deleteEntry }: IUseInfoEntryEditorParams) => {
+export const useInfoEntryEditor = ({ saveEntry, deleteEntry }: IUseInfoEntryEditorParams) => {
   const [editing, setEditing] = useState<IInfoEntry | null>(null);
   const [isFormOpen, setFormOpen] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
@@ -50,5 +50,3 @@ const useInfoEntryEditor = ({ saveEntry, deleteEntry }: IUseInfoEntryEditorParam
     cancelDelete,
   };
 };
-
-export { useInfoEntryEditor };

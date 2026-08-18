@@ -4,7 +4,7 @@ import { LOCALE_LABELS } from "../../i18n/utils";
 import type { SupportedLocale } from "../../i18n/utils";
 import { LabeledSelect } from "./LabeledSelect";
 
-const LanguagePicker = () => {
+export const LanguagePicker = () => {
   const intl = useIntl();
   const { locale, setLocale } = useLocale();
 
@@ -20,5 +20,3 @@ const LanguagePicker = () => {
     />
   );
 };
-
-export { LanguagePicker };

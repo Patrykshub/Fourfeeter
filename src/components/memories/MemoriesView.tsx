@@ -20,7 +20,7 @@ interface IMemoriesViewProps {
   onChangeBanner: (url: string) => void;
 }
 
-const MemoriesView = ({
+export const MemoriesView = ({
   posts,
   isAdmin,
   onEdit,
@@ -104,5 +104,3 @@ const MemoriesView = ({
     </section>
   );
 };
-
-export { MemoriesView };

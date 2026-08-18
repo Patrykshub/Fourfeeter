@@ -9,7 +9,7 @@ interface IImagePickerThumbnailProps {
   onRequestDelete: () => void
 }
 
-const ImagePickerThumbnail: FC<IImagePickerThumbnailProps> = ({
+export const ImagePickerThumbnail: FC<IImagePickerThumbnailProps> = ({
   url,
   isSelected,
   deleteLabel,
@@ -39,5 +39,3 @@ const ImagePickerThumbnail: FC<IImagePickerThumbnailProps> = ({
     </button>
   </div>
 )
-
-export { ImagePickerThumbnail }

@@ -13,7 +13,7 @@ interface IHomeRecommendedItemProps {
   onDelete: (id: string) => void
 }
 
-const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
+export const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
   post,
   isAdmin,
   onSelectMemory,
@@ -49,5 +49,3 @@ const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
     </div>
   )
 }
-
-export { HomeRecommendedItem }

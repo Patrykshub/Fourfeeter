@@ -12,7 +12,7 @@ interface IImagePickerProps {
   onChange: (url: string) => void
 }
 
-const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
+export const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
   const intl = useIntl()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const {
@@ -118,5 +118,3 @@ const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
     </div>
   )
 }
-
-export { ImagePicker }
