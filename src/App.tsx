@@ -3,8 +3,10 @@ import { useBuiltInTranslations } from "./hooks/useBuiltInTranslations";
 import { useLocalePreference } from "./hooks/useLocalePreference";
 import { LocaleContext } from "./i18n/LocaleContext";
 import { Router } from "./router/Router";
+import { app } from "./model/Application";
 
 const App = () => {
+  app();
   const messages = useBuiltInTranslations();
   const { locale, setLocale } = useLocalePreference();
 
