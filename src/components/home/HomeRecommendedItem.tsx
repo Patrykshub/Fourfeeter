@@ -1,12 +1,11 @@
 import type { FC } from 'react'
 import { useIntl } from 'react-intl'
 import type { IPost } from '../../types'
-import { useLocale } from '../../i18n/LocaleContext'
-import { getPostContent, getPostTitle, hasPostTranslation } from '../../lib/postLocalization'
+import type { IPostDisplay } from '../../lib/postLocalization'
 import { AdminActions } from '../common/AdminActions'
 
 interface IHomeRecommendedItemProps {
-  post: IPost
+  post: IPostDisplay
   isAdmin: boolean
   onSelectMemory: (post: IPost) => void
   onEdit: (post: IPost) => void
@@ -21,25 +20,21 @@ export const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
   onDelete,
 }) => {
   const intl = useIntl()
-  const { locale } = useLocale()
-  const isTranslated = hasPostTranslation(post, locale)
-  const title = getPostTitle(post, locale) ?? intl.formatMessage({ id: 'post.missingTranslationTitle' })
-  const content = getPostContent(post, locale) ?? intl.formatMessage({ id: 'post.missingTranslationContent' })
 
   return (
     <div
       onClick={() => onSelectMemory(post)}
       className="flex gap-3 items-center bg-surface p-3 rounded-lg cursor-pointer hover:bg-surfaceHover"
     >
-      <img src={post.image} alt={title} className="w-20 h-14 object-cover rounded" />
+      <img src={post.image} alt={post.displayTitle} className="w-20 h-14 object-cover rounded" />
       <div className="flex-1">
-        <div className="font-semibold">{title}</div>
-        <div className="text-sm text-gray-400">{content.slice(0, 70)}...</div>
+        <div className="font-semibold">{post.displayTitle}</div>
+        <div className="text-sm text-gray-400">{post.displayContent.slice(0, 70)}...</div>
       </div>
       {isAdmin && (
         <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
           <AdminActions compact onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />
-          {!isTranslated && (
+          {!post.isTranslated && (
             <span className="text-xs text-amber-400">
               {intl.formatMessage({ id: 'post.untranslatedBadge' })}
             </span>

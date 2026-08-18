@@ -1,6 +1,12 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import type { IntlShape } from 'react-intl'
 import type { IPost } from '../../types'
-import { getPostContent, getPostTitle, hasPostTranslation } from '../postLocalization'
+import { getPostContent, getPostTitle, hasPostTranslation, toPostDisplay } from '../postLocalization'
+
+const buildIntl = (): IntlShape =>
+  ({
+    formatMessage: vi.fn(({ id }: { id: string }) => `[${id}]`),
+  }) as unknown as IntlShape
 
 const buildPost = (overrides: Partial<IPost> = {}): IPost => ({
   id: '1',
@@ -69,5 +75,28 @@ describe('hasPostTranslation', () => {
   it('returns false when the title/content are blank strings', () => {
     const post = buildPost({ title_en: '   ', content_en: '   ' })
     expect(hasPostTranslation(post, 'en-GB')).toBe(false)
+  })
+})
+
+describe('toPostDisplay', () => {
+  it('resolves the title/content/isTranslated for a fully translated post', () => {
+    const post = buildPost()
+    const display = toPostDisplay(post, 'pl-PL', buildIntl())
+
+    expect(display).toMatchObject({
+      ...post,
+      displayTitle: 'Tytuł',
+      displayContent: 'Treść',
+      isTranslated: true,
+    })
+  })
+
+  it('falls back to intl messages when the locale has no translation', () => {
+    const post = buildPost({ title_de: null, content_de: null })
+    const display = toPostDisplay(post, 'de-DE', buildIntl())
+
+    expect(display.displayTitle).toBe('[post.missingTranslationTitle]')
+    expect(display.displayContent).toBe('[post.missingTranslationContent]')
+    expect(display.isTranslated).toBe(false)
   })
 })

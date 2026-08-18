@@ -1,3 +1,4 @@
+import type { IntlShape } from 'react-intl'
 import type { SupportedLocale } from '../i18n/utils'
 import type { IPost } from '../types'
 
@@ -24,3 +25,16 @@ export const hasPostTranslation = (post: IPost, locale: SupportedLocale): boolea
   const content = getPostContent(post, locale)
   return Boolean(title?.trim()) && Boolean(content?.trim())
 }
+
+export interface IPostDisplay extends IPost {
+  displayTitle: string
+  displayContent: string
+  isTranslated: boolean
+}
+
+export const toPostDisplay = (post: IPost, locale: SupportedLocale, intl: IntlShape): IPostDisplay => ({
+  ...post,
+  displayTitle: getPostTitle(post, locale) ?? intl.formatMessage({ id: 'post.missingTranslationTitle' }),
+  displayContent: getPostContent(post, locale) ?? intl.formatMessage({ id: 'post.missingTranslationContent' }),
+  isTranslated: hasPostTranslation(post, locale),
+})

@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
-import { useLocale } from "../../i18n/LocaleContext";
-import {
-  getPostContent,
-  getPostTitle,
-  hasPostTranslation,
-} from "../../lib/postLocalization";
+import type { IPostDisplay } from "../../lib/postLocalization";
 import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
 import { EmptyState } from "../common/EmptyState";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
@@ -14,7 +9,7 @@ import { ReadingModal } from "./ReadingModal";
 import { PageBanner } from "../common/PageBanner";
 
 interface IMemoriesViewProps {
-  posts: IPost[];
+  posts: IPostDisplay[];
   isAdmin: boolean;
   onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;
@@ -35,8 +30,7 @@ export const MemoriesView = ({
   onChangeBanner,
 }: IMemoriesViewProps) => {
   const intl = useIntl();
-  const { locale } = useLocale();
-  const [modalPost, setModalPost] = useState<IPost | null>(
+  const [modalPost, setModalPost] = useState<IPostDisplay | null>(
     () => posts.find((p) => p.id === highlightId) ?? null,
   );
 
@@ -92,20 +86,14 @@ export const MemoriesView = ({
       {modalPost && (
         <ReadingModal
           image={modalPost.image}
-          title={
-            getPostTitle(modalPost, locale) ??
-            intl.formatMessage({ id: "post.missingTranslationTitle" })
-          }
-          content={
-            getPostContent(modalPost, locale) ??
-            intl.formatMessage({ id: "post.missingTranslationContent" })
-          }
+          title={modalPost.displayTitle}
+          content={modalPost.displayContent}
           date={intl.formatDate(modalPost.date, {
             day: "numeric",
             month: "long",
             year: "numeric",
           })}
-          isTranslated={hasPostTranslation(modalPost, locale)}
+          isTranslated={modalPost.isTranslated}
           untranslatedLabel={intl.formatMessage({
             id: "post.untranslatedBadge",
           })}

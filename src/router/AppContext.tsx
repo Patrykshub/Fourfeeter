@@ -1,8 +1,9 @@
 import { createContext, useContext } from "react";
 import type { IPost } from "../types";
+import type { IPostDisplay } from "../lib/postLocalization";
 
 interface IAppContextValue {
-  posts: IPost[];
+  posts: IPostDisplay[];
   isAdmin: boolean;
   onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;

@@ -6,7 +6,7 @@ import { useAdminSession } from "../hooks/useAdminSession";
 import { useFontPreference } from "../hooks/useFontPreference";
 import { usePostEditor } from "../hooks/usePostEditor";
 import { useLocale } from "../i18n/LocaleContext";
-import { hasPostTranslation } from "../lib/postLocalization";
+import { hasPostTranslation, toPostDisplay } from "../lib/postLocalization";
 import { Header } from "../components/common/Header";
 import { AdminFooter } from "../components/common/AdminFooter";
 import { EditorModal } from "../components/modals/EditorModal";
@@ -42,9 +42,10 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
   const visiblePosts = isAdmin
     ? posts
     : posts.filter((post) => hasPostTranslation(post, locale));
+  const displayPosts = visiblePosts.map((post) => toPostDisplay(post, locale, intl));
 
   const contextValue = {
-    posts: visiblePosts,
+    posts: displayPosts,
     isAdmin,
     onEdit: openEditor,
     onDelete: handleDelete,

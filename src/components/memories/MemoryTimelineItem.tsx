@@ -1,16 +1,15 @@
 import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
-import { useLocale } from "../../i18n/LocaleContext";
-import { getPostContent, getPostTitle, hasPostTranslation } from "../../lib/postLocalization";
+import type { IPostDisplay } from "../../lib/postLocalization";
 import { getTimelineDotColor, getTimelineProgress } from "../../lib/timelineGradient";
 import { AdminActions } from "../common/AdminActions";
 
 interface IMemoryTimelineItemProps {
-  post: IPost;
+  post: IPostDisplay;
   index: number;
   totalPosts: number;
   isAdmin: boolean;
-  onOpenPost: (post: IPost) => void;
+  onOpenPost: (post: IPostDisplay) => void;
   onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;
 }
@@ -25,12 +24,8 @@ export const MemoryTimelineItem = ({
   onDelete,
 }: IMemoryTimelineItemProps) => {
   const intl = useIntl();
-  const { locale } = useLocale();
   const isRight = index % 2 === 1;
   const dotColor = getTimelineDotColor(getTimelineProgress(index, totalPosts));
-  const isTranslated = hasPostTranslation(post, locale);
-  const title = getPostTitle(post, locale) ?? intl.formatMessage({ id: "post.missingTranslationTitle" });
-  const content = getPostContent(post, locale) ?? intl.formatMessage({ id: "post.missingTranslationContent" });
 
   return (
     <div className="relative pl-10 lg:pl-0 lg:grid lg:grid-cols-2 lg:gap-x-12">
@@ -46,7 +41,7 @@ export const MemoryTimelineItem = ({
       >
         <img
           src={post.image}
-          alt={title}
+          alt={post.displayTitle}
           className="w-full h-56 sm:h-64 lg:h-72 object-cover"
         />
         <div className="p-5">
@@ -57,9 +52,9 @@ export const MemoryTimelineItem = ({
               year: "numeric",
             })}
           </div>
-          <h3 className="text-xl font-semibold mt-1">{title}</h3>
+          <h3 className="text-xl font-semibold mt-1">{post.displayTitle}</h3>
           <p className="mt-2 text-gray-300 text-sm whitespace-pre-wrap line-clamp-3">
-            {content}
+            {post.displayContent}
           </p>
           {isAdmin && (
             <div className="mt-4 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
@@ -67,7 +62,7 @@ export const MemoryTimelineItem = ({
                 onEdit={() => onEdit(post)}
                 onDelete={() => onDelete(post.id)}
               />
-              {!isTranslated && (
+              {!post.isTranslated && (
                 <span className="text-xs text-amber-400">
                   {intl.formatMessage({ id: "post.untranslatedBadge" })}
                 </span>

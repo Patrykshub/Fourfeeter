@@ -1,14 +1,15 @@
 import { useIntl } from 'react-intl'
 import type { IPost } from '../../types'
+import type { IPostDisplay } from '../../lib/postLocalization'
 import { EmptyState } from '../common/EmptyState'
 import { FeaturedPostCard } from './FeaturedPostCard'
 import { HomeRecommendedItem } from './HomeRecommendedItem'
 import { HomePostCard } from './HomePostCard'
 
 interface IHomeViewProps {
-  posts: IPost[]
-  featured: IPost | undefined
-  rest: IPost[]
+  posts: IPostDisplay[]
+  featured: IPostDisplay | undefined
+  rest: IPostDisplay[]
   isAdmin: boolean
   onEdit: (post: IPost) => void
   onDelete: (id: string) => void
