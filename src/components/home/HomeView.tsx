@@ -1,6 +1,7 @@
 import { useIntl } from 'react-intl'
 import type { IPost } from '../../types'
 import type { IPostDisplay } from '../../lib/postLocalization'
+import { AddNewButton } from '../common/AddNewButton'
 import { EmptyState } from '../common/EmptyState'
 import { FeaturedPostCard } from './FeaturedPostCard'
 import { HomeRecommendedItem } from './HomeRecommendedItem'
@@ -55,11 +56,7 @@ export const HomeView = ({
             <h3 className="uppercase text-sm text-gray-300">
               {intl.formatMessage({ id: 'home.recommended' })}
             </h3>
-            {isAdmin && (
-              <button onClick={onAdd} className="flex items-center gap-2 text-neon">
-                {intl.formatMessage({ id: 'common.addNew' })}
-              </button>
-            )}
+            <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
           </div>
 
           <div className="grid grid-cols-1 gap-4">

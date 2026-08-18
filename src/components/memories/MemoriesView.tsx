@@ -3,6 +3,7 @@ import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
 import type { IPostDisplay } from "../../lib/postLocalization";
 import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
+import { AddNewButton } from "../common/AddNewButton";
 import { EmptyState } from "../common/EmptyState";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
 import { ReadingModal } from "./ReadingModal";
@@ -36,11 +37,7 @@ export const MemoriesView = ({
 
   const header = (
     <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
-      {isAdmin && (
-        <button onClick={onAdd} className="flex items-center gap-2 text-neon">
-          {intl.formatMessage({ id: "common.addNew" })}
-        </button>
-      )}
+      <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
     </PageBanner>
   );
 

@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { useIntl } from "react-intl";
 import type { IInfoEntry } from "../../types";
 import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
+import { AddNewButton } from "../common/AddNewButton";
 import { AdminActions } from "../common/AdminActions";
 import { EmptyState } from "../common/EmptyState";
 import { PageBanner } from "../common/PageBanner";
@@ -41,16 +42,7 @@ export const InfoView = ({
         isAdmin={isAdmin}
         onChangeImage={onChangeBanner}
       >
-        <div className="flex justify-between items-center">
-          {isAdmin && (
-            <button
-              onClick={onAdd}
-              className="flex items-center gap-2 text-neon"
-            >
-              {intl.formatMessage({ id: "common.addNew" })}
-            </button>
-          )}
-        </div>
+        <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
       </PageBanner>
       <PageDescription
         pageKey="info"
