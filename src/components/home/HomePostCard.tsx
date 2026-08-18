@@ -20,7 +20,7 @@ export const HomePostCard: FC<IHomePostCardProps> = ({ post, isAdmin, onEdit, on
   const content = getPostContent(post, locale) ?? intl.formatMessage({ id: 'post.missingTranslationContent' })
 
   return (
-    <article className="bg-[#071018] rounded-lg overflow-hidden">
+    <article className="bg-surface rounded-lg overflow-hidden">
       <img src={post.image} alt={title} className="w-full h-40 object-cover" />
       <div className="p-4">
         <h5 className="font-semibold mt-1">{title}</h5>

@@ -36,10 +36,8 @@
   "home.recommended": "Recommended",
   "home.allPosts": "All posts",
 
-  "memories.heading": "Memory timeline",
   "memories.emptyState": "No memories in this category.",
 
-  "info.heading": "Contact info",
   "info.emptyState": "No contact info yet.",
   "info.editTitle": "Edit entry",
   "info.addTitle": "Add entry",

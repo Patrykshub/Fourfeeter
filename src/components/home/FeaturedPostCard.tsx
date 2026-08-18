@@ -23,7 +23,7 @@ export const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, on
   return (
     <article
       onClick={() => onSelectMemory(post)}
-      className="lg:col-span-2 bg-[#071018] rounded-xl overflow-hidden cursor-pointer hover:bg-[#0c1c29]"
+      className="lg:col-span-2 bg-surface rounded-xl overflow-hidden cursor-pointer hover:bg-surfaceHover"
     >
       <img src={post.image} alt={title} className="w-full h-64 sm:h-96 object-cover" />
       <div className="p-6">

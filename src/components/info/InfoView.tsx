@@ -42,9 +42,6 @@ export const InfoView = ({
         onChangeImage={onChangeBanner}
       >
         <div className="flex justify-between items-center">
-          <h2 className="uppercase text-sm text-gray-300">
-            {intl.formatMessage({ id: "info.heading" })}
-          </h2>
           {isAdmin && (
             <button
               onClick={onAdd}

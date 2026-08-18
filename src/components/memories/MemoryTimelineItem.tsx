@@ -40,7 +40,7 @@ export const MemoryTimelineItem = ({
       />
       <article
         onClick={() => onOpenPost(post)}
-        className={`bg-[#071018] rounded-xl overflow-hidden transition-shadow duration-500 cursor-pointer ${
+        className={`bg-surface rounded-xl overflow-hidden transition-shadow duration-500 cursor-pointer ${
           isRight ? "lg:col-start-2" : "lg:col-start-1"
         }`}
       >

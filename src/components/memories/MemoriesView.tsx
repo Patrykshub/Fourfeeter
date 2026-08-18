@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
 import { useLocale } from "../../i18n/LocaleContext";
-import { getPostContent, getPostTitle, hasPostTranslation } from "../../lib/postLocalization";
+import {
+  getPostContent,
+  getPostTitle,
+  hasPostTranslation,
+} from "../../lib/postLocalization";
 import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
 import { EmptyState } from "../common/EmptyState";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
@@ -38,16 +42,11 @@ export const MemoriesView = ({
 
   const header = (
     <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
-      <div className="flex justify-between items-center">
-        <h2 className="uppercase text-sm text-gray-300">
-          {intl.formatMessage({ id: "memories.heading" })}
-        </h2>
-        {isAdmin && (
-          <button onClick={onAdd} className="flex items-center gap-2 text-neon">
-            {intl.formatMessage({ id: "common.addNew" })}
-          </button>
-        )}
-      </div>
+      {isAdmin && (
+        <button onClick={onAdd} className="flex items-center gap-2 text-neon">
+          {intl.formatMessage({ id: "common.addNew" })}
+        </button>
+      )}
     </PageBanner>
   );
 
@@ -93,11 +92,23 @@ export const MemoriesView = ({
       {modalPost && (
         <ReadingModal
           image={modalPost.image}
-          title={getPostTitle(modalPost, locale) ?? intl.formatMessage({ id: "post.missingTranslationTitle" })}
-          content={getPostContent(modalPost, locale) ?? intl.formatMessage({ id: "post.missingTranslationContent" })}
-          date={intl.formatDate(modalPost.date, { day: "numeric", month: "long", year: "numeric" })}
+          title={
+            getPostTitle(modalPost, locale) ??
+            intl.formatMessage({ id: "post.missingTranslationTitle" })
+          }
+          content={
+            getPostContent(modalPost, locale) ??
+            intl.formatMessage({ id: "post.missingTranslationContent" })
+          }
+          date={intl.formatDate(modalPost.date, {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
           isTranslated={hasPostTranslation(modalPost, locale)}
-          untranslatedLabel={intl.formatMessage({ id: "post.untranslatedBadge" })}
+          untranslatedLabel={intl.formatMessage({
+            id: "post.untranslatedBadge",
+          })}
           onClose={() => setModalPost(null)}
         />
       )}

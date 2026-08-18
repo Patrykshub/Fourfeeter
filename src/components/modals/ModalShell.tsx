@@ -19,7 +19,7 @@ export const ModalShell: FC<IModalShellProps> = ({ maxWidth = 'sm', className, c
       .filter(Boolean)
       .join(' ')}
   >
-    <div className={`bg-[#061018] ${MAX_WIDTH_CLASSES[maxWidth]} w-full rounded-lg p-6`}>
+    <div className={`bg-surface ${MAX_WIDTH_CLASSES[maxWidth]} w-full rounded-lg p-6`}>
       {children}
     </div>
   </div>
