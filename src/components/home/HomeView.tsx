@@ -29,6 +29,7 @@ export const HomeView = ({
   onSelectMemory,
 }: IHomeViewProps) => {
   const intl = useIntl()
+  const hasRecommended = rest.length > 0
 
   if (!featured) {
     return (
@@ -42,7 +43,7 @@ export const HomeView = ({
 
   return (
     <>
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <section className={`grid grid-cols-1 gap-8 ${hasRecommended ? 'lg:grid-cols-3' : ''}`}>
         <FeaturedPostCard
           post={featured}
           isAdmin={isAdmin}
@@ -51,27 +52,29 @@ export const HomeView = ({
           onDelete={onDelete}
         />
 
-        <aside className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="uppercase text-sm text-gray-300">
-              {intl.formatMessage({ id: 'home.recommended' })}
-            </h3>
-            <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
-          </div>
+        {hasRecommended && (
+          <aside className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h3 className="uppercase text-sm text-gray-300">
+                {intl.formatMessage({ id: 'home.recommended' })}
+              </h3>
+              <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
+            </div>
 
-          <div className="grid grid-cols-1 gap-4">
-            {rest.map((post) => (
-              <HomeRecommendedItem
-                key={post.id}
-                post={post}
-                isAdmin={isAdmin}
-                onSelectMemory={onSelectMemory}
-                onEdit={onEdit}
-                onDelete={onDelete}
-              />
-            ))}
-          </div>
-        </aside>
+            <div className="grid grid-cols-1 gap-4">
+              {rest.map((post) => (
+                <HomeRecommendedItem
+                  key={post.id}
+                  post={post}
+                  isAdmin={isAdmin}
+                  onSelectMemory={onSelectMemory}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                />
+              ))}
+            </div>
+          </aside>
+        )}
       </section>
 
       <section className="mt-10">
@@ -80,7 +83,14 @@ export const HomeView = ({
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
-            <HomePostCard key={post.id} post={post} isAdmin={isAdmin} onEdit={onEdit} onDelete={onDelete} />
+            <HomePostCard
+              key={post.id}
+              post={post}
+              isAdmin={isAdmin}
+              onSelectMemory={onSelectMemory}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
           ))}
         </div>
       </section>
