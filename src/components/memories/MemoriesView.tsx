@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useIntl } from "react-intl";
 import type { IPost } from "../../types";
 import type { IPostDisplay } from "../../lib/postLocalization";
-import { TIMELINE_LINE_GRADIENT } from "../../lib/timelineGradient";
 import { PageSection } from "../common/PageSection";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
 import { ReadingModal } from "./ReadingModal";
@@ -42,25 +41,23 @@ export const MemoriesView = ({
       isAdmin={isAdmin}
       onAdd={onAdd}
     >
-      <div className="relative">
-        <div
-          className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 lg:-translate-x-1/2"
-          style={{ background: TIMELINE_LINE_GRADIENT }}
-        />
+      <div className="pt-16 pb-32">
+        <div className="relative">
+          <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 lg:-translate-x-1/2 bg-neon" />
 
-        <div className="space-y-10">
-          {posts.map((post, index) => (
-            <MemoryTimelineItem
-              key={post.id}
-              post={post}
-              index={index}
-              totalPosts={posts.length}
-              isAdmin={isAdmin}
-              onOpenPost={setModalPost}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          ))}
+          <div className="space-y-10">
+            {posts.map((post, index) => (
+              <MemoryTimelineItem
+                key={post.id}
+                post={post}
+                index={index}
+                isAdmin={isAdmin}
+                onOpenPost={setModalPost}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
