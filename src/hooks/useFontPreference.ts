@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { readJSON, writeJSON } from '../lib/storage'
+import { app } from '../model/Application'
 
 const STORAGE_KEY = 'font_v1'
 
@@ -12,10 +12,10 @@ export const FONT_STACKS = {
 export type FontOption = keyof typeof FONT_STACKS
 
 export const useFontPreference = () => {
-  const [font, setFont] = useState<FontOption>(() => readJSON<FontOption>(STORAGE_KEY, 'sans'))
+  const [font, setFont] = useState<FontOption>(() => app().storage.readJSON<FontOption>(STORAGE_KEY, 'sans'))
 
   useEffect(() => {
-    writeJSON(STORAGE_KEY, font)
+    app().storage.writeJSON(STORAGE_KEY, font)
     document.documentElement.style.setProperty('--font-body', FONT_STACKS[font])
   }, [font])
 

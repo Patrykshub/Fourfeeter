@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
 import type { IPost } from '../types'
-import { createPost, deletePost as deletePostRequest, fetchPosts, updatePost } from '../lib/posts'
+import { app } from '../model/Application'
 
 export const usePosts = () => {
   const intl = useIntl()
@@ -9,7 +9,8 @@ export const usePosts = () => {
 
   useEffect(() => {
     let cancelled = false
-    fetchPosts()
+    app()
+      .posts.fetchPosts()
       .then((data) => {
         if (!cancelled) setPosts(data)
       })
@@ -23,7 +24,7 @@ export const usePosts = () => {
     if (data.id) {
       const { id, ...rest } = data
       try {
-        const updated = await updatePost(id, rest)
+        const updated = await app().posts.updatePost(id, rest)
         setPosts((prev) => prev.map((post) => (post.id === id ? updated : post)))
       } catch {
         alert(intl.formatMessage({ id: 'error.savePost' }))
@@ -32,7 +33,7 @@ export const usePosts = () => {
     }
 
     try {
-      const inserted = await createPost(data)
+      const inserted = await app().posts.createPost(data)
       setPosts((prev) => [inserted, ...prev])
     } catch {
       alert(intl.formatMessage({ id: 'error.savePost' }))
@@ -41,7 +42,7 @@ export const usePosts = () => {
 
   const deletePost = async (id: string) => {
     try {
-      await deletePostRequest(id)
+      await app().posts.deletePost(id)
       setPosts((prev) => prev.filter((post) => post.id !== id))
     } catch {
       alert(intl.formatMessage({ id: 'error.deletePost' }))

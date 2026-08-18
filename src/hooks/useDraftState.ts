@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { useCallback, useEffect, useState } from 'react'
-import { readJSON, removeItem, writeJSON } from '../lib/storage'
+import { app } from '../model/Application'
 
 const DRAFT_WRITE_DELAY_MS = 400
 
@@ -11,19 +11,19 @@ const useDraftState = <T>(
   initialValue: T,
   enabled = true,
 ): TDraftStateResult<T> => {
-  const [value, setValue] = useState<T>(() => readJSON<T | null>(draftKey, null) ?? initialValue)
+  const [value, setValue] = useState<T>(() => app().storage.readJSON<T | null>(draftKey, null) ?? initialValue)
 
   useEffect(() => {
     if (!enabled) return
 
     const timeout = setTimeout(() => {
-      writeJSON(draftKey, value)
+      app().storage.writeJSON(draftKey, value)
     }, DRAFT_WRITE_DELAY_MS)
     return () => clearTimeout(timeout)
   }, [draftKey, value, enabled])
 
   const clearDraft = useCallback(() => {
-    removeItem(draftKey)
+    app().storage.removeItem(draftKey)
   }, [draftKey])
 
   return [value, setValue, clearDraft]

@@ -2,28 +2,38 @@ import { act, renderHook } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { IInfoEntry } from '../../types'
 import { IntlWrapper } from '../../test/intl'
-import { createQueryBuilder } from '../../test/supabaseQueryBuilder'
 
-vi.mock('../../lib/supabaseClient', () => ({
-  supabase: { from: vi.fn() },
+const mockFetchEntries = vi.fn()
+const mockInsertEntry = vi.fn()
+const mockUpdateEntry = vi.fn()
+const mockDeleteEntry = vi.fn()
+
+vi.mock('../../model/Application', () => ({
+  app: () => ({
+    infoEntries: {
+      fetchEntries: mockFetchEntries,
+      insertEntry: mockInsertEntry,
+      updateEntry: mockUpdateEntry,
+      deleteEntry: mockDeleteEntry,
+    },
+  }),
 }))
 vi.mock('../useCachedResource', () => ({
   useCachedResource: vi.fn(),
 }))
 
-import { supabase } from '../../lib/supabaseClient'
 import { useCachedResource } from '../useCachedResource'
 import { useInfoEntries } from '../useInfoEntries'
 
-const mockFrom = supabase.from as unknown as ReturnType<typeof vi.fn>
 const mockUseCachedResource = useCachedResource as unknown as ReturnType<typeof vi.fn>
-
-type Fetcher = () => Promise<IInfoEntry[] | undefined>
 
 const entry: IInfoEntry = { id: '1', label: 'Label', value: 'Value' }
 
 beforeEach(() => {
-  mockFrom.mockReset()
+  mockFetchEntries.mockReset()
+  mockInsertEntry.mockReset()
+  mockUpdateEntry.mockReset()
+  mockDeleteEntry.mockReset()
   mockUseCachedResource.mockReset()
 })
 
@@ -40,36 +50,19 @@ describe('useInfoEntries', () => {
     expect(result.current.entries).toEqual([entry])
   })
 
-  it('fetches info_entries via the cache resource fetcher', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: [entry], error: null }))
-    let capturedFetcher: Fetcher | undefined
-    mockUseCachedResource.mockImplementation((_key: string, fetcher: Fetcher) => {
-      capturedFetcher = fetcher
-      return [undefined, vi.fn()]
-    })
-
+  it('fetches entries via the info entries service', () => {
+    mockUseCachedResource.mockReturnValue([undefined, vi.fn()])
     renderHook(() => useInfoEntries(), { wrapper: IntlWrapper })
+    expect(mockUseCachedResource).toHaveBeenCalledWith('info-entries', expect.any(Function))
 
-    await expect(capturedFetcher?.()).resolves.toEqual([entry])
-    expect(mockFrom).toHaveBeenCalledWith('info_entries')
-  })
-
-  it('fetcher resolves to undefined when supabase errors', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: new Error('boom') }))
-    let capturedFetcher: Fetcher | undefined
-    mockUseCachedResource.mockImplementation((_key: string, fetcher: Fetcher) => {
-      capturedFetcher = fetcher
-      return [undefined, vi.fn()]
-    })
-
-    renderHook(() => useInfoEntries(), { wrapper: IntlWrapper })
-
-    await expect(capturedFetcher?.()).resolves.toBeUndefined()
+    mockFetchEntries.mockResolvedValue([entry])
+    const fetcher = mockUseCachedResource.mock.calls[0][1] as () => Promise<IInfoEntry[] | undefined>
+    expect(fetcher()).resolves.toEqual([entry])
   })
 
   it('saveEntry inserts a new entry and appends it via writeEntries', async () => {
     const inserted: IInfoEntry = { id: '2', label: 'New', value: 'Val' }
-    mockFrom.mockReturnValue(createQueryBuilder({ data: inserted, error: null }))
+    mockInsertEntry.mockResolvedValue(inserted)
     const writeEntries = vi.fn()
     mockUseCachedResource.mockReturnValue([[], writeEntries])
 
@@ -78,7 +71,7 @@ describe('useInfoEntries', () => {
       await result.current.saveEntry({ label: 'New', value: 'Val' })
     })
 
-    expect(mockFrom).toHaveBeenCalledWith('info_entries')
+    expect(mockInsertEntry).toHaveBeenCalledWith({ label: 'New', value: 'Val' })
     const updater = writeEntries.mock.calls[0][0] as (prev: IInfoEntry[] | undefined) => IInfoEntry[]
     expect(updater(undefined)).toEqual([inserted])
     expect(updater([entry])).toEqual([entry, inserted])
@@ -86,7 +79,7 @@ describe('useInfoEntries', () => {
 
   it('saveEntry updates an existing entry via writeEntries', async () => {
     const updated: IInfoEntry = { id: '1', label: 'Updated', value: 'V2' }
-    mockFrom.mockReturnValue(createQueryBuilder({ data: updated, error: null }))
+    mockUpdateEntry.mockResolvedValue(updated)
     const writeEntries = vi.fn()
     mockUseCachedResource.mockReturnValue([[entry], writeEntries])
 
@@ -95,15 +88,13 @@ describe('useInfoEntries', () => {
       await result.current.saveEntry({ id: '1', label: 'Updated', value: 'V2' })
     })
 
-    const builder = mockFrom.mock.results[0].value
-    expect(builder.update).toHaveBeenCalledWith({ label: 'Updated', value: 'V2' })
-    expect(builder.eq).toHaveBeenCalledWith('id', '1')
+    expect(mockUpdateEntry).toHaveBeenCalledWith('1', { label: 'Updated', value: 'V2' })
     const updater = writeEntries.mock.calls[0][0] as (prev: IInfoEntry[]) => IInfoEntry[]
     expect(updater([entry])).toEqual([updated])
   })
 
   it('saveEntry alerts and does not update the cache on error', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: new Error('fail') }))
+    mockInsertEntry.mockResolvedValue(undefined)
     const writeEntries = vi.fn()
     mockUseCachedResource.mockReturnValue([[], writeEntries])
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
@@ -119,7 +110,7 @@ describe('useInfoEntries', () => {
   })
 
   it('deleteEntry removes the entry via writeEntries', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: null }))
+    mockDeleteEntry.mockResolvedValue(true)
     const writeEntries = vi.fn()
     mockUseCachedResource.mockReturnValue([[entry], writeEntries])
 
@@ -128,14 +119,13 @@ describe('useInfoEntries', () => {
       await result.current.deleteEntry('1')
     })
 
-    const builder = mockFrom.mock.results[0].value
-    expect(builder.eq).toHaveBeenCalledWith('id', '1')
+    expect(mockDeleteEntry).toHaveBeenCalledWith('1')
     const updater = writeEntries.mock.calls[0][0] as (prev: IInfoEntry[]) => IInfoEntry[]
     expect(updater([entry])).toEqual([])
   })
 
   it('deleteEntry alerts and does not update the cache on error', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: new Error('fail') }))
+    mockDeleteEntry.mockResolvedValue(false)
     const writeEntries = vi.fn()
     mockUseCachedResource.mockReturnValue([[entry], writeEntries])
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})

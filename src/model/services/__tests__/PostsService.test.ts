@@ -1,14 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { createQueryBuilder, type IQueryResult } from '../../../test/supabaseQueryBuilder'
 
-vi.mock('../supabaseClient', () => ({
-  supabase: { from: vi.fn() },
+const mockFrom = vi.fn()
+
+vi.mock('../../Application', () => ({
+  app: () => ({ supabase: { from: mockFrom } }),
 }))
 
-import { supabase } from '../supabaseClient'
-import { createPost, deletePost, fetchPosts, updatePost } from '../posts'
-import { createQueryBuilder, type IQueryResult } from '../../test/supabaseQueryBuilder'
-
-const mockFrom = supabase.from as unknown as ReturnType<typeof vi.fn>
+import { PostsService } from '../PostsService'
 
 const mockQueryResult = (result: IQueryResult) => {
   const builder = createQueryBuilder(result)
@@ -28,15 +27,18 @@ const post = {
   date: '2026-01-01',
 }
 
+let posts: PostsService
+
 beforeEach(() => {
   mockFrom.mockReset()
+  posts = new PostsService()
 })
 
 describe('fetchPosts', () => {
   it('returns posts ordered by the query', async () => {
     const builder = mockQueryResult({ data: [post], error: null })
 
-    const result = await fetchPosts()
+    const result = await posts.fetchPosts()
 
     expect(mockFrom).toHaveBeenCalledWith('posts')
     expect(builder.select).toHaveBeenCalledWith('*')
@@ -47,13 +49,13 @@ describe('fetchPosts', () => {
   it('throws when supabase returns an error', async () => {
     mockQueryResult({ data: null, error: new Error('network down') })
 
-    await expect(fetchPosts()).rejects.toThrow('network down')
+    await expect(posts.fetchPosts()).rejects.toThrow('network down')
   })
 
   it('throws when supabase returns no data and no error', async () => {
     mockQueryResult({ data: null, error: null })
 
-    await expect(fetchPosts()).rejects.toThrow('Failed to fetch posts')
+    await expect(posts.fetchPosts()).rejects.toThrow('Failed to fetch posts')
   })
 })
 
@@ -71,7 +73,7 @@ describe('createPost', () => {
   it('inserts the post and returns the created row', async () => {
     const builder = mockQueryResult({ data: post, error: null })
 
-    const result = await createPost(input)
+    const result = await posts.createPost(input)
 
     expect(mockFrom).toHaveBeenCalledWith('posts')
     expect(builder.insert).toHaveBeenCalledWith(input)
@@ -81,7 +83,7 @@ describe('createPost', () => {
   it('throws when supabase returns an error', async () => {
     mockQueryResult({ data: null, error: new Error('insert failed') })
 
-    await expect(createPost(input)).rejects.toThrow('insert failed')
+    await expect(posts.createPost(input)).rejects.toThrow('insert failed')
   })
 })
 
@@ -99,7 +101,7 @@ describe('updatePost', () => {
   it('updates the post by id and returns the updated row', async () => {
     const builder = mockQueryResult({ data: post, error: null })
 
-    const result = await updatePost('1', input)
+    const result = await posts.updatePost('1', input)
 
     expect(mockFrom).toHaveBeenCalledWith('posts')
     expect(builder.update).toHaveBeenCalledWith(input)
@@ -110,7 +112,7 @@ describe('updatePost', () => {
   it('throws when supabase returns an error', async () => {
     mockQueryResult({ data: null, error: new Error('update failed') })
 
-    await expect(updatePost('1', input)).rejects.toThrow('update failed')
+    await expect(posts.updatePost('1', input)).rejects.toThrow('update failed')
   })
 })
 
@@ -118,7 +120,7 @@ describe('deletePost', () => {
   it('deletes the post by id', async () => {
     const builder = mockQueryResult({ data: null, error: null })
 
-    await deletePost('1')
+    await posts.deletePost('1')
 
     expect(mockFrom).toHaveBeenCalledWith('posts')
     expect(builder.delete).toHaveBeenCalled()
@@ -128,6 +130,6 @@ describe('deletePost', () => {
   it('throws when supabase returns an error', async () => {
     mockQueryResult({ data: null, error: new Error('delete failed') })
 
-    await expect(deletePost('1')).rejects.toThrow('delete failed')
+    await expect(posts.deletePost('1')).rejects.toThrow('delete failed')
   })
 })

@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabaseClient'
+import { app } from '../model/Application'
 
 export const useAdminSession = () => {
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setIsAdmin(!!data.session)
-    })
+    app()
+      .auth.getSession()
+      .then((session) => {
+        setIsAdmin(!!session)
+      })
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const unsubscribe = app().auth.onAuthStateChange((session) => {
       setIsAdmin(!!session)
     })
 
-    return () => listener.subscription.unsubscribe()
+    return unsubscribe
   }, [])
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    return !error
+    return app().auth.login(email, password)
   }
 
   const logout = async () => {
-    await supabase.auth.signOut()
+    await app().auth.logout()
   }
 
   return { isAdmin, login, logout }

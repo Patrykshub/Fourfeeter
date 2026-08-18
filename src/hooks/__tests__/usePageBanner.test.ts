@@ -1,10 +1,17 @@
 import { act, renderHook } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { IntlWrapper } from '../../test/intl'
-import { createQueryBuilder } from '../../test/supabaseQueryBuilder'
 
-vi.mock('../../lib/supabaseClient', () => ({
-  supabase: { from: vi.fn() },
+const mockFetchBanner = vi.fn()
+const mockSaveBanner = vi.fn()
+
+vi.mock('../../model/Application', () => ({
+  app: () => ({
+    pageBanner: {
+      fetchBanner: mockFetchBanner,
+      saveBanner: mockSaveBanner,
+    },
+  }),
 }))
 vi.mock('../useCachedResource', () => ({
   useCachedResource: vi.fn(),
@@ -15,7 +22,6 @@ vi.mock('../../i18n/LocaleContext', () => ({
   useLocale: () => ({ locale: mockLocale, setLocale: vi.fn() }),
 }))
 
-import { supabase } from '../../lib/supabaseClient'
 import { useCachedResource } from '../useCachedResource'
 import { usePageBanner } from '../usePageBanner'
 
@@ -26,7 +32,6 @@ interface IPageBannerData {
   description_de: string | null
 }
 
-const mockFrom = supabase.from as unknown as ReturnType<typeof vi.fn>
 const mockUseCachedResource = useCachedResource as unknown as ReturnType<typeof vi.fn>
 
 type Fetcher = () => Promise<IPageBannerData | undefined>
@@ -34,7 +39,8 @@ type Fetcher = () => Promise<IPageBannerData | undefined>
 const NO_DESCRIPTIONS = { description_pl: null, description_en: null, description_de: null }
 
 beforeEach(() => {
-  mockFrom.mockReset()
+  mockFetchBanner.mockReset()
+  mockSaveBanner.mockReset()
   mockUseCachedResource.mockReset()
   mockLocale = 'pl-PL'
 })
@@ -84,13 +90,13 @@ describe('usePageBanner', () => {
     expect(mockUseCachedResource).toHaveBeenCalledWith('page-banner:info', expect.any(Function))
   })
 
-  it('fetches the banner row scoped by key', async () => {
-    mockFrom.mockReturnValue(
-      createQueryBuilder({
-        data: { image: 'img.png', description_pl: 'Opis', description_en: null, description_de: null },
-        error: null,
-      }),
-    )
+  it('fetches the banner scoped by key via the page banner service', async () => {
+    mockFetchBanner.mockResolvedValue({
+      image: 'img.png',
+      description_pl: 'Opis',
+      description_en: null,
+      description_de: null,
+    })
     let capturedFetcher: Fetcher | undefined
     mockUseCachedResource.mockImplementation((_key: string, fetcher: Fetcher) => {
       capturedFetcher = fetcher
@@ -105,40 +111,11 @@ describe('usePageBanner', () => {
       description_en: null,
       description_de: null,
     })
-    const builder = mockFrom.mock.results[0].value
-    expect(mockFrom).toHaveBeenCalledWith('page_banners')
-    expect(builder.select).toHaveBeenCalledWith('image, description_pl, description_en, description_de')
-    expect(builder.eq).toHaveBeenCalledWith('key', 'info')
-  })
-
-  it('fetcher defaults to nulls when there is no row', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: null }))
-    let capturedFetcher: Fetcher | undefined
-    mockUseCachedResource.mockImplementation((_key: string, fetcher: Fetcher) => {
-      capturedFetcher = fetcher
-      return [undefined, vi.fn()]
-    })
-
-    renderHook(() => usePageBanner('info'), { wrapper: IntlWrapper })
-
-    await expect(capturedFetcher?.()).resolves.toEqual({ image: null, ...NO_DESCRIPTIONS })
-  })
-
-  it('fetcher resolves to undefined when supabase errors', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: new Error('boom') }))
-    let capturedFetcher: Fetcher | undefined
-    mockUseCachedResource.mockImplementation((_key: string, fetcher: Fetcher) => {
-      capturedFetcher = fetcher
-      return [undefined, vi.fn()]
-    })
-
-    renderHook(() => usePageBanner('info'), { wrapper: IntlWrapper })
-
-    await expect(capturedFetcher?.()).resolves.toBeUndefined()
+    expect(mockFetchBanner).toHaveBeenCalledWith('info')
   })
 
   it('setBanner upserts the new image alongside the current descriptions', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: null }))
+    mockSaveBanner.mockResolvedValue(true)
     const writeData = vi.fn()
     mockUseCachedResource.mockReturnValue([
       { image: 'old.png', description_pl: 'Opis', description_en: null, description_de: null },
@@ -150,10 +127,7 @@ describe('usePageBanner', () => {
       await result.current.setBanner('new.png')
     })
 
-    const builder = mockFrom.mock.results[0].value
-    expect(mockFrom).toHaveBeenCalledWith('page_banners')
-    expect(builder.upsert).toHaveBeenCalledWith({
-      key: 'info',
+    expect(mockSaveBanner).toHaveBeenCalledWith('info', {
       image: 'new.png',
       description_pl: 'Opis',
       description_en: null,
@@ -168,7 +142,7 @@ describe('usePageBanner', () => {
   })
 
   it('setDescriptions upserts all three languages alongside the current banner', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: null }))
+    mockSaveBanner.mockResolvedValue(true)
     const writeData = vi.fn()
     mockUseCachedResource.mockReturnValue([
       { image: 'img.png', description_pl: 'Stary', description_en: null, description_de: null },
@@ -180,9 +154,7 @@ describe('usePageBanner', () => {
       await result.current.setDescriptions({ description_pl: 'Nowy', description_en: 'New', description_de: null })
     })
 
-    const builder = mockFrom.mock.results[0].value
-    expect(builder.upsert).toHaveBeenCalledWith({
-      key: 'info',
+    expect(mockSaveBanner).toHaveBeenCalledWith('info', {
       image: 'img.png',
       description_pl: 'Nowy',
       description_en: 'New',
@@ -197,7 +169,7 @@ describe('usePageBanner', () => {
   })
 
   it('alerts and does not update the cache when the upsert fails', async () => {
-    mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: new Error('fail') }))
+    mockSaveBanner.mockResolvedValue(false)
     const writeData = vi.fn()
     mockUseCachedResource.mockReturnValue([{ image: null, ...NO_DESCRIPTIONS }, writeData])
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
