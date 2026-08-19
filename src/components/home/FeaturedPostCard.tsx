@@ -23,9 +23,9 @@ export const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, on
       <img
         src={post.image}
         alt={post.displayTitle}
-        className="w-full aspect-[4/3] sm:aspect-video sm:max-h-[500px] object-cover"
+        className="w-full aspect-[4/3] lg:aspect-video lg:max-h-[500px] object-cover"
       />
-      <div className="absolute inset-0 shadow-[inset_0_0_24px_8px_rgba(0,0,0,0.5),inset_0_-100px_80px_-20px_rgba(0,0,0,0.9)] sm:shadow-[inset_0_0_40px_12px_rgba(0,0,0,0.55),inset_0_-240px_170px_-40px_rgba(0,0,0,0.95)] pointer-events-none" />
+      <div className="absolute inset-0 shadow-[inset_0_0_24px_8px_rgba(0,0,0,0.5),inset_0_-100px_80px_-20px_rgba(0,0,0,0.9)] lg:shadow-[inset_0_0_40px_12px_rgba(0,0,0,0.55),inset_0_-240px_170px_-40px_rgba(0,0,0,0.95)] pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
         <h2 className="text-xl sm:text-3xl font-bold text-white">{post.displayTitle}</h2>
         <p className="mt-2 sm:mt-3 text-gray-200 whitespace-pre-wrap line-clamp-2 sm:line-clamp-none">

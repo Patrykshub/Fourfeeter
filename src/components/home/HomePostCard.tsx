@@ -20,8 +20,8 @@ export const HomePostCard: FC<IHomePostCardProps> = ({ post, isAdmin, onSelectMe
       onClick={() => onSelectMemory(post)}
       className="card-float relative rounded-lg overflow-hidden cursor-pointer"
     >
-      <img src={post.image} alt={post.displayTitle} className="w-full aspect-[4/3] sm:aspect-[3/4] object-cover" />
-      <div className="absolute inset-0 shadow-[inset_0_0_24px_8px_rgba(0,0,0,0.5),inset_0_-90px_70px_-20px_rgba(0,0,0,0.9)] sm:shadow-[inset_0_0_40px_12px_rgba(0,0,0,0.55),inset_0_-160px_110px_-40px_rgba(0,0,0,0.95)] pointer-events-none" />
+      <img src={post.image} alt={post.displayTitle} className="w-full aspect-[3/4] object-cover" />
+      <div className="absolute inset-0 shadow-[inset_0_0_24px_8px_rgba(0,0,0,0.5),inset_0_-90px_70px_-20px_rgba(0,0,0,0.9)] pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 p-4">
         <h5 className="text-lg sm:text-xl font-semibold text-white">{post.displayTitle}</h5>
         {isAdmin && (

@@ -81,7 +81,7 @@ export const HomeView = ({
         <h4 className="uppercase text-sm text-gray-300 mb-4">
           {intl.formatMessage({ id: 'home.allPosts' })}
         </h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
             <HomePostCard
               key={post.id}
