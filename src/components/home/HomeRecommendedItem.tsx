@@ -26,7 +26,10 @@ export const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
       onClick={() => onSelectMemory(post)}
       className="card-float flex gap-3 items-center bg-surface p-3 rounded-lg cursor-pointer hover:bg-surfaceHover"
     >
-      <img src={post.image} alt={post.displayTitle} className="w-20 h-14 object-cover rounded" />
+      <div className="relative w-20 h-14 rounded overflow-hidden shrink-0">
+        <img src={post.image} alt={post.displayTitle} className="w-full h-full object-cover" />
+        <div className="absolute inset-0 shadow-[inset_0_0_10px_3px_rgba(0,0,0,0.55),inset_0_-16px_14px_-6px_rgba(0,0,0,0.85)] pointer-events-none" />
+      </div>
       <div className="flex-1">
         <div className="font-semibold">{post.displayTitle}</div>
         <div className="text-sm text-gray-400">{post.displayContent.slice(0, 70)}...</div>

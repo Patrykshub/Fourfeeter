@@ -18,12 +18,13 @@ export const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, on
   return (
     <article
       onClick={() => onSelectMemory(post)}
-      className="lg:col-span-2 bg-surface rounded-xl overflow-hidden cursor-pointer hover:bg-surfaceHover"
+      className="lg:col-span-2 relative rounded-xl overflow-hidden cursor-pointer"
     >
-      <img src={post.image} alt={post.displayTitle} className="w-full h-64 sm:h-96 object-cover" />
-      <div className="p-6">
-        <h2 className="text-2xl sm:text-3xl font-bold mt-2">{post.displayTitle}</h2>
-        <p className="mt-3 text-gray-300 whitespace-pre-wrap">{post.displayContent.slice(0, 200)}...</p>
+      <img src={post.image} alt={post.displayTitle} className="w-full aspect-video max-h-[500px] object-cover" />
+      <div className="absolute inset-0 shadow-[inset_0_0_40px_12px_rgba(0,0,0,0.55),inset_0_-240px_170px_-40px_rgba(0,0,0,0.95)] pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 p-6">
+        <h2 className="text-2xl sm:text-3xl font-bold text-white">{post.displayTitle}</h2>
+        <p className="mt-3 text-gray-200 whitespace-pre-wrap">{post.displayContent.slice(0, 200)}...</p>
         <p className="mt-3 text-neon font-medium">{intl.formatMessage({ id: 'home.readMore' })}</p>
         {isAdmin && (
           <div className="mt-4 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
