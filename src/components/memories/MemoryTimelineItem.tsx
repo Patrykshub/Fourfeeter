@@ -31,24 +31,24 @@ export const MemoryTimelineItem = ({
       <img
         src={post.image}
         alt={post.displayTitle}
-        className={`imageReveal w-full h-56 sm:h-64 lg:h-72 object-cover rounded-xl transition-opacity group-hover:opacity-90 ${
+        className={`w-full h-56 sm:h-64 lg:h-72 object-cover rounded-xl transition-opacity group-hover:opacity-90 ${
           imageOnRight ? "lg:col-start-2" : "lg:col-start-1"
         }`}
       />
 
       <div
-        className={`fadeUp mt-4 lg:mt-0 ${
+        className={`mt-4 lg:mt-0 ${
           imageOnRight ? "lg:col-start-1 lg:row-start-1 lg:text-right" : "lg:col-start-2 lg:row-start-1"
         }`}
       >
-        <div className="text-xs text-neon font-medium">
+        <h3 className="text-xl font-semibold">{post.displayTitle}</h3>
+        <div className="text-base text-neon font-medium mt-1">
           {intl.formatDate(post.date, {
             day: "numeric",
             month: "long",
             year: "numeric",
           })}
         </div>
-        <h3 className="text-xl font-semibold mt-1">{post.displayTitle}</h3>
         <p className="mt-2 text-gray-300 text-sm whitespace-pre-wrap line-clamp-3">
           {post.displayContent}
         </p>

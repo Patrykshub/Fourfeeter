@@ -59,8 +59,6 @@ export const Header = () => {
         </div>
       </div>
 
-      <div className="mt-6 h-0.5 bg-neon/40 neon-border" />
-
       {isMenuOpen && (
         <div className="mt-4 p-4 rounded bg-black/20 md:hidden">
           <nav className="flex flex-col gap-3 uppercase text-sm text-gray-300">

@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { useIntl } from "react-intl";
 import { usePosts } from "../hooks/usePosts";
 import { useAdminSession } from "../hooks/useAdminSession";
-import { useFontPreference } from "../hooks/useFontPreference";
 import { usePostEditor } from "../hooks/usePostEditor";
 import { useLocale } from "../i18n/LocaleContext";
 import { hasPostTranslation, toPostDisplay } from "../lib/postLocalization";
@@ -23,7 +22,6 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
   const intl = useIntl();
   const { posts, savePost, deletePost } = usePosts();
   const { isAdmin, login, logout } = useAdminSession();
-  const { font, setFont } = useFontPreference();
   const { locale } = useLocale();
   const {
     editing,
@@ -63,8 +61,6 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
           isAdmin={isAdmin}
           onLogout={logout}
           onLoginClick={() => setAuthOpen(true)}
-          font={font}
-          onFontChange={setFont}
         />
 
         {isFormOpen && (

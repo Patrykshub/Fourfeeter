@@ -5,6 +5,7 @@ import type { IPostDisplay } from "../../lib/postLocalization";
 import { PageSection } from "../common/PageSection";
 import { MemoryTimelineItem } from "./MemoryTimelineItem";
 import { ReadingModal } from "./ReadingModal";
+import { TimelineLine } from "./TimelineLine";
 
 interface IMemoriesViewProps {
   posts: IPostDisplay[];
@@ -43,7 +44,7 @@ export const MemoriesView = ({
     >
       <div className="pt-16 pb-32">
         <div className="relative">
-          <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 lg:-translate-x-1/2 bg-neon" />
+          <TimelineLine />
 
           <div className="space-y-10">
             {posts.map((post, index) => (
@@ -75,6 +76,7 @@ export const MemoriesView = ({
           untranslatedLabel={intl.formatMessage({
             id: "post.untranslatedBadge",
           })}
+          closeLabel={intl.formatMessage({ id: "common.close" })}
           onClose={() => setModalPost(null)}
         />
       )}
