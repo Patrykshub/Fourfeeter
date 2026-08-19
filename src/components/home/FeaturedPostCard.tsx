@@ -24,6 +24,7 @@ export const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, on
       <div className="p-6">
         <h2 className="text-2xl sm:text-3xl font-bold mt-2">{post.displayTitle}</h2>
         <p className="mt-3 text-gray-300 whitespace-pre-wrap">{post.displayContent.slice(0, 200)}...</p>
+        <p className="mt-3 text-neon font-medium">{intl.formatMessage({ id: 'home.readMore' })}</p>
         {isAdmin && (
           <div className="mt-4 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
             <AdminActions onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />
