@@ -24,7 +24,7 @@ export const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
   return (
     <div
       onClick={() => onSelectMemory(post)}
-      className="flex gap-3 items-center bg-surface p-3 rounded-lg cursor-pointer hover:bg-surfaceHover"
+      className="card-float flex gap-3 items-center bg-surface p-3 rounded-lg cursor-pointer hover:bg-surfaceHover"
     >
       <img src={post.image} alt={post.displayTitle} className="w-20 h-14 object-cover rounded" />
       <div className="flex-1">

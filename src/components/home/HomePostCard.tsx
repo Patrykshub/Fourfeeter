@@ -18,7 +18,7 @@ export const HomePostCard: FC<IHomePostCardProps> = ({ post, isAdmin, onSelectMe
   return (
     <article
       onClick={() => onSelectMemory(post)}
-      className="bg-surface rounded-lg overflow-hidden cursor-pointer hover:bg-surfaceHover"
+      className="card-float bg-surface rounded-lg overflow-hidden cursor-pointer hover:bg-surfaceHover"
     >
       <img src={post.image} alt={post.displayTitle} className="w-full h-40 object-cover" />
       <div className="p-4">
