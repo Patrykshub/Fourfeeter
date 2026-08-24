@@ -4,7 +4,7 @@ import { usePageBanner } from "../../hooks/usePageBanner";
 import { MemoriesView } from "../../components/memories/MemoriesView";
 
 export const MemoriesPage = () => {
-  const { posts, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
+  const { posts, isAdmin, onEdit, onDelete, onAdd, isLoading } = useAppContext();
   const { search } = useRouter();
   const highlightId = new URLSearchParams(search).get("highlight");
   const initialModalPost = posts.find((post) => post.id === highlightId) ?? null;
@@ -17,6 +17,7 @@ export const MemoriesPage = () => {
       onEdit={onEdit}
       onDelete={onDelete}
       onAdd={onAdd}
+      isLoading={isLoading}
       initialModalPost={initialModalPost}
       banner={banner}
       onChangeBanner={setBanner}

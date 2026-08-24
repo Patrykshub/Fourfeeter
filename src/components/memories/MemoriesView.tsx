@@ -13,6 +13,7 @@ interface IMemoriesViewProps {
   onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
+  isLoading: boolean;
   initialModalPost?: IPostDisplay | null;
   banner: string | null;
   onChangeBanner: (url: string) => void;
@@ -24,6 +25,7 @@ export const MemoriesView = ({
   onEdit,
   onDelete,
   onAdd,
+  isLoading,
   initialModalPost,
   banner,
   onChangeBanner,
@@ -37,7 +39,7 @@ export const MemoriesView = ({
     <PageSection
       banner={banner}
       onChangeBanner={onChangeBanner}
-      isEmpty={posts.length === 0}
+      isEmpty={!isLoading && posts.length === 0}
       emptyMessage={intl.formatMessage({ id: "memories.emptyState" })}
       isAdmin={isAdmin}
       onAdd={onAdd}
