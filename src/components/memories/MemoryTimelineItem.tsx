@@ -46,7 +46,7 @@ export const MemoryTimelineItem = ({
         }`}
       >
         <h3 className="text-xl font-semibold">{post.displayTitle}</h3>
-        <div className="text-base text-neon font-medium mt-1">
+        <div className="text-2xl text-neon font-medium mt-1">
           {intl.formatDate(post.date, {
             day: "numeric",
             month: "long",
