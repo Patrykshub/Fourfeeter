@@ -40,7 +40,9 @@ export const MemoryTimelineItem = ({
 
       <div
         className={`mt-4 lg:mt-0 ${
-          imageOnRight ? "lg:col-start-1 lg:row-start-1 lg:text-right" : "lg:col-start-2 lg:row-start-1"
+          imageOnRight
+            ? "lg:col-start-1 lg:row-start-1 lg:text-right"
+            : "lg:col-start-2 lg:row-start-1"
         }`}
       >
         <h3 className="text-xl font-semibold">{post.displayTitle}</h3>
@@ -51,11 +53,14 @@ export const MemoryTimelineItem = ({
             year: "numeric",
           })}
         </div>
-        <p className="mt-2 text-gray-300 text-sm whitespace-pre-wrap line-clamp-3">
+        <p className="mt-2 text-gray-300 text-md whitespace-pre-wrap line-clamp-3">
           {post.displayContent}
         </p>
         {isAdmin && (
-          <div className="mt-4 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="mt-4 flex items-center gap-3"
+            onClick={(e) => e.stopPropagation()}
+          >
             <AdminActions
               onEdit={() => onEdit(post)}
               onDelete={() => onDelete(post.id)}
