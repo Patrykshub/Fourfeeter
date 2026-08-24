@@ -1,14 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { createQueryBuilder } from '../../../test/supabaseQueryBuilder'
+import { MediaLibraryService } from '../MediaLibraryService'
 
 const mockStorageFrom = vi.fn()
 const mockFrom = vi.fn()
-
-vi.mock('../../Application', () => ({
-  app: () => ({ supabase: { storage: { from: mockStorageFrom }, from: mockFrom } }),
-}))
-
-import { MediaLibraryService } from '../MediaLibraryService'
 
 // Computed the same way the service computes it, so the expected value tracks
 // whatever VITE_SUPABASE_URL happens to resolve to in this test run.
@@ -32,7 +28,10 @@ beforeEach(() => {
   updateBuilder = createQueryBuilder({ data: null, error: null })
   mockFrom.mockReset().mockReturnValue(updateBuilder)
 
-  mediaLibrary = new MediaLibraryService()
+  mediaLibrary = new MediaLibraryService({
+    storage: { from: mockStorageFrom },
+    from: mockFrom,
+  } as unknown as SupabaseClient)
 })
 
 afterEach(() => {

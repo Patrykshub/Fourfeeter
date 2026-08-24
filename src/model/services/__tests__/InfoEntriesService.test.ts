@@ -1,14 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import type { IInfoEntry } from '../../../types'
 import { createQueryBuilder } from '../../../test/supabaseQueryBuilder'
+import { InfoEntriesService } from '../InfoEntriesService'
 
 const mockFrom = vi.fn()
-
-vi.mock('../../Application', () => ({
-  app: () => ({ supabase: { from: mockFrom } }),
-}))
-
-import { InfoEntriesService } from '../InfoEntriesService'
 
 const entry: IInfoEntry = { id: '1', label: 'Label', value: 'Value' }
 
@@ -16,7 +12,7 @@ let infoEntries: InfoEntriesService
 
 beforeEach(() => {
   mockFrom.mockReset()
-  infoEntries = new InfoEntriesService()
+  infoEntries = new InfoEntriesService({ from: mockFrom } as unknown as SupabaseClient)
 })
 
 describe('fetchEntries', () => {

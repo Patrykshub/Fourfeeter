@@ -1,12 +1,14 @@
-import { app } from '../Application'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import type { IPost } from '../../types'
 
 export type PostInput = Omit<IPost, 'id' | 'date'>
 
 export class PostsService {
+  public constructor(private readonly supabase: SupabaseClient) {}
+
   public async fetchPosts(): Promise<IPost[]> {
-    const { data, error } = await app()
-      .supabase.from('posts')
+    const { data, error } = await this.supabase
+      .from('posts')
       .select('*')
       .order('date', { ascending: false })
     if (error || !data) throw error ?? new Error('Failed to fetch posts')
@@ -14,8 +16,8 @@ export class PostsService {
   }
 
   public async createPost(data: PostInput): Promise<IPost> {
-    const { data: inserted, error } = await app()
-      .supabase.from('posts')
+    const { data: inserted, error } = await this.supabase
+      .from('posts')
       .insert(data)
       .select()
       .single()
@@ -24,8 +26,8 @@ export class PostsService {
   }
 
   public async updatePost(id: string, data: PostInput): Promise<IPost> {
-    const { data: updated, error } = await app()
-      .supabase.from('posts')
+    const { data: updated, error } = await this.supabase
+      .from('posts')
       .update(data)
       .eq('id', id)
       .select()
@@ -35,7 +37,7 @@ export class PostsService {
   }
 
   public async deletePost(id: string): Promise<void> {
-    const { error } = await app().supabase.from('posts').delete().eq('id', id)
+    const { error } = await this.supabase.from('posts').delete().eq('id', id)
     if (error) throw error
   }
 }

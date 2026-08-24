@@ -1,19 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { createQueryBuilder } from '../../../test/supabaseQueryBuilder'
+import { PageBannerService } from '../PageBannerService'
 
 const mockFrom = vi.fn()
-
-vi.mock('../../Application', () => ({
-  app: () => ({ supabase: { from: mockFrom } }),
-}))
-
-import { PageBannerService } from '../PageBannerService'
 
 let pageBanner: PageBannerService
 
 beforeEach(() => {
   mockFrom.mockReset()
-  pageBanner = new PageBannerService()
+  pageBanner = new PageBannerService({ from: mockFrom } as unknown as SupabaseClient)
 })
 
 describe('fetchBanner', () => {

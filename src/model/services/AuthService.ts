@@ -1,27 +1,32 @@
-import type { Session } from '@supabase/supabase-js'
-import { app } from '../Application'
+import type { Session, SupabaseClient } from '@supabase/supabase-js'
 
 export type AuthStateListener = (session: Session | null) => void
 
 export class AuthService {
+  public constructor(private readonly supabase: SupabaseClient) {}
+
   public async getSession(): Promise<Session | null> {
-    const { data } = await app().supabase.auth.getSession()
+    const { data } = await this.supabase.auth.getSession()
     return data.session
   }
 
   public onAuthStateChange(listener: AuthStateListener): () => void {
-    const { data } = app().supabase.auth.onAuthStateChange((_event, session) => {
+    const { data } = this.supabase.auth.onAuthStateChange((_event, session) => {
       listener(session)
     })
     return () => data.subscription.unsubscribe()
   }
 
   public async login(email: string, password: string): Promise<boolean> {
-    const { error } = await app().supabase.auth.signInWithPassword({ email, password })
-    return !error
+    const { error } = await this.supabase.auth.signInWithPassword({ email, password })
+    if (error) {
+      console.error('Failed to log in', error)
+      return false
+    }
+    return true
   }
 
   public async logout(): Promise<void> {
-    await app().supabase.auth.signOut()
+    await this.supabase.auth.signOut()
   }
 }

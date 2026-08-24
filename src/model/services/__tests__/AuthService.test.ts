@@ -1,24 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { SupabaseClient } from '@supabase/supabase-js'
+import { AuthService } from '../AuthService'
 
 const mockGetSession = vi.fn()
 const mockOnAuthStateChange = vi.fn()
 const mockSignInWithPassword = vi.fn()
 const mockSignOut = vi.fn()
-
-vi.mock('../../Application', () => ({
-  app: () => ({
-    supabase: {
-      auth: {
-        getSession: mockGetSession,
-        onAuthStateChange: mockOnAuthStateChange,
-        signInWithPassword: mockSignInWithPassword,
-        signOut: mockSignOut,
-      },
-    },
-  }),
-}))
-
-import { AuthService } from '../AuthService'
 
 const unsubscribe = vi.fn()
 
@@ -30,7 +17,14 @@ beforeEach(() => {
   mockSignInWithPassword.mockReset()
   mockSignOut.mockReset().mockResolvedValue({ error: null })
   unsubscribe.mockReset()
-  auth = new AuthService()
+  auth = new AuthService({
+    auth: {
+      getSession: mockGetSession,
+      onAuthStateChange: mockOnAuthStateChange,
+      signInWithPassword: mockSignInWithPassword,
+      signOut: mockSignOut,
+    },
+  } as unknown as SupabaseClient)
 })
 
 describe('getSession', () => {

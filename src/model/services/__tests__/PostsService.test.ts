@@ -1,13 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import { createQueryBuilder, type IQueryResult } from '../../../test/supabaseQueryBuilder'
+import { PostsService } from '../PostsService'
 
 const mockFrom = vi.fn()
-
-vi.mock('../../Application', () => ({
-  app: () => ({ supabase: { from: mockFrom } }),
-}))
-
-import { PostsService } from '../PostsService'
 
 const mockQueryResult = (result: IQueryResult) => {
   const builder = createQueryBuilder(result)
@@ -31,7 +27,7 @@ let posts: PostsService
 
 beforeEach(() => {
   mockFrom.mockReset()
-  posts = new PostsService()
+  posts = new PostsService({ from: mockFrom } as unknown as SupabaseClient)
 })
 
 describe('fetchPosts', () => {
