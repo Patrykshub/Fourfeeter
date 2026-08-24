@@ -4,7 +4,7 @@ import { HomeView } from "../../components/home/HomeView";
 import type { IPost } from "../../types";
 
 export const HomePage = () => {
-  const { posts, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
+  const { posts, isLoading, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
   const [featured, ...rest] = posts;
 
   const handleSelectMemory = (post: IPost) => {
@@ -16,6 +16,7 @@ export const HomePage = () => {
       posts={posts}
       featured={featured}
       rest={rest}
+      isLoading={isLoading}
       isAdmin={isAdmin}
       onEdit={onEdit}
       onDelete={onDelete}

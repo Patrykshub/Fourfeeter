@@ -4,6 +4,7 @@ import type { IPostDisplay } from "../lib/postLocalization";
 
 interface IAppContextValue {
   posts: IPostDisplay[];
+  isLoading: boolean;
   isAdmin: boolean;
   onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;

@@ -11,6 +11,7 @@ interface IHomeViewProps {
   posts: IPostDisplay[]
   featured: IPostDisplay | undefined
   rest: IPostDisplay[]
+  isLoading: boolean
   isAdmin: boolean
   onEdit: (post: IPost) => void
   onDelete: (id: string) => void
@@ -22,6 +23,7 @@ export const HomeView = ({
   posts,
   featured,
   rest,
+  isLoading,
   isAdmin,
   onEdit,
   onDelete,
@@ -30,6 +32,10 @@ export const HomeView = ({
 }: IHomeViewProps) => {
   const intl = useIntl()
   const hasRecommended = rest.length > 0
+
+  if (isLoading) {
+    return null
+  }
 
   if (!featured) {
     return (

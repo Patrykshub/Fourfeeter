@@ -21,7 +21,7 @@ interface IRootLayoutProps {
 
 export const RootLayout = ({ children }: IRootLayoutProps) => {
   const intl = useIntl();
-  const { posts, savePost, deletePost } = usePosts();
+  const { posts, isLoading, savePost, deletePost } = usePosts();
   const { isAdmin, login, logout } = useAdminSession();
   const { locale } = useLocale();
   const { pathname } = useRouter();
@@ -46,6 +46,7 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
 
   const contextValue = {
     posts: displayPosts,
+    isLoading,
     isAdmin,
     onEdit: openEditor,
     onDelete: handleDelete,

@@ -6,6 +6,7 @@ import { app } from '../model/Application'
 export const usePosts = () => {
   const intl = useIntl()
   const [posts, setPosts] = useState<IPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false
@@ -15,6 +16,9 @@ export const usePosts = () => {
         if (!cancelled) setPosts(data)
       })
       .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setIsLoading(false)
+      })
     return () => {
       cancelled = true
     }
@@ -49,5 +53,5 @@ export const usePosts = () => {
     }
   }
 
-  return { posts, savePost, deletePost }
+  return { posts, isLoading, savePost, deletePost }
 }
