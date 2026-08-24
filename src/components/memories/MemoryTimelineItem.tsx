@@ -31,6 +31,8 @@ export const MemoryTimelineItem = ({
       <img
         src={post.image}
         alt={post.displayTitle}
+        loading="lazy"
+        decoding="async"
         className={`w-full h-56 sm:h-64 lg:h-72 object-cover rounded-xl transition-opacity group-hover:opacity-90 ${
           imageOnRight ? "lg:col-start-2" : "lg:col-start-1"
         }`}

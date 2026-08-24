@@ -24,7 +24,7 @@ export const ImagePickerThumbnail: FC<IImagePickerThumbnailProps> = ({
         isSelected ? 'border-neon' : 'border-transparent'
       }`}
     >
-      <img src={url} alt="" className="w-full h-20 object-cover" />
+      <img src={url} alt="" loading="lazy" decoding="async" className="w-full h-20 object-cover" />
     </button>
     <button
       type="button"

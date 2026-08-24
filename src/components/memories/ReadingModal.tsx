@@ -55,6 +55,8 @@ export const ReadingModal = ({
           <img
             src={image}
             alt={title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-80 sm:h-[28rem] lg:h-[34rem] object-cover rounded-xl"
           />
 

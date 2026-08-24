@@ -27,7 +27,13 @@ export const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
       className="card-float flex gap-3 items-center bg-surface p-3 rounded-lg cursor-pointer hover:bg-surfaceHover"
     >
       <div className="relative w-20 h-14 rounded overflow-hidden shrink-0">
-        <img src={post.image} alt={post.displayTitle} className="w-full h-full object-cover" />
+        <img
+          src={post.image}
+          alt={post.displayTitle}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover"
+        />
         <div className="absolute inset-0 shadow-[inset_0_0_10px_3px_rgba(0,0,0,0.55),inset_0_-16px_14px_-6px_rgba(0,0,0,0.85)] pointer-events-none" />
       </div>
       <div className="flex-1">
