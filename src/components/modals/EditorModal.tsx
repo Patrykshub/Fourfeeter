@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useIntl } from 'react-intl'
 import type { IPost } from '../../types'
 import { useDraftState } from '../../hooks/useDraftState'
+import { useImagePicker } from '../../hooks/useImagePicker'
 import { useLocale } from '../../i18n/LocaleContext'
 import { LOCALE_SUFFIXES } from '../../i18n/utils'
 import type { SupportedLocale } from '../../i18n/utils'
-import { ImagePicker } from '../common/ImagePicker'
+import { ImagePickerView } from '../common/ImagePickerView'
 import { LocaleTabs } from '../common/LocaleTabs'
 import { ModalHeader } from './ModalHeader'
 import { ModalShell } from './ModalShell'
@@ -50,6 +51,19 @@ export const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
   const setTitle = (nextTitle: string) => setDraft((prev) => ({ ...prev, [titleField]: nextTitle }))
   const setContent = (nextContent: string) => setDraft((prev) => ({ ...prev, [contentField]: nextContent }))
   const setImage = (nextImage: string) => setDraft((prev) => ({ ...prev, image: nextImage }))
+  const {
+    images,
+    isOpen: isImagePickerOpen,
+    setOpen: setImagePickerOpen,
+    isUploading,
+    uploadError,
+    deleteError,
+    pendingDeleteUrl,
+    setPendingDeleteUrl,
+    select: selectImage,
+    handleUpload,
+    confirmDeleteImage,
+  } = useImagePicker({ value: image, onChange: setImage })
 
   return (
     <ModalShell maxWidth="2xl">
@@ -68,7 +82,22 @@ export const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
         <textarea className="w-full p-3 rounded bg-black/20 h-36" value={content} onChange={(e) => setContent(e.target.value)} />
 
         <label className="block text-sm">{intl.formatMessage({ id: 'post.imageLabel' })}</label>
-        <ImagePicker value={image} onChange={setImage} />
+        <ImagePickerView
+          value={image}
+          images={images}
+          isOpen={isImagePickerOpen}
+          isUploading={isUploading}
+          uploadError={uploadError}
+          deleteError={deleteError}
+          pendingDeleteUrl={pendingDeleteUrl}
+          onOpen={() => setImagePickerOpen(true)}
+          onClose={() => setImagePickerOpen(false)}
+          onSelect={selectImage}
+          onRequestDelete={setPendingDeleteUrl}
+          onCancelDelete={() => setPendingDeleteUrl(null)}
+          onConfirmDelete={confirmDeleteImage}
+          onUploadFile={handleUpload}
+        />
 
         <SaveCancelButtons
           onCancel={onClose}
@@ -76,7 +105,7 @@ export const EditorModal = ({ post, onClose, onSave }: IEditorModalProps) => {
             clearDraft()
             onSave({
               id: post?.id,
-              title_pl: draft.title_pl || intl.formatMessage({ id: 'post.untitled' }),
+              title_pl: draft.title_pl,
               title_en: draft.title_en,
               title_de: draft.title_de,
               content_pl: draft.content_pl,

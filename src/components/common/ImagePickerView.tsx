@@ -1,55 +1,60 @@
 import { useRef } from 'react'
 import type { ChangeEvent } from 'react'
 import { useIntl } from 'react-intl'
-import { useImagePicker } from '../../hooks/useImagePicker'
 import { ModalHeader } from '../modals/ModalHeader'
 import { ModalShell } from '../modals/ModalShell'
 import { ConfirmDialog } from '../modals/ConfirmDialog'
 import { ImagePickerThumbnail } from './ImagePickerThumbnail'
 
-interface IImagePickerProps {
+interface IImagePickerViewProps {
   value: string
-  onChange: (url: string) => void
+  images: string[]
+  isOpen: boolean
+  isUploading: boolean
+  uploadError: boolean
+  deleteError: boolean
+  pendingDeleteUrl: string | null
+  onOpen: () => void
+  onClose: () => void
+  onSelect: (url: string) => void
+  onRequestDelete: (url: string) => void
+  onCancelDelete: () => void
+  onConfirmDelete: () => void
+  onUploadFile: (file: File) => void
 }
 
-export const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
+export const ImagePickerView = ({
+  value,
+  images,
+  isOpen,
+  isUploading,
+  uploadError,
+  deleteError,
+  pendingDeleteUrl,
+  onOpen,
+  onClose,
+  onSelect,
+  onRequestDelete,
+  onCancelDelete,
+  onConfirmDelete,
+  onUploadFile,
+}: IImagePickerViewProps) => {
   const intl = useIntl()
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const {
-    images,
-    isOpen,
-    setOpen,
-    isUploading,
-    pendingDeleteUrl,
-    setPendingDeleteUrl,
-    select,
-    handleUpload,
-    confirmDeleteImage,
-  } = useImagePicker({ value, onChange })
 
-  const onFileSelected = async (e: ChangeEvent<HTMLInputElement>) => {
+  const onFileSelected = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     e.target.value = ''
     if (!file) return
 
-    const success = await handleUpload(file)
-    if (!success) {
-      alert(intl.formatMessage({ id: 'imagePicker.uploadError' }))
-    }
-  }
-
-  const onConfirmDelete = async () => {
-    const success = await confirmDeleteImage()
-    if (!success) {
-      alert(intl.formatMessage({ id: 'imagePicker.deleteError' }))
-    }
+    onUploadFile(file)
   }
 
   return (
     <div>
       <div className="flex gap-3 items-center">
         <img src={value} alt="" className="w-20 h-14 object-cover rounded bg-black/20" />
-        <button type="button" onClick={() => setOpen(true)} className="px-4 py-2 bg-black/20 rounded">
+        <button type="button" onClick={onOpen} className="px-4 py-2 bg-black/20 rounded">
           {intl.formatMessage({ id: 'imagePicker.chooseFromGallery' })}
         </button>
       </div>
@@ -58,7 +63,7 @@ export const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
         <ModalShell maxWidth="2xl" className="z-10">
           <ModalHeader
             title={intl.formatMessage({ id: 'imagePicker.modalTitle' })}
-            onClose={() => setOpen(false)}
+            onClose={onClose}
           />
 
           <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-80 overflow-y-auto">
@@ -68,8 +73,8 @@ export const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
                 url={url}
                 isSelected={url === value}
                 deleteLabel={intl.formatMessage({ id: 'common.delete' })}
-                onSelect={() => select(url)}
-                onRequestDelete={() => setPendingDeleteUrl(url)}
+                onSelect={() => onSelect(url)}
+                onRequestDelete={() => onRequestDelete(url)}
               />
             ))}
           </div>
@@ -89,8 +94,13 @@ export const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
               <p className="mt-2 text-xs text-gray-400 max-w-xs">
                 {intl.formatMessage({ id: 'imagePicker.helperText' })}
               </p>
+              {uploadError && (
+                <p className="mt-2 text-xs text-red-400 max-w-xs">
+                  {intl.formatMessage({ id: 'imagePicker.uploadError' })}
+                </p>
+              )}
             </div>
-            <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 bg-neon text-black rounded">
+            <button type="button" onClick={onClose} className="px-4 py-2 bg-neon text-black rounded">
               {intl.formatMessage({ id: 'common.close' })}
             </button>
           </div>
@@ -112,8 +122,14 @@ export const ImagePicker = ({ value, onChange }: IImagePickerProps) => {
           confirmLabel={intl.formatMessage({ id: 'common.delete' })}
           cancelLabel={intl.formatMessage({ id: 'common.cancel' })}
           onConfirm={onConfirmDelete}
-          onCancel={() => setPendingDeleteUrl(null)}
+          onCancel={onCancelDelete}
         />
+      )}
+
+      {deleteError && (
+        <p className="mt-2 text-xs text-red-400">
+          {intl.formatMessage({ id: 'imagePicker.deleteError' })}
+        </p>
       )}
     </div>
   )

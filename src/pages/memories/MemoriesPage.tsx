@@ -7,6 +7,7 @@ export const MemoriesPage = () => {
   const { posts, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
   const { search } = useRouter();
   const highlightId = new URLSearchParams(search).get("highlight");
+  const initialModalPost = posts.find((post) => post.id === highlightId) ?? null;
   const { banner, setBanner } = usePageBanner("memories");
 
   return (
@@ -16,7 +17,7 @@ export const MemoriesPage = () => {
       onEdit={onEdit}
       onDelete={onDelete}
       onAdd={onAdd}
-      highlightId={highlightId}
+      initialModalPost={initialModalPost}
       banner={banner}
       onChangeBanner={setBanner}
     />

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import type { IPost } from "../types";
 
 interface IUsePostEditorParams {
@@ -7,6 +8,7 @@ interface IUsePostEditorParams {
 }
 
 export const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) => {
+  const intl = useIntl();
   const [editing, setEditing] = useState<IPost | null>(null);
   const [isFormOpen, setFormOpen] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
@@ -21,7 +23,10 @@ export const usePostEditor = ({ savePost, deletePost }: IUsePostEditorParams) =>
   };
 
   const handleSave = (data: Omit<IPost, "id" | "date"> & { id?: string }) => {
-    savePost(data);
+    savePost({
+      ...data,
+      title_pl: data.title_pl || intl.formatMessage({ id: "post.untitled" }),
+    });
     setFormOpen(false);
   };
 

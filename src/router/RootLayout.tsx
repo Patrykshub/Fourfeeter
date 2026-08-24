@@ -13,6 +13,7 @@ import { AuthModal } from "../components/modals/AuthModal";
 import { ConfirmDialog } from "../components/modals/ConfirmDialog";
 import areYouSureImage from "../assets/are-you-sure.png";
 import { AppContext } from "./AppContext";
+import { navigate, useRouter } from "./useRouter";
 
 interface IRootLayoutProps {
   children: ReactNode;
@@ -23,6 +24,7 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
   const { posts, savePost, deletePost } = usePosts();
   const { isAdmin, login, logout } = useAdminSession();
   const { locale } = useLocale();
+  const { pathname } = useRouter();
   const {
     editing,
     isFormOpen,
@@ -53,7 +55,7 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
   return (
     <AppContext.Provider value={contextValue}>
       <div className="min-h-screen px-4 sm:px-8 lg:px-16 pb-16">
-        <Header />
+        <Header pathname={pathname} onNavigate={navigate} />
 
         <main className="max-w-[1600px] mx-auto">{children}</main>
 

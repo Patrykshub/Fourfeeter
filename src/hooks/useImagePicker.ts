@@ -4,13 +4,16 @@ import { useMediaLibrary } from './useMediaLibrary'
 interface IUseImagePickerParams {
   value: string
   onChange: (url: string) => void
+  enabled?: boolean
 }
 
-export const useImagePicker = ({ value, onChange }: IUseImagePickerParams) => {
-  const { images, uploadImage, deleteImage } = useMediaLibrary()
+export const useImagePicker = ({ value, onChange, enabled = true }: IUseImagePickerParams) => {
+  const { images, uploadImage, deleteImage } = useMediaLibrary(enabled)
   const [isOpen, setOpen] = useState(false)
   const [isUploading, setUploading] = useState(false)
   const [pendingDeleteUrl, setPendingDeleteUrl] = useState<string | null>(null)
+  const [uploadError, setUploadError] = useState(false)
+  const [deleteError, setDeleteError] = useState(false)
 
   const select = (url: string) => {
     onChange(url)
@@ -19,10 +22,14 @@ export const useImagePicker = ({ value, onChange }: IUseImagePickerParams) => {
 
   const handleUpload = async (file: File): Promise<boolean> => {
     setUploading(true)
+    setUploadError(false)
     const url = await uploadImage(file)
     setUploading(false)
 
-    if (!url) return false
+    if (!url) {
+      setUploadError(true)
+      return false
+    }
 
     select(url)
     return true
@@ -32,10 +39,14 @@ export const useImagePicker = ({ value, onChange }: IUseImagePickerParams) => {
     if (!pendingDeleteUrl) return true
 
     const deletedUrl = pendingDeleteUrl
+    setDeleteError(false)
     const success = await deleteImage(deletedUrl)
     setPendingDeleteUrl(null)
 
-    if (!success) return false
+    if (!success) {
+      setDeleteError(true)
+      return false
+    }
 
     if (deletedUrl === value) {
       onChange('')
@@ -48,6 +59,8 @@ export const useImagePicker = ({ value, onChange }: IUseImagePickerParams) => {
     isOpen,
     setOpen,
     isUploading,
+    uploadError,
+    deleteError,
     pendingDeleteUrl,
     setPendingDeleteUrl,
     select,

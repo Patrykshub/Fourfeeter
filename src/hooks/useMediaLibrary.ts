@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { app } from '../model/Application'
 
-export const useMediaLibrary = () => {
+export const useMediaLibrary = (enabled = true) => {
   const [images, setImages] = useState<string[]>([])
 
   useEffect(() => {
+    if (!enabled) return
+
     let cancelled = false
     app()
       .mediaLibrary.listImages()
@@ -14,7 +16,7 @@ export const useMediaLibrary = () => {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [enabled])
 
   const uploadImage = async (file: File): Promise<string | null> => {
     const url = await app().mediaLibrary.uploadImage(file)

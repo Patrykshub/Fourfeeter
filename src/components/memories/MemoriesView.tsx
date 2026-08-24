@@ -13,7 +13,7 @@ interface IMemoriesViewProps {
   onEdit: (post: IPost) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
-  highlightId?: string | null;
+  initialModalPost?: IPostDisplay | null;
   banner: string | null;
   onChangeBanner: (url: string) => void;
 }
@@ -24,13 +24,13 @@ export const MemoriesView = ({
   onEdit,
   onDelete,
   onAdd,
-  highlightId,
+  initialModalPost,
   banner,
   onChangeBanner,
 }: IMemoriesViewProps) => {
   const intl = useIntl();
   const [modalPost, setModalPost] = useState<IPostDisplay | null>(
-    () => posts.find((p) => p.id === highlightId) ?? null,
+    () => initialModalPost ?? null,
   );
 
   return (

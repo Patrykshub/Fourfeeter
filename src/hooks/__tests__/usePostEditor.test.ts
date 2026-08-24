@@ -2,6 +2,7 @@ import { act, renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { usePostEditor } from '../usePostEditor'
 import type { IPost } from '../../types'
+import { IntlWrapper } from '../../test/intl'
 
 const post: IPost = {
   id: '1',
@@ -18,7 +19,7 @@ const post: IPost = {
 const setup = () => {
   const savePost = vi.fn()
   const deletePost = vi.fn()
-  const { result } = renderHook(() => usePostEditor({ savePost, deletePost }))
+  const { result } = renderHook(() => usePostEditor({ savePost, deletePost }), { wrapper: IntlWrapper })
   return { result, savePost, deletePost }
 }
 
@@ -66,6 +67,22 @@ describe('usePostEditor', () => {
     act(() => result.current.handleSave(data))
     expect(savePost).toHaveBeenCalledWith(data)
     expect(result.current.isFormOpen).toBe(false)
+  })
+
+  it('handleSave falls back to a default title when title_pl is blank', () => {
+    const { result, savePost } = setup()
+    const data = {
+      title_pl: '',
+      title_en: 'New',
+      title_de: 'Neu',
+      content_pl: 'Treść',
+      content_en: 'Body',
+      content_de: 'Inhalt',
+      image: 'new.png',
+    }
+    act(() => result.current.openEditor())
+    act(() => result.current.handleSave(data))
+    expect(savePost).toHaveBeenCalledWith({ ...data, title_pl: 'Untitled' })
   })
 
   it('handleDelete stores the pending id without deleting immediately', () => {

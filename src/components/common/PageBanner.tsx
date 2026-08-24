@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useIntl } from "react-intl";
-import { ImagePicker } from "./ImagePicker";
+import { useImagePicker } from "../../hooks/useImagePicker";
+import { ImagePickerView } from "./ImagePickerView";
 
 interface IPageBannerProps {
   image: string | null;
@@ -16,13 +17,41 @@ export const PageBanner = ({
   children,
 }: IPageBannerProps) => {
   const intl = useIntl();
+  const {
+    images,
+    isOpen: isImagePickerOpen,
+    setOpen: setImagePickerOpen,
+    isUploading,
+    uploadError,
+    deleteError,
+    pendingDeleteUrl,
+    setPendingDeleteUrl,
+    select: selectImage,
+    handleUpload,
+    confirmDeleteImage,
+  } = useImagePicker({ value: image ?? "", onChange: onChangeImage, enabled: isAdmin });
 
   const adminControls = isAdmin && (
     <div className="pt-2 border-t border-white/10">
       <span className="block text-xs text-gray-300 mb-1">
         {intl.formatMessage({ id: "pageBanner.sectionBackground" })}
       </span>
-      <ImagePicker value={image ?? ""} onChange={onChangeImage} />
+      <ImagePickerView
+        value={image ?? ""}
+        images={images}
+        isOpen={isImagePickerOpen}
+        isUploading={isUploading}
+        uploadError={uploadError}
+        deleteError={deleteError}
+        pendingDeleteUrl={pendingDeleteUrl}
+        onOpen={() => setImagePickerOpen(true)}
+        onClose={() => setImagePickerOpen(false)}
+        onSelect={selectImage}
+        onRequestDelete={setPendingDeleteUrl}
+        onCancelDelete={() => setPendingDeleteUrl(null)}
+        onConfirmDelete={confirmDeleteImage}
+        onUploadFile={handleUpload}
+      />
     </div>
   );
 
