@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useMediaLibrary } from './useMediaLibrary'
+import { compressImage } from '../lib/compressImage'
 
 interface IUseImagePickerParams {
   value: string
@@ -23,7 +24,8 @@ export const useImagePicker = ({ value, onChange, enabled = true }: IUseImagePic
   const handleUpload = async (file: File): Promise<boolean> => {
     setUploading(true)
     setUploadError(false)
-    const url = await uploadImage(file)
+    const compressedFile = await compressImage(file)
+    const url = await uploadImage(compressedFile)
     setUploading(false)
 
     if (!url) {
