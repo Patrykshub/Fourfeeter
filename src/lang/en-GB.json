@@ -1,6 +1,7 @@
 {
   "nav.home": "Home",
   "nav.memories": "Memories",
+  "nav.gallery": "Gallery",
   "nav.info": "Info",
   "nav.menuAriaLabel": "Menu",
 
@@ -45,6 +46,27 @@
   "info.valueField": "Value",
   "info.unnamed": "Unnamed",
 
+  "products.sectionTitle": "My products",
+  "products.emptyState": "No products yet.",
+  "products.editTitle": "Edit product",
+  "products.addTitle": "Add product",
+  "products.labelField": "Product",
+  "products.valueField": "Detail",
+  "products.imageLabel": "Photo",
+  "products.unnamed": "Unnamed product",
+
+  "gallery.emptyState": "No albums yet.",
+  "gallery.albumEmptyState": "No photos in this album yet.",
+  "gallery.addAlbumTitle": "New album",
+  "gallery.editAlbumTitle": "Edit album",
+  "gallery.albumNameLabel": "Album name",
+  "gallery.coverImageLabel": "Cover photo",
+  "gallery.unnamed": "Untitled album",
+  "gallery.backToAlbums": "Back to albums",
+  "gallery.photoCount": "{count, plural, one {# photo} other {# photos}}",
+  "gallery.previousPhoto": "Previous photo",
+  "gallery.nextPhoto": "Next photo",
+
   "imagePicker.chooseFromGallery": "Choose from gallery",
   "imagePicker.modalTitle": "Choose image",
   "imagePicker.uploading": "Uploading…",
@@ -62,9 +84,18 @@
 
   "confirm.deleteInfoEntry": "Delete this entry?",
   "confirm.deleteImage": "Delete this image?",
+  "confirm.deleteProduct": "Delete this product?",
+  "confirm.deleteAlbum": "Delete this album and all its photos?",
+  "confirm.deletePhoto": "Delete this photo?",
 
   "error.savePost": "Failed to save the post.",
   "error.deletePost": "Failed to delete the post.",
   "error.saveInfoEntry": "Failed to save the entry.",
-  "error.deleteInfoEntry": "Failed to delete the entry."
+  "error.deleteInfoEntry": "Failed to delete the entry.",
+  "error.saveProduct": "Failed to save the product.",
+  "error.deleteProduct": "Failed to delete the product.",
+  "error.saveAlbum": "Failed to save the album.",
+  "error.deleteAlbum": "Failed to delete the album.",
+  "error.uploadPhoto": "Failed to upload the photo.",
+  "error.deletePhoto": "Failed to delete the photo."
 }

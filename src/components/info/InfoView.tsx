@@ -1,9 +1,10 @@
 import { Fragment } from "react";
 import { useIntl } from "react-intl";
-import type { IInfoEntry } from "../../types";
+import type { IInfoEntry, IProduct } from "../../types";
 import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
 import { AdminActions } from "../common/AdminActions";
 import { PageSection } from "../common/PageSection";
+import { ProductsSection } from "./ProductsSection";
 
 interface IInfoViewProps {
   entries: IInfoEntry[];
@@ -16,6 +17,10 @@ interface IInfoViewProps {
   description: string | null;
   descriptions: IPageBannerDescriptions;
   onChangeDescriptions: (next: IPageBannerDescriptions) => void;
+  products: IProduct[];
+  onEditProduct: (product: IProduct) => void;
+  onDeleteProduct: (id: string) => void;
+  onAddProduct: () => void;
 }
 
 export const InfoView = ({
@@ -29,43 +34,57 @@ export const InfoView = ({
   description,
   descriptions,
   onChangeDescriptions,
+  products,
+  onEditProduct,
+  onDeleteProduct,
+  onAddProduct,
 }: IInfoViewProps) => {
   const intl = useIntl();
 
   return (
-    <PageSection
-      banner={banner}
-      onChangeBanner={onChangeBanner}
-      pageDescription={{
-        pageKey: "info",
-        description,
-        descriptions,
-        onChangeDescriptions,
-      }}
-      isEmpty={entries.length === 0}
-      emptyMessage={intl.formatMessage({ id: "info.emptyState" })}
-      isAdmin={isAdmin}
-      onAdd={onAdd}
-    >
-      <div className="max-w-md mx-auto grid grid-cols-2 gap-x-4 gap-y-2 py-8">
-        {entries.map((entry) => (
-          <Fragment key={entry.id}>
-            <span className="self-center text-right text-base uppercase tracking-wide text-neon">
-              {entry.label}
-            </span>
-            <div className="flex items-center gap-3">
-              <p className="text-base text-gray-200">{entry.value}</p>
-              {isAdmin && (
-                <AdminActions
-                  compact
-                  onEdit={() => onEdit(entry)}
-                  onDelete={() => onDelete(entry.id)}
-                />
-              )}
-            </div>
-          </Fragment>
-        ))}
-      </div>
-    </PageSection>
+    <>
+      <PageSection
+        banner={banner}
+        onChangeBanner={onChangeBanner}
+        pageDescription={{
+          pageKey: "info",
+          description,
+          descriptions,
+          onChangeDescriptions,
+        }}
+        isEmpty={entries.length === 0}
+        emptyMessage={intl.formatMessage({ id: "info.emptyState" })}
+        isAdmin={isAdmin}
+        onAdd={onAdd}
+      >
+        <div className="max-w-md mx-auto grid grid-cols-2 gap-x-4 gap-y-2 py-8">
+          {entries.map((entry) => (
+            <Fragment key={entry.id}>
+              <span className="self-center text-right text-base uppercase tracking-wide text-neon">
+                {entry.label}
+              </span>
+              <div className="flex items-center gap-3">
+                <p className="text-base text-gray-200">{entry.value}</p>
+                {isAdmin && (
+                  <AdminActions
+                    compact
+                    onEdit={() => onEdit(entry)}
+                    onDelete={() => onDelete(entry.id)}
+                  />
+                )}
+              </div>
+            </Fragment>
+          ))}
+        </div>
+      </PageSection>
+
+      <ProductsSection
+        products={products}
+        isAdmin={isAdmin}
+        onEdit={onEditProduct}
+        onDelete={onDeleteProduct}
+        onAdd={onAddProduct}
+      />
+    </>
   );
 };

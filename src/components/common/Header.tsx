@@ -9,6 +9,7 @@ import { CATEGORY_PATHS } from "../../router/routes";
 const CATEGORY_LABEL_IDS: Record<Category, LocaleKey> = {
   HOME: "nav.home",
   MEMORIES: "nav.memories",
+  GALLERY: "nav.gallery",
   INFO: "nav.info",
 };
 

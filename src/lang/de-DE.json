@@ -1,6 +1,7 @@
 {
   "nav.home": "Start",
   "nav.memories": "Erinnerungen",
+  "nav.gallery": "Galerie",
   "nav.info": "Info",
   "nav.menuAriaLabel": "Menü",
 
@@ -45,6 +46,27 @@
   "info.valueField": "Wert",
   "info.unnamed": "Unbenannt",
 
+  "products.sectionTitle": "Meine Produkte",
+  "products.emptyState": "Noch keine Produkte.",
+  "products.editTitle": "Produkt bearbeiten",
+  "products.addTitle": "Produkt hinzufügen",
+  "products.labelField": "Produkt",
+  "products.valueField": "Details",
+  "products.imageLabel": "Foto",
+  "products.unnamed": "Unbenanntes Produkt",
+
+  "gallery.emptyState": "Noch keine Alben.",
+  "gallery.albumEmptyState": "Noch keine Fotos in diesem Album.",
+  "gallery.addAlbumTitle": "Neues Album",
+  "gallery.editAlbumTitle": "Album bearbeiten",
+  "gallery.albumNameLabel": "Albumname",
+  "gallery.coverImageLabel": "Titelbild",
+  "gallery.unnamed": "Album ohne Titel",
+  "gallery.backToAlbums": "Zurück zu den Alben",
+  "gallery.photoCount": "{count, plural, one {# Foto} other {# Fotos}}",
+  "gallery.previousPhoto": "Vorheriges Foto",
+  "gallery.nextPhoto": "Nächstes Foto",
+
   "imagePicker.chooseFromGallery": "Aus Galerie wählen",
   "imagePicker.modalTitle": "Bild auswählen",
   "imagePicker.uploading": "Wird hochgeladen…",
@@ -62,9 +84,18 @@
 
   "confirm.deleteInfoEntry": "Diesen Eintrag löschen?",
   "confirm.deleteImage": "Dieses Bild löschen?",
+  "confirm.deleteProduct": "Dieses Produkt löschen?",
+  "confirm.deleteAlbum": "Dieses Album und alle seine Fotos löschen?",
+  "confirm.deletePhoto": "Dieses Foto löschen?",
 
   "error.savePost": "Beitrag konnte nicht gespeichert werden.",
   "error.deletePost": "Beitrag konnte nicht gelöscht werden.",
   "error.saveInfoEntry": "Eintrag konnte nicht gespeichert werden.",
-  "error.deleteInfoEntry": "Eintrag konnte nicht gelöscht werden."
+  "error.deleteInfoEntry": "Eintrag konnte nicht gelöscht werden.",
+  "error.saveProduct": "Produkt konnte nicht gespeichert werden.",
+  "error.deleteProduct": "Produkt konnte nicht gelöscht werden.",
+  "error.saveAlbum": "Album konnte nicht gespeichert werden.",
+  "error.deleteAlbum": "Album konnte nicht gelöscht werden.",
+  "error.uploadPhoto": "Foto konnte nicht hochgeladen werden.",
+  "error.deletePhoto": "Foto konnte nicht gelöscht werden."
 }

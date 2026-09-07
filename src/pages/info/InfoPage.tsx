@@ -1,10 +1,13 @@
 import { useIntl } from "react-intl";
 import { useInfoEntries } from "../../hooks/useInfoEntries";
 import { useInfoEntryEditor } from "../../hooks/useInfoEntryEditor";
+import { useProducts } from "../../hooks/useProducts";
+import { useProductEditor } from "../../hooks/useProductEditor";
 import { usePageBanner } from "../../hooks/usePageBanner";
 import { useAppContext } from "../../router/AppContext";
 import { InfoView } from "../../components/info/InfoView";
 import { InfoEntryModal } from "../../components/info/InfoEntryModal";
+import { ProductEntryModal } from "../../components/info/ProductEntryModal";
 import { ConfirmDialog } from "../../components/modals/ConfirmDialog";
 
 export const InfoPage = () => {
@@ -22,6 +25,18 @@ export const InfoPage = () => {
     confirmDelete,
     cancelDelete,
   } = useInfoEntryEditor({ saveEntry, deleteEntry });
+  const { products, saveProduct, deleteProduct } = useProducts();
+  const {
+    editing: editingProduct,
+    isFormOpen: isProductFormOpen,
+    pendingDeleteId: pendingDeleteProductId,
+    openEditor: openProductEditor,
+    closeEditor: closeProductEditor,
+    handleSave: handleSaveProduct,
+    handleDelete: handleDeleteProduct,
+    confirmDelete: confirmDeleteProduct,
+    cancelDelete: cancelDeleteProduct,
+  } = useProductEditor({ saveProduct, deleteProduct });
   const { banner, setBanner, description, descriptions, setDescriptions } =
     usePageBanner("info");
 
@@ -38,6 +53,10 @@ export const InfoPage = () => {
         description={description}
         descriptions={descriptions}
         onChangeDescriptions={setDescriptions}
+        products={products}
+        onEditProduct={openProductEditor}
+        onDeleteProduct={handleDeleteProduct}
+        onAddProduct={() => openProductEditor()}
       />
 
       {isFormOpen && (
@@ -45,6 +64,14 @@ export const InfoPage = () => {
           entry={editing}
           onClose={closeEditor}
           onSave={handleSave}
+        />
+      )}
+
+      {isProductFormOpen && (
+        <ProductEntryModal
+          product={editingProduct}
+          onClose={closeProductEditor}
+          onSave={handleSaveProduct}
         />
       )}
 
@@ -56,6 +83,17 @@ export const InfoPage = () => {
           cancelLabel={intl.formatMessage({ id: "common.cancel" })}
           onConfirm={confirmDelete}
           onCancel={cancelDelete}
+        />
+      )}
+
+      {pendingDeleteProductId && (
+        <ConfirmDialog
+          title={intl.formatMessage({ id: "common.delete" })}
+          message={intl.formatMessage({ id: "confirm.deleteProduct" })}
+          confirmLabel={intl.formatMessage({ id: "common.delete" })}
+          cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+          onConfirm={confirmDeleteProduct}
+          onCancel={cancelDeleteProduct}
         />
       )}
     </>

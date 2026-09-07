@@ -59,6 +59,25 @@ create policy "Only authenticated users can write info entries"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
+-- Products (key/value "My products" section on the Info page, with an optional photo)
+create table if not exists products (
+  id uuid primary key default gen_random_uuid(),
+  label text not null,
+  value text not null,
+  image text
+);
+
+alter table products enable row level security;
+
+create policy "Products are publicly readable"
+  on products for select
+  using (true);
+
+create policy "Only authenticated users can write products"
+  on products for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
 -- Page banners (background image + optional description for the Memories/Info top section)
 create table if not exists page_banners (
   key text primary key,
@@ -87,6 +106,44 @@ alter table page_banners add column if not exists description_de text;
 update page_banners set description_pl = description where description_pl is null;
 
 alter table page_banners drop column if exists description;
+
+-- Gallery albums (photo albums shown on the Gallery page)
+create table if not exists gallery_albums (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  cover_image text,
+  created_at timestamptz not null default now()
+);
+
+alter table gallery_albums enable row level security;
+
+create policy "Gallery albums are publicly readable"
+  on gallery_albums for select
+  using (true);
+
+create policy "Only authenticated users can write gallery albums"
+  on gallery_albums for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+-- Gallery photos (photos belonging to a gallery album)
+create table if not exists gallery_photos (
+  id uuid primary key default gen_random_uuid(),
+  album_id uuid not null references gallery_albums(id) on delete cascade,
+  image text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table gallery_photos enable row level security;
+
+create policy "Gallery photos are publicly readable"
+  on gallery_photos for select
+  using (true);
+
+create policy "Only authenticated users can write gallery photos"
+  on gallery_photos for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
 
 -- Storage: create the bucket manually first —
 -- Dashboard -> Storage -> New bucket -> name it "post-images" -> toggle "Public bucket" on.

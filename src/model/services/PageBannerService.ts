@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-export type PageBannerKey = 'memories' | 'info'
+export type PageBannerKey = 'memories' | 'info' | 'gallery'
 
 export interface IPageBannerDescriptions {
   description_pl: string | null

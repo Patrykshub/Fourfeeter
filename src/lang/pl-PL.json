@@ -1,6 +1,7 @@
 {
   "nav.home": "Główna",
   "nav.memories": "Wspomnienia",
+  "nav.gallery": "Galeria",
   "nav.info": "Info",
   "nav.menuAriaLabel": "Menu",
 
@@ -45,6 +46,27 @@
   "info.valueField": "Wartość",
   "info.unnamed": "Bez nazwy",
 
+  "products.sectionTitle": "Moje produkty",
+  "products.emptyState": "Brak produktów.",
+  "products.editTitle": "Edytuj produkt",
+  "products.addTitle": "Dodaj produkt",
+  "products.labelField": "Produkt",
+  "products.valueField": "Szczegóły",
+  "products.imageLabel": "Zdjęcie",
+  "products.unnamed": "Produkt bez nazwy",
+
+  "gallery.emptyState": "Brak albumów.",
+  "gallery.albumEmptyState": "Brak zdjęć w tym albumie.",
+  "gallery.addAlbumTitle": "Nowy album",
+  "gallery.editAlbumTitle": "Edytuj album",
+  "gallery.albumNameLabel": "Nazwa albumu",
+  "gallery.coverImageLabel": "Zdjęcie okładki",
+  "gallery.unnamed": "Album bez nazwy",
+  "gallery.backToAlbums": "Wróć do albumów",
+  "gallery.photoCount": "{count, plural, one {# zdjęcie} few {# zdjęcia} many {# zdjęć} other {# zdjęcia}}",
+  "gallery.previousPhoto": "Poprzednie zdjęcie",
+  "gallery.nextPhoto": "Następne zdjęcie",
+
   "imagePicker.chooseFromGallery": "Wybierz z galerii",
   "imagePicker.modalTitle": "Wybierz zdjęcie",
   "imagePicker.uploading": "Przesyłanie…",
@@ -62,9 +84,18 @@
 
   "confirm.deleteInfoEntry": "Usunąć tę pozycję?",
   "confirm.deleteImage": "Usunąć to zdjęcie?",
+  "confirm.deleteProduct": "Usunąć ten produkt?",
+  "confirm.deleteAlbum": "Usunąć ten album i wszystkie jego zdjęcia?",
+  "confirm.deletePhoto": "Usunąć to zdjęcie?",
 
   "error.savePost": "Nie udało się zapisać posta.",
   "error.deletePost": "Nie udało się usunąć posta.",
   "error.saveInfoEntry": "Nie udało się zapisać pozycji.",
-  "error.deleteInfoEntry": "Nie udało się usunąć pozycji."
+  "error.deleteInfoEntry": "Nie udało się usunąć pozycji.",
+  "error.saveProduct": "Nie udało się zapisać produktu.",
+  "error.deleteProduct": "Nie udało się usunąć produktu.",
+  "error.saveAlbum": "Nie udało się zapisać albumu.",
+  "error.deleteAlbum": "Nie udało się usunąć albumu.",
+  "error.uploadPhoto": "Nie udało się przesłać zdjęcia.",
+  "error.deletePhoto": "Nie udało się usunąć zdjęcia."
 }

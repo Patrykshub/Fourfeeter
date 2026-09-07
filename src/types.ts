@@ -15,3 +15,22 @@ export interface IInfoEntry {
   label: string
   value: string
 }
+
+export interface IProduct {
+  id: string
+  label: string
+  value: string
+  image: string | null
+}
+
+export interface IGalleryAlbum {
+  id: string
+  name: string
+  cover_image: string | null
+}
+
+export interface IGalleryPhoto {
+  id: string
+  album_id: string
+  image: string
+}
