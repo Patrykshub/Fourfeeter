@@ -37,9 +37,6 @@
   "home.allPosts": "All posts",
   "home.readMore": "Read more →",
 
-  "memories.emptyState": "No memories in this category.",
-
-  "info.emptyState": "No contact info yet.",
   "info.editTitle": "Edit entry",
   "info.addTitle": "Add entry",
   "info.labelField": "Key",
@@ -47,7 +44,6 @@
   "info.unnamed": "Unnamed",
 
   "products.sectionTitle": "My products",
-  "products.emptyState": "No products yet.",
   "products.editTitle": "Edit product",
   "products.addTitle": "Add product",
   "products.labelField": "Product",
@@ -55,7 +51,6 @@
   "products.imageLabel": "Photo",
   "products.unnamed": "Unnamed product",
 
-  "gallery.emptyState": "No albums yet.",
   "gallery.albumEmptyState": "No photos in this album yet.",
   "gallery.addAlbumTitle": "New album",
   "gallery.editAlbumTitle": "Edit album",

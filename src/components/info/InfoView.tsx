@@ -52,8 +52,6 @@ export const InfoView = ({
           descriptions,
           onChangeDescriptions,
         }}
-        isEmpty={entries.length === 0}
-        emptyMessage={intl.formatMessage({ id: "info.emptyState" })}
         isAdmin={isAdmin}
         onAdd={onAdd}
       >
@@ -77,14 +75,15 @@ export const InfoView = ({
           ))}
         </div>
       </PageSection>
-
-      <ProductsSection
-        products={products}
-        isAdmin={isAdmin}
-        onEdit={onEditProduct}
-        onDelete={onDeleteProduct}
-        onAdd={onAddProduct}
-      />
+      {products.length > 0 && (
+        <ProductsSection
+          products={products}
+          isAdmin={isAdmin}
+          onEdit={onEditProduct}
+          onDelete={onDeleteProduct}
+          onAdd={onAddProduct}
+        />
+      )}
     </>
   );
 };

@@ -37,9 +37,6 @@
   "home.allPosts": "Wszystkie posty",
   "home.readMore": "Czytaj dalej →",
 
-  "memories.emptyState": "Brak wspomnień w tej kategorii.",
-
-  "info.emptyState": "Brak danych kontaktowych.",
   "info.editTitle": "Edytuj pozycję",
   "info.addTitle": "Dodaj pozycję",
   "info.labelField": "Klucz",
@@ -47,7 +44,6 @@
   "info.unnamed": "Bez nazwy",
 
   "products.sectionTitle": "Moje produkty",
-  "products.emptyState": "Brak produktów.",
   "products.editTitle": "Edytuj produkt",
   "products.addTitle": "Dodaj produkt",
   "products.labelField": "Produkt",
@@ -55,7 +51,6 @@
   "products.imageLabel": "Zdjęcie",
   "products.unnamed": "Produkt bez nazwy",
 
-  "gallery.emptyState": "Brak albumów.",
   "gallery.albumEmptyState": "Brak zdjęć w tym albumie.",
   "gallery.addAlbumTitle": "Nowy album",
   "gallery.editAlbumTitle": "Edytuj album",

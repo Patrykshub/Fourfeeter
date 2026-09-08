@@ -37,9 +37,6 @@
   "home.allPosts": "Alle Beiträge",
   "home.readMore": "Weiterlesen →",
 
-  "memories.emptyState": "Keine Erinnerungen in dieser Kategorie.",
-
-  "info.emptyState": "Noch keine Kontaktdaten.",
   "info.editTitle": "Eintrag bearbeiten",
   "info.addTitle": "Eintrag hinzufügen",
   "info.labelField": "Schlüssel",
@@ -47,7 +44,6 @@
   "info.unnamed": "Unbenannt",
 
   "products.sectionTitle": "Meine Produkte",
-  "products.emptyState": "Noch keine Produkte.",
   "products.editTitle": "Produkt bearbeiten",
   "products.addTitle": "Produkt hinzufügen",
   "products.labelField": "Produkt",
@@ -55,7 +51,6 @@
   "products.imageLabel": "Foto",
   "products.unnamed": "Unbenanntes Produkt",
 
-  "gallery.emptyState": "Noch keine Alben.",
   "gallery.albumEmptyState": "Noch keine Fotos in diesem Album.",
   "gallery.addAlbumTitle": "Neues Album",
   "gallery.editAlbumTitle": "Album bearbeiten",

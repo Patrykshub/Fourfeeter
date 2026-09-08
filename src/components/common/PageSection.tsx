@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
-import type { IPageBannerDescriptions, PageBannerKey } from "../../model/services/PageBannerService";
-import { EmptyState } from "./EmptyState";
+import type {
+  IPageBannerDescriptions,
+  PageBannerKey,
+} from "../../model/services/PageBannerService";
 import { PageDescription } from "./PageDescription";
 import { PageHeader } from "./PageHeader";
 
@@ -17,8 +19,6 @@ interface IPageSectionProps {
   onChangeBanner: (url: string) => void;
   onAdd: () => void;
   pageDescription?: IPageSectionDescription;
-  isEmpty: boolean;
-  emptyMessage: string;
   children: ReactNode;
 }
 
@@ -28,18 +28,19 @@ export const PageSection = ({
   onChangeBanner,
   onAdd,
   pageDescription,
-  isEmpty,
-  emptyMessage,
   children,
 }: IPageSectionProps) => (
   <section>
-    <PageHeader banner={banner} isAdmin={isAdmin} onChangeBanner={onChangeBanner} onAdd={onAdd}>
-      {pageDescription && <PageDescription {...pageDescription} isAdmin={isAdmin} />}
+    <PageHeader
+      banner={banner}
+      isAdmin={isAdmin}
+      onChangeBanner={onChangeBanner}
+      onAdd={onAdd}
+    >
+      {pageDescription && (
+        <PageDescription {...pageDescription} isAdmin={isAdmin} />
+      )}
     </PageHeader>
-    {isEmpty ? (
-      <EmptyState message={emptyMessage} isAdmin={isAdmin} onAdd={onAdd} />
-    ) : (
-      children
-    )}
+    {children}
   </section>
 );

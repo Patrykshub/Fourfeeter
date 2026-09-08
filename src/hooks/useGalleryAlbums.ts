@@ -41,5 +41,5 @@ export const useGalleryAlbums = () => {
     return success;
   };
 
-  return { albums: albums ?? [], saveAlbum, deleteAlbum };
+  return { albums: albums ?? [], isLoading: albums === undefined, saveAlbum, deleteAlbum };
 };

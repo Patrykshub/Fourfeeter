@@ -53,8 +53,6 @@ export const GalleryView = ({
         descriptions,
         onChangeDescriptions,
       }}
-      isEmpty={albums.length === 0}
-      emptyMessage={intl.formatMessage({ id: "gallery.emptyState" })}
       isAdmin={isAdmin}
       onAdd={onAddAlbum}
     >

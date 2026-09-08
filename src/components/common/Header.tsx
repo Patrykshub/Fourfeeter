@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useIntl } from "react-intl";
-import { NAV_CATEGORIES as CATEGORIES } from "../../lib/categories";
+import { NAV_CATEGORIES } from "../../lib/categories";
 import type { Category } from "../../lib/categories";
 import type { LocaleKey } from "../../i18n/utils";
 import { CATEGORY_PATHS } from "../../router/routes";
+import { useAppContext } from "../../router/AppContext";
+import { useGalleryAlbums } from "../../hooks/useGalleryAlbums";
 
 const CATEGORY_LABEL_IDS: Record<Category, LocaleKey> = {
   HOME: "nav.home",
@@ -21,6 +23,13 @@ interface IHeaderProps {
 export const Header = ({ pathname, onNavigate }: IHeaderProps) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const intl = useIntl();
+  const { isAdmin } = useAppContext();
+  const { albums, isLoading } = useGalleryAlbums();
+
+  const isGalleryEmpty = !isLoading && albums.length === 0;
+  const CATEGORIES = NAV_CATEGORIES.filter(
+    (category) => category !== "GALLERY" || isAdmin || !isGalleryEmpty,
+  );
 
   const select = (category: Category) => {
     onNavigate(CATEGORY_PATHS[category]);

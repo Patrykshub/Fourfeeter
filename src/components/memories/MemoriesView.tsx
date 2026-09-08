@@ -39,8 +39,6 @@ export const MemoriesView = ({
     <PageSection
       banner={banner}
       onChangeBanner={onChangeBanner}
-      isEmpty={!isLoading && posts.length === 0}
-      emptyMessage={intl.formatMessage({ id: "memories.emptyState" })}
       isAdmin={isAdmin}
       onAdd={onAdd}
     >

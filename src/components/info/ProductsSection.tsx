@@ -1,7 +1,6 @@
 import { useIntl } from "react-intl";
 import type { IProduct } from "../../types";
 import { AddNewButton } from "../common/AddNewButton";
-import { EmptyState } from "../common/EmptyState";
 import { ProductCard } from "./ProductCard";
 
 interface IProductsSectionProps {
@@ -29,26 +28,17 @@ export const ProductsSection = ({
         </h2>
         <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
       </div>
-
-      {products.length === 0 ? (
-        <EmptyState
-          message={intl.formatMessage({ id: "products.emptyState" })}
-          isAdmin={isAdmin}
-          onAdd={onAdd}
-        />
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 py-8">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              isAdmin={isAdmin}
-              onEdit={() => onEdit(product)}
-              onDelete={() => onDelete(product.id)}
-            />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 py-8">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            isAdmin={isAdmin}
+            onEdit={() => onEdit(product)}
+            onDelete={() => onDelete(product.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
