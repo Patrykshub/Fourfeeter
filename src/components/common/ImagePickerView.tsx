@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import type { ChangeEvent } from 'react'
 import { useIntl } from 'react-intl'
 import { AnimatePresence } from 'motion/react'
+import { ImageIcon } from 'lucide-react'
 import { ModalHeader } from '../modals/ModalHeader'
 import { ModalShell } from '../modals/ModalShell'
 import { ConfirmDialog } from '../modals/ConfirmDialog'
@@ -22,6 +23,7 @@ interface IImagePickerViewProps {
   onCancelDelete: () => void
   onConfirmDelete: () => void
   onUploadFile: (file: File) => void
+  variant?: 'thumbnail' | 'banner'
 }
 
 export const ImagePickerView = ({
@@ -39,6 +41,7 @@ export const ImagePickerView = ({
   onCancelDelete,
   onConfirmDelete,
   onUploadFile,
+  variant = 'thumbnail',
 }: IImagePickerViewProps) => {
   const intl = useIntl()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -51,14 +54,27 @@ export const ImagePickerView = ({
     onUploadFile(file)
   }
 
+  const isBanner = variant === 'banner'
+  const previewSizeClasses = isBanner
+    ? 'w-full h-40 sm:h-56 rounded-xl'
+    : 'w-20 h-14 rounded'
+
   return (
     <div>
-      <div className="flex gap-3 items-center">
-        <img src={value} alt="" className="w-20 h-14 object-cover rounded bg-black/20" />
-        <button type="button" onClick={onOpen} className="px-4 py-2 bg-black/20 rounded">
-          {intl.formatMessage({ id: 'imagePicker.chooseFromGallery' })}
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={intl.formatMessage({ id: 'imagePicker.chooseFromGallery' })}
+        className={`${previewSizeClasses} block cursor-pointer overflow-hidden hover:opacity-80 transition-opacity`}
+      >
+        {value ? (
+          <img src={value} alt="" className="w-full h-full object-cover bg-black/20" />
+        ) : (
+          <div className="w-full h-full bg-black/20 border border-dashed border-white/20 flex items-center justify-center">
+            <ImageIcon size={isBanner ? 28 : 18} className="text-gray-500" />
+          </div>
+        )}
+      </button>
 
       <AnimatePresence>
       {isOpen && (

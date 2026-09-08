@@ -37,6 +37,7 @@ export const PageBanner = ({
         {intl.formatMessage({ id: "pageBanner.sectionBackground" })}
       </span>
       <ImagePickerView
+        variant="banner"
         value={image ?? ""}
         images={images}
         isOpen={isImagePickerOpen}
@@ -55,26 +56,32 @@ export const PageBanner = ({
     </div>
   );
 
-  if (!image) {
-    return (
-      <div className="mb-8 space-y-3">
-        {children}
-        {adminControls}
-      </div>
-    );
-  }
-
   return (
-    <div
-      className="relative rounded-xl overflow-hidden bg-cover bg-center mb-8 flex flex-col justify-end min-h-[160px] sm:min-h-[220px]"
-      style={{ backgroundImage: `url(${image})` }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20" />
+    <div className="mb-8 space-y-3">
+      {image && (
+        <div
+          role={isAdmin ? "button" : undefined}
+          tabIndex={isAdmin ? 0 : undefined}
+          onClick={isAdmin ? () => setImagePickerOpen(true) : undefined}
+          onKeyDown={
+            isAdmin
+              ? (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setImagePickerOpen(true);
+                  }
+                }
+              : undefined
+          }
+          className={`rounded-xl overflow-hidden bg-cover bg-center min-h-[160px] sm:min-h-[220px] ${
+            isAdmin ? "cursor-pointer" : ""
+          }`}
+          style={{ backgroundImage: `url(${image})` }}
+        />
+      )}
 
-      <div className="relative p-4 sm:p-6 space-y-3 [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">
-        {children}
-        {adminControls}
-      </div>
+      {adminControls}
+      {children}
     </div>
   );
 };
