@@ -1,5 +1,6 @@
 import type { IGalleryAlbum, IGalleryPhoto } from "../../types";
 import { AlbumCard } from "./AlbumCard";
+import { AddAlbumCard } from "./AddAlbumCard";
 
 interface IAlbumGridProps {
   albums: IGalleryAlbum[];
@@ -8,6 +9,7 @@ interface IAlbumGridProps {
   onOpenAlbum: (id: string) => void;
   onEditAlbum: (album: IGalleryAlbum) => void;
   onDeleteAlbum: (id: string) => void;
+  onAddAlbum: () => void;
 }
 
 export const AlbumGrid = ({
@@ -17,8 +19,10 @@ export const AlbumGrid = ({
   onOpenAlbum,
   onEditAlbum,
   onDeleteAlbum,
+  onAddAlbum,
 }: IAlbumGridProps) => (
   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 py-8">
+    {isAdmin && <AddAlbumCard onClick={onAddAlbum} />}
     {albums.map((album) => {
       const photos = photosByAlbum[album.id] ?? [];
       return (

@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import type { ChangeEvent } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { useIntl } from "react-intl";
 import { AnimatePresence } from "motion/react";
 import type { IGalleryAlbum, IGalleryPhoto } from "../../types";
 import { EmptyState } from "../common/EmptyState";
 import { ConfirmDialog } from "../modals/ConfirmDialog";
 import { PhotoLightbox } from "./PhotoLightbox";
+import { AddPhotoCard } from "./AddPhotoCard";
 
 interface IAlbumDetailViewProps {
   album: IGalleryAlbum;
@@ -16,6 +17,7 @@ interface IAlbumDetailViewProps {
   onBack: () => void;
   onUploadPhoto: (file: File) => void;
   onDeletePhoto: (id: string) => void;
+  onDeleteAlbum: () => void;
 }
 
 export const AlbumDetailView = ({
@@ -26,6 +28,7 @@ export const AlbumDetailView = ({
   onBack,
   onUploadPhoto,
   onDeletePhoto,
+  onDeleteAlbum,
 }: IAlbumDetailViewProps) => {
   const intl = useIntl();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -50,15 +53,14 @@ export const AlbumDetailView = ({
         {isAdmin && (
           <button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isUploading}
-            className="flex items-center gap-2 text-neon disabled:opacity-50"
+            onClick={onDeleteAlbum}
+            aria-label={intl.formatMessage({ id: "common.delete" })}
+            className="p-1 rounded bg-black/20 text-red-400"
           >
-            {isUploading
-              ? intl.formatMessage({ id: "imagePicker.uploading" })
-              : intl.formatMessage({ id: "common.addNew" })}
+            <Trash2 size={16} />
           </button>
         )}
+
         <input
           ref={fileInputRef}
           type="file"
@@ -70,14 +72,20 @@ export const AlbumDetailView = ({
 
       <h2 className="text-2xl font-semibold mt-4">{album.name}</h2>
 
-      {photos.length === 0 ? (
+      {photos.length === 0 && !isAdmin ? (
         <EmptyState
           message={intl.formatMessage({ id: "gallery.albumEmptyState" })}
-          isAdmin={isAdmin}
-          onAdd={() => fileInputRef.current?.click()}
+          isAdmin={false}
+          onAdd={() => {}}
         />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-6">
+          {isAdmin && (
+            <AddPhotoCard
+              onClick={() => fileInputRef.current?.click()}
+              isUploading={isUploading}
+            />
+          )}
           {photos.map((photo, index) => (
             <button
               key={photo.id}

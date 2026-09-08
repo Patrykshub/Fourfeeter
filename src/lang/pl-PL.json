@@ -54,6 +54,8 @@
   "memories.addMemory": "Dodaj nowe wspomnienie",
 
   "gallery.albumEmptyState": "Brak zdjęć w tym albumie.",
+  "gallery.addAlbum": "Dodaj nowy album",
+  "gallery.addPhoto": "Dodaj nowe zdjęcie",
   "gallery.addAlbumTitle": "Nowy album",
   "gallery.editAlbumTitle": "Edytuj album",
   "gallery.albumNameLabel": "Nazwa albumu",

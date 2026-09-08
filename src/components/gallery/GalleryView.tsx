@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useIntl } from "react-intl";
 import type { IGalleryAlbum, IGalleryPhoto } from "../../types";
 import type { IPageBannerDescriptions } from "../../model/services/PageBannerService";
 import { PageSection } from "../common/PageSection";
@@ -39,7 +38,6 @@ export const GalleryView = ({
   descriptions,
   onChangeDescriptions,
 }: IGalleryViewProps) => {
-  const intl = useIntl();
   const [openAlbumId, setOpenAlbumId] = useState<string | null>(null);
   const openAlbum = albums.find((album) => album.id === openAlbumId) ?? null;
 
@@ -54,7 +52,6 @@ export const GalleryView = ({
         onChangeDescriptions,
       }}
       isAdmin={isAdmin}
-      onAdd={onAddAlbum}
     >
       {openAlbum ? (
         <AlbumDetailView
@@ -65,6 +62,7 @@ export const GalleryView = ({
           onBack={() => setOpenAlbumId(null)}
           onUploadPhoto={(file) => onUploadPhoto(openAlbum.id, file)}
           onDeletePhoto={onDeletePhoto}
+          onDeleteAlbum={() => onDeleteAlbum(openAlbum.id)}
         />
       ) : (
         <AlbumGrid
@@ -74,6 +72,7 @@ export const GalleryView = ({
           onOpenAlbum={setOpenAlbumId}
           onEditAlbum={onEditAlbum}
           onDeleteAlbum={onDeleteAlbum}
+          onAddAlbum={onAddAlbum}
         />
       )}
     </PageSection>
