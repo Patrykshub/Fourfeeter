@@ -39,6 +39,14 @@ export const useLocalizedTextEditor = ({ draftKey, descriptions, isAdmin, onSave
     setIsEditing(false)
   }
 
+  const handleClear = () => {
+    const cleared: IPageBannerDescriptions = { description_pl: null, description_en: null, description_de: null }
+    setDraft(cleared)
+    onSave(cleared)
+    clearDraft()
+    setIsEditing(false)
+  }
+
   return {
     isEditing,
     startEditing,
@@ -48,5 +56,6 @@ export const useLocalizedTextEditor = ({ draftKey, descriptions, isAdmin, onSave
     setActiveValue,
     handleSave,
     handleCancel,
+    handleClear,
   }
 }

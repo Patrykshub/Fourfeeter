@@ -1,7 +1,8 @@
 import { useIntl } from 'react-intl'
-import { Edit2 } from 'lucide-react'
+import { Edit2, Trash2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import { useLocalizedTextEditor } from '../../hooks/useLocalizedTextEditor'
+import { AdminActions } from '../common/AdminActions'
 import { LocaleTabs } from '../common/LocaleTabs'
 import { SaveCancelButtons } from '../common/SaveCancelButtons'
 import type { IPageBannerDescriptions } from '../../model/services/PageBannerService'
@@ -33,7 +34,16 @@ export const HomeLifeMotto = ({ motto, descriptions, isAdmin, onChangeMotto }: I
           rows={3}
           className="w-full rounded bg-black/20 p-2 text-base text-white placeholder-gray-400 text-center"
         />
-        <SaveCancelButtons size="sm" onSave={editor.handleSave} onCancel={editor.handleCancel} />
+        <div className="flex items-center justify-between gap-2">
+          <button
+            onClick={editor.handleClear}
+            className="flex items-center gap-2 text-xs text-gray-400 hover:text-gray-200"
+          >
+            <Trash2 size={14} />
+            {intl.formatMessage({ id: 'home.motto.remove' })}
+          </button>
+          <SaveCancelButtons size="sm" onSave={editor.handleSave} onCancel={editor.handleCancel} />
+        </div>
       </div>
     )
   }
@@ -54,13 +64,7 @@ export const HomeLifeMotto = ({ motto, descriptions, isAdmin, onChangeMotto }: I
           </motion.p>
         </AnimatePresence>
         {isAdmin && (
-          <button
-            onClick={editor.startEditing}
-            aria-label={intl.formatMessage({ id: 'home.motto.edit' })}
-            className="p-1 rounded bg-black/20"
-          >
-            <Edit2 size={16} />
-          </button>
+          <AdminActions compact onEdit={editor.startEditing} onDelete={editor.handleClear} />
         )}
       </div>
     )
