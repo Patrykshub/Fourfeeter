@@ -2,11 +2,13 @@ import { useIntl } from 'react-intl'
 import { motion } from 'motion/react'
 import type { IPost } from '../../types'
 import type { IPostDisplay } from '../../lib/postLocalization'
+import type { IPageBannerDescriptions } from '../../model/services/PageBannerService'
 import { AddNewButton } from '../common/AddNewButton'
 import { EmptyState } from '../common/EmptyState'
 import { FeaturedPostCard } from './FeaturedPostCard'
 import { HomeRecommendedItem } from './HomeRecommendedItem'
 import { HomePostCard } from './HomePostCard'
+import { HomeLifeMotto } from './HomeLifeMotto'
 import { staggerContainer } from './motionVariants'
 
 interface IHomeViewProps {
@@ -19,6 +21,9 @@ interface IHomeViewProps {
   onDelete: (id: string) => void
   onAdd: () => void
   onSelectMemory: (post: IPost) => void
+  motto: string | null
+  mottoDescriptions: IPageBannerDescriptions
+  onChangeMotto: (next: IPageBannerDescriptions) => void
 }
 
 export const HomeView = ({
@@ -31,6 +36,9 @@ export const HomeView = ({
   onDelete,
   onAdd,
   onSelectMemory,
+  motto,
+  mottoDescriptions,
+  onChangeMotto,
 }: IHomeViewProps) => {
   const intl = useIntl()
   const hasRecommended = rest.length > 0
@@ -90,10 +98,14 @@ export const HomeView = ({
         )}
       </motion.section>
 
+      <HomeLifeMotto
+        motto={motto}
+        descriptions={mottoDescriptions}
+        isAdmin={isAdmin}
+        onChangeMotto={onChangeMotto}
+      />
+
       <section className="mt-10">
-        <h4 className="uppercase text-sm text-gray-300 mb-4">
-          {intl.formatMessage({ id: 'home.allPosts' })}
-        </h4>
         <motion.div
           variants={staggerContainer}
           initial="hidden"

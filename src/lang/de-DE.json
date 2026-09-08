@@ -34,8 +34,9 @@
 
   "home.emptyState": "Keine Beiträge in dieser Kategorie.",
   "home.recommended": "Empfohlen",
-  "home.allPosts": "Alle Beiträge",
   "home.readMore": "Weiterlesen →",
+  "home.motto.add": "Lebensmotto hinzufügen",
+  "home.motto.edit": "Lebensmotto bearbeiten",
 
   "info.editTitle": "Eintrag bearbeiten",
   "info.addTitle": "Eintrag hinzufügen",

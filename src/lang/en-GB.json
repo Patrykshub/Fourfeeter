@@ -34,8 +34,9 @@
 
   "home.emptyState": "No posts in this category.",
   "home.recommended": "Recommended",
-  "home.allPosts": "All posts",
   "home.readMore": "Read more →",
+  "home.motto.add": "Add life motto",
+  "home.motto.edit": "Edit life motto",
 
   "info.editTitle": "Edit entry",
   "info.addTitle": "Add entry",

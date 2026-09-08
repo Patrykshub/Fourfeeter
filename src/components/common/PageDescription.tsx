@@ -1,9 +1,6 @@
-import { useState } from 'react'
-import { Edit2 } from 'lucide-react'
 import { useIntl } from 'react-intl'
-import { useDraftState } from '../../hooks/useDraftState'
-import { useLocale } from '../../i18n/LocaleContext'
-import { LOCALE_SUFFIXES } from '../../i18n/utils'
+import { Edit2 } from 'lucide-react'
+import { useLocalizedTextEditor } from '../../hooks/useLocalizedTextEditor'
 import type { SupportedLocale } from '../../i18n/utils'
 import type { IPageBannerDescriptions, PageBannerKey } from '../../model/services/PageBannerService'
 import { LocaleTabs } from './LocaleTabs'
@@ -16,9 +13,6 @@ interface IPageDescriptionProps {
   isAdmin: boolean
   onChangeDescriptions: (next: IPageBannerDescriptions) => void
 }
-
-const descriptionsEqual = (a: IPageBannerDescriptions, b: IPageBannerDescriptions): boolean =>
-  a.description_pl === b.description_pl && a.description_en === b.description_en && a.description_de === b.description_de
 
 interface IEditFormProps {
   activeTab: SupportedLocale
@@ -81,47 +75,32 @@ const AddDescriptionPrompt = ({ onClick }: { onClick: () => void }) => {
 }
 
 export const PageDescription = ({ pageKey, description, descriptions, isAdmin, onChangeDescriptions }: IPageDescriptionProps) => {
-  const { locale: currentLocale } = useLocale()
-  const [activeTab, setActiveTab] = useState<SupportedLocale>(currentLocale)
-  const draftKey = `page_description_draft_v1_${pageKey}`
-  const [draft, setDraft, clearDraft] = useDraftState<IPageBannerDescriptions>(draftKey, descriptions, isAdmin)
-  const [isEditing, setIsEditing] = useState(() => isAdmin && !descriptionsEqual(draft, descriptions))
+  const editor = useLocalizedTextEditor({
+    draftKey: `page_description_draft_v1_${pageKey}`,
+    descriptions,
+    isAdmin,
+    onSave: onChangeDescriptions,
+  })
 
-  const activeField = `description_${LOCALE_SUFFIXES[activeTab]}` as const
-  const activeValue = draft[activeField] ?? ''
-  const setActiveValue = (text: string) => setDraft((prev) => ({ ...prev, [activeField]: text || null }))
-
-  const handleSave = () => {
-    onChangeDescriptions(draft)
-    clearDraft()
-    setIsEditing(false)
-  }
-
-  const handleCancel = () => {
-    setDraft(descriptions)
-    clearDraft()
-    setIsEditing(false)
-  }
-
-  if (isEditing) {
+  if (editor.isEditing) {
     return (
       <EditForm
-        activeTab={activeTab}
-        onChangeTab={setActiveTab}
-        value={activeValue}
-        onChangeValue={setActiveValue}
-        onSave={handleSave}
-        onCancel={handleCancel}
+        activeTab={editor.activeTab}
+        onChangeTab={editor.setActiveTab}
+        value={editor.activeValue}
+        onChangeValue={editor.setActiveValue}
+        onSave={editor.handleSave}
+        onCancel={editor.handleCancel}
       />
     )
   }
 
   if (description) {
-    return <ReadView description={description} isAdmin={isAdmin} onEdit={() => setIsEditing(true)} />
+    return <ReadView description={description} isAdmin={isAdmin} onEdit={editor.startEditing} />
   }
 
   if (isAdmin) {
-    return <AddDescriptionPrompt onClick={() => setIsEditing(true)} />
+    return <AddDescriptionPrompt onClick={editor.startEditing} />
   }
 
   return null

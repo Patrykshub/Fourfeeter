@@ -34,8 +34,9 @@
 
   "home.emptyState": "Brak postów w tej kategorii.",
   "home.recommended": "Polecane",
-  "home.allPosts": "Wszystkie posty",
   "home.readMore": "Czytaj dalej →",
+  "home.motto.add": "Dodaj motto życiowe",
+  "home.motto.edit": "Edytuj motto życiowe",
 
   "info.editTitle": "Edytuj pozycję",
   "info.addTitle": "Dodaj pozycję",
