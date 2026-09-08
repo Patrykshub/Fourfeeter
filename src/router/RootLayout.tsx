@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { useIntl } from "react-intl";
+import { AnimatePresence } from "motion/react";
 import { usePosts } from "../hooks/usePosts";
 import { useAdminSession } from "../hooks/useAdminSession";
 import { usePostEditor } from "../hooks/usePostEditor";
@@ -66,29 +67,33 @@ export const RootLayout = ({ children }: IRootLayoutProps) => {
           onLoginClick={() => setAuthOpen(true)}
         />
 
-        {isFormOpen && (
-          <EditorModal
-            post={editing}
-            onClose={closeEditor}
-            onSave={handleSave}
-          />
-        )}
+        <AnimatePresence>
+          {isFormOpen && (
+            <EditorModal
+              key="editor-modal"
+              post={editing}
+              onClose={closeEditor}
+              onSave={handleSave}
+            />
+          )}
 
-        {authOpen && (
-          <AuthModal onClose={() => setAuthOpen(false)} onLogin={login} />
-        )}
+          {authOpen && (
+            <AuthModal key="auth-modal" onClose={() => setAuthOpen(false)} onLogin={login} />
+          )}
 
-        {pendingDeleteId && (
-          <ConfirmDialog
-            title={intl.formatMessage({ id: "common.delete" })}
-            imageSrc={areYouSureImage}
-            imageAlt="Are you sure about that?"
-            confirmLabel={intl.formatMessage({ id: "common.delete" })}
-            cancelLabel={intl.formatMessage({ id: "common.cancel" })}
-            onConfirm={confirmDelete}
-            onCancel={cancelDelete}
-          />
-        )}
+          {pendingDeleteId && (
+            <ConfirmDialog
+              key="confirm-delete"
+              title={intl.formatMessage({ id: "common.delete" })}
+              imageSrc={areYouSureImage}
+              imageAlt="Are you sure about that?"
+              confirmLabel={intl.formatMessage({ id: "common.delete" })}
+              cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+              onConfirm={confirmDelete}
+              onCancel={cancelDelete}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </AppContext.Provider>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
+import { AnimatePresence } from "motion/react";
 import type { IPost } from "../../types";
 import type { IPostDisplay } from "../../lib/postLocalization";
 import { PageSection } from "../common/PageSection";
@@ -62,24 +63,27 @@ export const MemoriesView = ({
         </div>
       </div>
 
-      {modalPost && (
-        <ReadingModal
-          image={modalPost.image}
-          title={modalPost.displayTitle}
-          content={modalPost.displayContent}
-          date={intl.formatDate(modalPost.date, {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-          isTranslated={modalPost.isTranslated}
-          untranslatedLabel={intl.formatMessage({
-            id: "post.untranslatedBadge",
-          })}
-          closeLabel={intl.formatMessage({ id: "common.close" })}
-          onClose={() => setModalPost(null)}
-        />
-      )}
+      <AnimatePresence>
+        {modalPost && (
+          <ReadingModal
+            key="reading-modal"
+            image={modalPost.image}
+            title={modalPost.displayTitle}
+            content={modalPost.displayContent}
+            date={intl.formatDate(modalPost.date, {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+            isTranslated={modalPost.isTranslated}
+            untranslatedLabel={intl.formatMessage({
+              id: "post.untranslatedBadge",
+            })}
+            closeLabel={intl.formatMessage({ id: "common.close" })}
+            onClose={() => setModalPost(null)}
+          />
+        )}
+      </AnimatePresence>
     </PageSection>
   );
 };

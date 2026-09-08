@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import type { ChangeEvent } from 'react'
 import { useIntl } from 'react-intl'
+import { AnimatePresence } from 'motion/react'
 import { ModalHeader } from '../modals/ModalHeader'
 import { ModalShell } from '../modals/ModalShell'
 import { ConfirmDialog } from '../modals/ConfirmDialog'
@@ -59,8 +60,9 @@ export const ImagePickerView = ({
         </button>
       </div>
 
+      <AnimatePresence>
       {isOpen && (
-        <ModalShell maxWidth="2xl" className="z-10">
+        <ModalShell key="image-picker" maxWidth="2xl" className="z-10">
           <ModalHeader
             title={intl.formatMessage({ id: 'imagePicker.modalTitle' })}
             onClose={onClose}
@@ -117,6 +119,7 @@ export const ImagePickerView = ({
 
       {pendingDeleteUrl && (
         <ConfirmDialog
+          key="confirm-delete-image"
           title={intl.formatMessage({ id: 'common.delete' })}
           message={intl.formatMessage({ id: 'confirm.deleteImage' })}
           confirmLabel={intl.formatMessage({ id: 'common.delete' })}
@@ -125,6 +128,7 @@ export const ImagePickerView = ({
           onCancel={onCancelDelete}
         />
       )}
+      </AnimatePresence>
 
       {deleteError && (
         <p className="mt-2 text-xs text-red-400">

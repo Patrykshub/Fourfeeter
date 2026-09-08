@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useIntl } from "react-intl";
+import { AnimatePresence } from "motion/react";
 import type { IGalleryAlbum, IGalleryPhoto } from "../../types";
 import { EmptyState } from "../common/EmptyState";
 import { ConfirmDialog } from "../modals/ConfirmDialog";
@@ -96,31 +97,35 @@ export const AlbumDetailView = ({
         </div>
       )}
 
-      {lightboxIndex !== null && (
-        <PhotoLightbox
-          photos={photos}
-          index={lightboxIndex}
-          isAdmin={isAdmin}
-          onClose={() => setLightboxIndex(null)}
-          onNavigate={setLightboxIndex}
-          onRequestDelete={setPendingDeletePhotoId}
-        />
-      )}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <PhotoLightbox
+            key="photo-lightbox"
+            photos={photos}
+            index={lightboxIndex}
+            isAdmin={isAdmin}
+            onClose={() => setLightboxIndex(null)}
+            onNavigate={setLightboxIndex}
+            onRequestDelete={setPendingDeletePhotoId}
+          />
+        )}
 
-      {pendingDeletePhotoId && (
-        <ConfirmDialog
-          title={intl.formatMessage({ id: "common.delete" })}
-          message={intl.formatMessage({ id: "confirm.deletePhoto" })}
-          confirmLabel={intl.formatMessage({ id: "common.delete" })}
-          cancelLabel={intl.formatMessage({ id: "common.cancel" })}
-          onConfirm={() => {
-            onDeletePhoto(pendingDeletePhotoId);
-            setPendingDeletePhotoId(null);
-            setLightboxIndex(null);
-          }}
-          onCancel={() => setPendingDeletePhotoId(null)}
-        />
-      )}
+        {pendingDeletePhotoId && (
+          <ConfirmDialog
+            key="confirm-delete-photo"
+            title={intl.formatMessage({ id: "common.delete" })}
+            message={intl.formatMessage({ id: "confirm.deletePhoto" })}
+            confirmLabel={intl.formatMessage({ id: "common.delete" })}
+            cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+            onConfirm={() => {
+              onDeletePhoto(pendingDeletePhotoId);
+              setPendingDeletePhotoId(null);
+              setLightboxIndex(null);
+            }}
+            onCancel={() => setPendingDeletePhotoId(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

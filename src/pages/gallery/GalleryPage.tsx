@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
+import { AnimatePresence } from "motion/react";
 import { useGalleryAlbums } from "../../hooks/useGalleryAlbums";
 import { useGalleryPhotos } from "../../hooks/useGalleryPhotos";
 import { useGalleryAlbumEditor } from "../../hooks/useGalleryAlbumEditor";
@@ -62,20 +63,23 @@ export const GalleryPage = () => {
         onChangeDescriptions={setDescriptions}
       />
 
-      {isFormOpen && (
-        <AlbumFormModal album={editing} onClose={closeEditor} onSave={handleSave} />
-      )}
+      <AnimatePresence>
+        {isFormOpen && (
+          <AlbumFormModal key="album-form" album={editing} onClose={closeEditor} onSave={handleSave} />
+        )}
 
-      {pendingDeleteId && (
-        <ConfirmDialog
-          title={intl.formatMessage({ id: "common.delete" })}
-          message={intl.formatMessage({ id: "confirm.deleteAlbum" })}
-          confirmLabel={intl.formatMessage({ id: "common.delete" })}
-          cancelLabel={intl.formatMessage({ id: "common.cancel" })}
-          onConfirm={confirmDelete}
-          onCancel={cancelDelete}
-        />
-      )}
+        {pendingDeleteId && (
+          <ConfirmDialog
+            key="confirm-delete"
+            title={intl.formatMessage({ id: "common.delete" })}
+            message={intl.formatMessage({ id: "confirm.deleteAlbum" })}
+            confirmLabel={intl.formatMessage({ id: "common.delete" })}
+            cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+            onConfirm={confirmDelete}
+            onCancel={cancelDelete}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { ChevronLeft, ChevronRight, Trash2, X } from "lucide-react";
 import { useIntl } from "react-intl";
+import { motion } from "motion/react";
 import type { IGalleryPhoto } from "../../types";
 
 interface IPhotoLightboxProps {
@@ -37,14 +38,22 @@ export const PhotoLightbox = ({
   const hasNext = index < photos.length - 1;
 
   return (
-    <div
+    <motion.div
       onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
       className="fixed inset-0 bg-black/90 backdrop-blur-sm z-10 flex items-center justify-center p-4"
     >
-      <img
+      <motion.img
         src={photo.image}
         alt=""
         onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.96 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
         className="max-w-full max-h-full object-contain rounded-lg"
       />
 
@@ -95,6 +104,6 @@ export const PhotoLightbox = ({
           <X className="text-neon" />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };

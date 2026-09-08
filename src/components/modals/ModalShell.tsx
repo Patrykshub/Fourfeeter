@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from 'react'
+import { motion } from 'motion/react'
 
 type TModalShellMaxWidth = 'sm' | '2xl'
 
@@ -14,13 +15,23 @@ const MAX_WIDTH_CLASSES: Record<TModalShellMaxWidth, string> = {
 }
 
 export const ModalShell: FC<IModalShellProps> = ({ maxWidth = 'sm', className, children }) => (
-  <div
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.15 }}
     className={['fixed inset-0 bg-black/60 flex items-center justify-center p-4', className]
       .filter(Boolean)
       .join(' ')}
   >
-    <div className={`bg-surface ${MAX_WIDTH_CLASSES[maxWidth]} w-full rounded-lg p-6`}>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95, y: 8 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, y: 8 }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
+      className={`bg-surface ${MAX_WIDTH_CLASSES[maxWidth]} w-full rounded-lg p-6`}
+    >
       {children}
-    </div>
-  </div>
+    </motion.div>
+  </motion.div>
 )

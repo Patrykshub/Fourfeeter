@@ -1,5 +1,6 @@
 import { useEffect, useState, type UIEvent } from "react";
 import { X } from "lucide-react";
+import { motion } from "motion/react";
 import { ReadingProgressBar } from "./ReadingProgressBar";
 
 interface IReadingModalProps {
@@ -43,13 +44,21 @@ export const ReadingModal = ({
     <>
       <ReadingProgressBar progress={progress} />
 
-      <div
+      <motion.div
         onClick={onClose}
         onScroll={handleScroll}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.15 }}
         className="fixed inset-0 bg-black/80 backdrop-blur-md overflow-y-auto z-50"
       >
-        <div
+        <motion.div
           onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 16 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className="max-w-5xl mx-auto px-4 py-12"
         >
           <img
@@ -72,8 +81,8 @@ export const ReadingModal = ({
               {content}
             </p>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <button
         onClick={onClose}

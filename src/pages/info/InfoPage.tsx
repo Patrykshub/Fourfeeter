@@ -1,4 +1,5 @@
 import { useIntl } from "react-intl";
+import { AnimatePresence } from "motion/react";
 import { useInfoEntries } from "../../hooks/useInfoEntries";
 import { useInfoEntryEditor } from "../../hooks/useInfoEntryEditor";
 import { useProducts } from "../../hooks/useProducts";
@@ -59,43 +60,49 @@ export const InfoPage = () => {
         onAddProduct={() => openProductEditor()}
       />
 
-      {isFormOpen && (
-        <InfoEntryModal
-          entry={editing}
-          onClose={closeEditor}
-          onSave={handleSave}
-        />
-      )}
+      <AnimatePresence>
+        {isFormOpen && (
+          <InfoEntryModal
+            key="info-entry-modal"
+            entry={editing}
+            onClose={closeEditor}
+            onSave={handleSave}
+          />
+        )}
 
-      {isProductFormOpen && (
-        <ProductEntryModal
-          product={editingProduct}
-          onClose={closeProductEditor}
-          onSave={handleSaveProduct}
-        />
-      )}
+        {isProductFormOpen && (
+          <ProductEntryModal
+            key="product-entry-modal"
+            product={editingProduct}
+            onClose={closeProductEditor}
+            onSave={handleSaveProduct}
+          />
+        )}
 
-      {pendingDeleteId && (
-        <ConfirmDialog
-          title={intl.formatMessage({ id: "common.delete" })}
-          message={intl.formatMessage({ id: "confirm.deleteInfoEntry" })}
-          confirmLabel={intl.formatMessage({ id: "common.delete" })}
-          cancelLabel={intl.formatMessage({ id: "common.cancel" })}
-          onConfirm={confirmDelete}
-          onCancel={cancelDelete}
-        />
-      )}
+        {pendingDeleteId && (
+          <ConfirmDialog
+            key="confirm-delete-info"
+            title={intl.formatMessage({ id: "common.delete" })}
+            message={intl.formatMessage({ id: "confirm.deleteInfoEntry" })}
+            confirmLabel={intl.formatMessage({ id: "common.delete" })}
+            cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+            onConfirm={confirmDelete}
+            onCancel={cancelDelete}
+          />
+        )}
 
-      {pendingDeleteProductId && (
-        <ConfirmDialog
-          title={intl.formatMessage({ id: "common.delete" })}
-          message={intl.formatMessage({ id: "confirm.deleteProduct" })}
-          confirmLabel={intl.formatMessage({ id: "common.delete" })}
-          cancelLabel={intl.formatMessage({ id: "common.cancel" })}
-          onConfirm={confirmDeleteProduct}
-          onCancel={cancelDeleteProduct}
-        />
-      )}
+        {pendingDeleteProductId && (
+          <ConfirmDialog
+            key="confirm-delete-product"
+            title={intl.formatMessage({ id: "common.delete" })}
+            message={intl.formatMessage({ id: "confirm.deleteProduct" })}
+            confirmLabel={intl.formatMessage({ id: "common.delete" })}
+            cancelLabel={intl.formatMessage({ id: "common.cancel" })}
+            onConfirm={confirmDeleteProduct}
+            onCancel={cancelDeleteProduct}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
