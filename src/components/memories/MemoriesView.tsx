@@ -42,6 +42,7 @@ export const MemoriesView = ({
       onChangeBanner={onChangeBanner}
       isAdmin={isAdmin}
       onAdd={onAdd}
+      addLabel={intl.formatMessage({ id: "memories.addMemory" })}
     >
       <div className="pt-16 pb-32">
         <div className="relative">

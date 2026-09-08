@@ -17,7 +17,8 @@ interface IPageSectionProps {
   banner: string | null;
   isAdmin: boolean;
   onChangeBanner: (url: string) => void;
-  onAdd: () => void;
+  onAdd?: () => void;
+  addLabel?: string;
   pageDescription?: IPageSectionDescription;
   children: ReactNode;
 }
@@ -27,6 +28,7 @@ export const PageSection = ({
   isAdmin,
   onChangeBanner,
   onAdd,
+  addLabel,
   pageDescription,
   children,
 }: IPageSectionProps) => (
@@ -36,6 +38,7 @@ export const PageSection = ({
       isAdmin={isAdmin}
       onChangeBanner={onChangeBanner}
       onAdd={onAdd}
+      addLabel={addLabel}
     >
       {pageDescription && (
         <PageDescription {...pageDescription} isAdmin={isAdmin} />

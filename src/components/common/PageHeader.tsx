@@ -6,7 +6,8 @@ interface IPageHeaderProps {
   banner: string | null;
   isAdmin: boolean;
   onChangeBanner: (url: string) => void;
-  onAdd: () => void;
+  onAdd?: () => void;
+  addLabel?: string;
   children?: ReactNode;
 }
 
@@ -15,11 +16,12 @@ export const PageHeader = ({
   isAdmin,
   onChangeBanner,
   onAdd,
+  addLabel,
   children,
 }: IPageHeaderProps) => (
   <>
     <PageBanner image={banner} isAdmin={isAdmin} onChangeImage={onChangeBanner}>
-      <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
+      {onAdd && <AddNewButton isAdmin={isAdmin} onClick={onAdd} label={addLabel} />}
     </PageBanner>
     {children}
   </>

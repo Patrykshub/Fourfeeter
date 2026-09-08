@@ -51,6 +51,8 @@
   "products.imageLabel": "Photo",
   "products.unnamed": "Unnamed product",
 
+  "memories.addMemory": "Add new memory",
+
   "gallery.albumEmptyState": "No photos in this album yet.",
   "gallery.addAlbumTitle": "New album",
   "gallery.editAlbumTitle": "Edit album",
