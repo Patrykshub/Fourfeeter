@@ -25,11 +25,11 @@ export const AlbumCard = ({
   const intl = useIntl();
 
   return (
-    <div className="relative group">
+    <div className="relative group bg-surface p-2 rounded-lg shadow-sm hover:shadow-md">
       <button
         type="button"
         onClick={onOpen}
-        className="w-full aspect-square rounded-lg overflow-hidden bg-black/20 flex items-center justify-center"
+        className="w-full aspect-square rounded-lg overflow-hidden flex items-center justify-center bg-black/50"
       >
         {cover ? (
           <img
@@ -44,11 +44,14 @@ export const AlbumCard = ({
         )}
       </button>
 
-      <div className="mt-2 flex items-start justify-between gap-2">
+      <div className="mt-2 flex items-center justify-between gap-2">
         <div>
           <p className="text-sm font-medium truncate">{album.name}</p>
           <p className="text-xs text-gray-400">
-            {intl.formatMessage({ id: "gallery.photoCount" }, { count: photoCount })}
+            {intl.formatMessage(
+              { id: "gallery.photoCount" },
+              { count: photoCount },
+            )}
           </p>
         </div>
         {isAdmin && (

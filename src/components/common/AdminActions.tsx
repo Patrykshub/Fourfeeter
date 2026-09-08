@@ -18,7 +18,7 @@ export const AdminActions = ({
 
   if (compact) {
     return (
-      <div className={`flex flex-col gap-2 ${className}`}>
+      <div className={`flex items-center gap-2 ${className}`}>
         <button onClick={onEdit} className="p-1 rounded bg-black/20">
           <Edit2 size={16} />
         </button>
