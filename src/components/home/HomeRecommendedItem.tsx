@@ -1,8 +1,10 @@
 import type { FC } from 'react'
 import { useIntl } from 'react-intl'
+import { motion } from 'motion/react'
 import type { IPost } from '../../types'
 import type { IPostDisplay } from '../../lib/postLocalization'
 import { AdminActions } from '../common/AdminActions'
+import { fadeInUp } from './motionVariants'
 
 interface IHomeRecommendedItemProps {
   post: IPostDisplay
@@ -22,7 +24,8 @@ export const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
   const intl = useIntl()
 
   return (
-    <div
+    <motion.div
+      variants={fadeInUp}
       onClick={() => onSelectMemory(post)}
       className="card-float flex gap-3 items-center bg-surface p-3 rounded-lg cursor-pointer hover:bg-surfaceHover"
     >
@@ -50,6 +53,6 @@ export const HomeRecommendedItem: FC<IHomeRecommendedItemProps> = ({
           )}
         </div>
       )}
-    </div>
+    </motion.div>
   )
 }

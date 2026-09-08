@@ -1,8 +1,10 @@
 import type { FC } from 'react'
 import { useIntl } from 'react-intl'
+import { motion } from 'motion/react'
 import type { IPost } from '../../types'
 import type { IPostDisplay } from '../../lib/postLocalization'
 import { AdminActions } from '../common/AdminActions'
+import { fadeInUp } from './motionVariants'
 
 interface IFeaturedPostCardProps {
   post: IPostDisplay
@@ -16,7 +18,8 @@ export const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, on
   const intl = useIntl()
 
   return (
-    <article
+    <motion.article
+      variants={fadeInUp}
       onClick={() => onSelectMemory(post)}
       className="lg:col-span-2 relative rounded-xl overflow-hidden cursor-pointer"
     >
@@ -46,6 +49,6 @@ export const FeaturedPostCard: FC<IFeaturedPostCardProps> = ({ post, isAdmin, on
           </div>
         )}
       </div>
-    </article>
+    </motion.article>
   )
 }

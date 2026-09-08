@@ -1,4 +1,5 @@
 import { useIntl } from 'react-intl'
+import { motion } from 'motion/react'
 import type { IPost } from '../../types'
 import type { IPostDisplay } from '../../lib/postLocalization'
 import { AddNewButton } from '../common/AddNewButton'
@@ -6,6 +7,7 @@ import { EmptyState } from '../common/EmptyState'
 import { FeaturedPostCard } from './FeaturedPostCard'
 import { HomeRecommendedItem } from './HomeRecommendedItem'
 import { HomePostCard } from './HomePostCard'
+import { staggerContainer } from './motionVariants'
 
 interface IHomeViewProps {
   posts: IPostDisplay[]
@@ -49,7 +51,12 @@ export const HomeView = ({
 
   return (
     <>
-      <section className={`grid grid-cols-1 gap-8 ${hasRecommended ? 'lg:grid-cols-3' : ''}`}>
+      <motion.section
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+        className={`grid grid-cols-1 gap-8 ${hasRecommended ? 'lg:grid-cols-3' : ''}`}
+      >
         <FeaturedPostCard
           post={featured}
           isAdmin={isAdmin}
@@ -81,13 +88,18 @@ export const HomeView = ({
             </div>
           </aside>
         )}
-      </section>
+      </motion.section>
 
       <section className="mt-10">
         <h4 className="uppercase text-sm text-gray-300 mb-4">
           {intl.formatMessage({ id: 'home.allPosts' })}
         </h4>
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {posts.map((post) => (
             <HomePostCard
               key={post.id}
@@ -98,7 +110,7 @@ export const HomeView = ({
               onDelete={onDelete}
             />
           ))}
-        </div>
+        </motion.div>
       </section>
     </>
   )
