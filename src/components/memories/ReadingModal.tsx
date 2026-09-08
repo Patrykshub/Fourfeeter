@@ -1,6 +1,11 @@
-import { useEffect, useState, type UIEvent } from "react";
+import { useEffect, useRef, useState, type UIEvent } from "react";
 import { X } from "lucide-react";
-import { motion } from "motion/react";
+import {
+  motion,
+  useMotionTemplate,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import { ReadingProgressBar } from "./ReadingProgressBar";
 
 interface IReadingModalProps {
@@ -25,6 +30,7 @@ export const ReadingModal = ({
   onClose,
 }: IReadingModalProps) => {
   const [progress, setProgress] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -40,11 +46,20 @@ export const ReadingModal = ({
     setProgress(scrollable > 0 ? (el.scrollTop / scrollable) * 100 : 0);
   };
 
+  const { scrollY } = useScroll({ container: scrollRef });
+  const heroScale = useTransform(scrollY, [0, 350], [1, 1.25]);
+  const heroBlur = useTransform(scrollY, [0, 350], [0, 12]);
+  const heroFilter = useMotionTemplate`blur(${heroBlur}px)`;
+  const heroOpacity = useTransform(scrollY, [0, 350], [1, 0.15]);
+  const heroTitleY = useTransform(scrollY, [0, 300], [0, -140]);
+  const heroTitleOpacity = useTransform(scrollY, [0, 220], [1, 0]);
+
   return (
     <>
       <ReadingProgressBar progress={progress} />
 
       <motion.div
+        ref={scrollRef}
         onClick={onClose}
         onScroll={handleScroll}
         initial={{ opacity: 0 }}
@@ -61,23 +76,37 @@ export const ReadingModal = ({
           transition={{ duration: 0.2, ease: "easeOut" }}
           className="max-w-5xl mx-auto px-4 py-12"
         >
-          <img
-            src={image}
-            alt={title}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-80 sm:h-[28rem] lg:h-[34rem] object-cover rounded-xl"
-          />
+          <div className="relative w-full h-80 sm:h-[28rem] lg:h-[34rem] rounded-xl overflow-hidden">
+            <motion.img
+              src={image}
+              alt={title}
+              loading="lazy"
+              decoding="async"
+              style={{
+                scale: heroScale,
+                filter: heroFilter,
+                opacity: heroOpacity,
+              }}
+              className="w-full h-full object-cover"
+            />
+            <motion.div
+              style={{ y: heroTitleY, opacity: heroTitleOpacity }}
+              className="absolute inset-0 flex items-center justify-center px-6 pointer-events-none"
+            >
+              <h1 className="text-white text-4xl sm:text-6xl font-bold text-center drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
+                {title}
+              </h1>
+            </motion.div>
+          </div>
 
           <div className="max-w-3xl mx-auto mt-10 mb-6 text-center">
-            <div className="text-sm text-neon font-medium">{date}</div>
-            <h2 className="text-3xl sm:text-4xl font-bold mt-2">{title}</h2>
+            <div className="text-6xl text-neon font-medium">{date}</div>
             {!isTranslated && (
               <span className="mt-2 inline-block text-xs text-amber-400">
                 {untranslatedLabel}
               </span>
             )}
-            <p className="mt-8 text-gray-200 text-xl sm:text-2xl leading-relaxed whitespace-pre-wrap text-center">
+            <p className="mt-6 text-gray-200 text-xl sm:text-2xl leading-relaxed whitespace-pre-wrap text-center">
               {content}
             </p>
           </div>
