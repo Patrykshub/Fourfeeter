@@ -49,6 +49,7 @@
   "products.addTitle": "Add product",
   "products.labelField": "Product",
   "products.valueField": "Detail",
+  "products.linkField": "Link",
   "products.imageLabel": "Photo",
   "products.unnamed": "Unnamed product",
 

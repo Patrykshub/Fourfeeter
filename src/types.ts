@@ -21,6 +21,7 @@ export interface IProduct {
   label: string
   value: string
   image: string | null
+  link: string | null
 }
 
 export interface IGalleryAlbum {

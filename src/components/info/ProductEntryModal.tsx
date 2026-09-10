@@ -16,6 +16,7 @@ export const ProductEntryModal = ({ product, onClose, onSave }: IProductEntryMod
   const intl = useIntl()
   const [label, setLabel] = useState(product?.label ?? '')
   const [value, setValue] = useState(product?.value ?? '')
+  const [link, setLink] = useState(product?.link ?? '')
   const [image, setImage] = useState(product?.image ?? '')
   const {
     images,
@@ -53,6 +54,14 @@ export const ProductEntryModal = ({ product, onClose, onSave }: IProductEntryMod
           onChange={(e) => setValue(e.target.value)}
         />
 
+        <label className="block text-sm">{intl.formatMessage({ id: 'products.linkField' })}</label>
+        <input
+          className="w-full p-3 rounded bg-black/20"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          placeholder="https://"
+        />
+
         <label className="block text-sm">{intl.formatMessage({ id: 'products.imageLabel' })}</label>
         <ImagePickerView
           value={image}
@@ -81,6 +90,7 @@ export const ProductEntryModal = ({ product, onClose, onSave }: IProductEntryMod
                 id: product?.id,
                 label: label || intl.formatMessage({ id: 'products.unnamed' }),
                 value,
+                link: link || null,
                 image: image || null,
               })
             }

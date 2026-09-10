@@ -67,6 +67,8 @@ create table if not exists products (
   image text
 );
 
+alter table products add column if not exists link text;
+
 alter table products enable row level security;
 
 create policy "Products are publicly readable"

@@ -6,7 +6,7 @@ import { ProductsService } from '../ProductsService'
 
 const mockFrom = vi.fn()
 
-const product: IProduct = { id: '1', label: 'Food', value: 'Royal Canin', image: null }
+const product: IProduct = { id: '1', label: 'Food', value: 'Royal Canin', image: null, link: null }
 
 let products: ProductsService
 
@@ -32,36 +32,36 @@ describe('fetchProducts', () => {
 
 describe('insertProduct', () => {
   it('inserts and returns the created product', async () => {
-    const inserted: IProduct = { id: '2', label: 'Toy', value: 'Rope', image: null }
+    const inserted: IProduct = { id: '2', label: 'Toy', value: 'Rope', image: null, link: null }
     const builder = createQueryBuilder({ data: inserted, error: null })
     mockFrom.mockReturnValue(builder)
 
     await expect(
-      products.insertProduct({ label: 'Toy', value: 'Rope', image: null }),
+      products.insertProduct({ label: 'Toy', value: 'Rope', image: null, link: null }),
     ).resolves.toEqual(inserted)
     expect(mockFrom).toHaveBeenCalledWith('products')
-    expect(builder.insert).toHaveBeenCalledWith({ label: 'Toy', value: 'Rope', image: null })
+    expect(builder.insert).toHaveBeenCalledWith({ label: 'Toy', value: 'Rope', image: null, link: null })
   })
 
   it('returns undefined when supabase errors', async () => {
     mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: new Error('fail') }))
 
     await expect(
-      products.insertProduct({ label: 'Toy', value: 'Rope', image: null }),
+      products.insertProduct({ label: 'Toy', value: 'Rope', image: null, link: null }),
     ).resolves.toBeUndefined()
   })
 })
 
 describe('updateProduct', () => {
   it('updates and returns the updated product', async () => {
-    const updated: IProduct = { id: '1', label: 'Food', value: 'Acana', image: null }
+    const updated: IProduct = { id: '1', label: 'Food', value: 'Acana', image: null, link: null }
     const builder = createQueryBuilder({ data: updated, error: null })
     mockFrom.mockReturnValue(builder)
 
     await expect(
-      products.updateProduct('1', { label: 'Food', value: 'Acana', image: null }),
+      products.updateProduct('1', { label: 'Food', value: 'Acana', image: null, link: null }),
     ).resolves.toEqual(updated)
-    expect(builder.update).toHaveBeenCalledWith({ label: 'Food', value: 'Acana', image: null })
+    expect(builder.update).toHaveBeenCalledWith({ label: 'Food', value: 'Acana', image: null, link: null })
     expect(builder.eq).toHaveBeenCalledWith('id', '1')
   })
 
@@ -69,7 +69,7 @@ describe('updateProduct', () => {
     mockFrom.mockReturnValue(createQueryBuilder({ data: null, error: new Error('fail') }))
 
     await expect(
-      products.updateProduct('1', { label: 'X', value: 'Y', image: null }),
+      products.updateProduct('1', { label: 'X', value: 'Y', image: null, link: null }),
     ).resolves.toBeUndefined()
   })
 })
