@@ -6,7 +6,7 @@ import type { IPost } from "../../types";
 
 export const HomePage = () => {
   const { posts, isLoading, isAdmin, onEdit, onDelete, onAdd } = useAppContext();
-  const [featured, ...rest] = posts;
+  const [featured] = posts;
   const { description: motto, descriptions: mottoDescriptions, setDescriptions: setMottoDescriptions } =
     usePageBanner("home");
 
@@ -18,7 +18,6 @@ export const HomePage = () => {
     <HomeView
       posts={posts}
       featured={featured}
-      rest={rest}
       isLoading={isLoading}
       isAdmin={isAdmin}
       onEdit={onEdit}

@@ -5,16 +5,18 @@ import type { IPostDisplay } from '../../lib/postLocalization'
 import type { IPageBannerDescriptions } from '../../model/services/PageBannerService'
 import { AddNewButton } from '../common/AddNewButton'
 import { EmptyState } from '../common/EmptyState'
+import { SectionLabel } from '../common/SectionLabel'
 import { FeaturedPostCard } from './FeaturedPostCard'
-import { HomeRecommendedItem } from './HomeRecommendedItem'
 import { HomePostCard } from './HomePostCard'
+import { HomeComingSoonCard } from './HomeComingSoonCard'
 import { HomeLifeMotto } from './HomeLifeMotto'
 import { staggerContainer } from '../../lib/motionVariants'
+
+const MIN_GRID_CARDS = 3
 
 interface IHomeViewProps {
   posts: IPostDisplay[]
   featured: IPostDisplay | undefined
-  rest: IPostDisplay[]
   isLoading: boolean
   isAdmin: boolean
   onEdit: (post: IPost) => void
@@ -29,7 +31,6 @@ interface IHomeViewProps {
 export const HomeView = ({
   posts,
   featured,
-  rest,
   isLoading,
   isAdmin,
   onEdit,
@@ -41,7 +42,6 @@ export const HomeView = ({
   onChangeMotto,
 }: IHomeViewProps) => {
   const intl = useIntl()
-  const hasRecommended = rest.length > 0
 
   if (isLoading) {
     return null
@@ -57,46 +57,22 @@ export const HomeView = ({
     )
   }
 
+  const comingSoonCount = Math.max(0, MIN_GRID_CARDS - posts.length)
+
   return (
     <>
-      <motion.section
-        variants={staggerContainer}
-        initial="hidden"
-        animate="show"
-        className={`grid grid-cols-1 gap-8 ${hasRecommended ? 'lg:grid-cols-3' : ''}`}
-      >
-        <FeaturedPostCard
-          post={featured}
-          isAdmin={isAdmin}
-          onSelectMemory={onSelectMemory}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-
-        {hasRecommended && (
-          <aside className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="uppercase text-sm text-gray-300">
-                {intl.formatMessage({ id: 'home.recommended' })}
-              </h3>
-              <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
-            </div>
-
-            <div className="grid grid-cols-1 gap-4">
-              {rest.map((post) => (
-                <HomeRecommendedItem
-                  key={post.id}
-                  post={post}
-                  isAdmin={isAdmin}
-                  onSelectMemory={onSelectMemory}
-                  onEdit={onEdit}
-                  onDelete={onDelete}
-                />
-              ))}
-            </div>
-          </aside>
-        )}
-      </motion.section>
+      <section className="space-y-4">
+        <SectionLabel>{intl.formatMessage({ id: 'home.latestPost' })}</SectionLabel>
+        <motion.div variants={staggerContainer} initial="hidden" animate="show">
+          <FeaturedPostCard
+            post={featured}
+            isAdmin={isAdmin}
+            onSelectMemory={onSelectMemory}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        </motion.div>
+      </section>
 
       <HomeLifeMotto
         motto={motto}
@@ -105,7 +81,12 @@ export const HomeView = ({
         onChangeMotto={onChangeMotto}
       />
 
-      <section className="mt-10">
+      <section className="mt-10 space-y-4">
+        <div className="flex items-center justify-between">
+          <SectionLabel>{intl.formatMessage({ id: 'home.allPosts' })}</SectionLabel>
+          <AddNewButton isAdmin={isAdmin} onClick={onAdd} />
+        </div>
+
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -121,6 +102,9 @@ export const HomeView = ({
               onEdit={onEdit}
               onDelete={onDelete}
             />
+          ))}
+          {Array.from({ length: comingSoonCount }).map((_, index) => (
+            <HomeComingSoonCard key={`coming-soon-${index}`} />
           ))}
         </motion.div>
       </section>

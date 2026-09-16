@@ -33,7 +33,9 @@
   "post.untranslatedBadge": "Untranslated",
 
   "home.emptyState": "No posts in this category.",
-  "home.recommended": "Recommended",
+  "home.latestPost": "Latest post",
+  "home.allPosts": "All posts",
+  "home.comingSoon": "next post coming soon",
   "home.readMore": "Read more →",
   "home.motto.add": "Add life motto",
   "home.motto.remove": "Remove life motto",

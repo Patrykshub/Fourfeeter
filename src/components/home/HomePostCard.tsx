@@ -21,18 +21,20 @@ export const HomePostCard: FC<IHomePostCardProps> = ({ post, isAdmin, onSelectMe
     <motion.article
       variants={fadeInUp}
       onClick={() => onSelectMemory(post)}
-      className="card-float relative rounded-lg overflow-hidden cursor-pointer"
+      className="card-float rounded-lg overflow-hidden bg-surface cursor-pointer"
     >
       <img
         src={post.image}
         alt={post.displayTitle}
         loading="lazy"
         decoding="async"
-        className="w-full aspect-[3/4] object-cover"
+        className="w-full aspect-[7/3] object-cover"
       />
-      <div className="absolute inset-0 shadow-[inset_0_0_24px_8px_rgba(0,0,0,0.5),inset_0_-90px_70px_-20px_rgba(0,0,0,0.9)] pointer-events-none" />
-      <div className="absolute inset-x-0 bottom-0 p-4">
+      <div className="p-4">
         <h5 className="text-lg sm:text-xl font-semibold text-white">{post.displayTitle}</h5>
+        <div className="mt-1 text-sm text-gray-400">
+          {intl.formatDate(post.date, { day: 'numeric', month: 'long', year: 'numeric' })}
+        </div>
         {isAdmin && (
           <div className="mt-3 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
             <AdminActions onEdit={() => onEdit(post)} onDelete={() => onDelete(post.id)} />

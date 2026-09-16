@@ -5,6 +5,7 @@ import type { IInfoEntry, IProduct } from "../../types";
 import { AdminActions } from "../common/AdminActions";
 import { AddNewButton } from "../common/AddNewButton";
 import { staggerContainer, fadeInUp, heroFadeIn } from "../../lib/motionVariants";
+import { SectionLabel } from "../common/SectionLabel";
 import { ProductsSection } from "./ProductsSection";
 import { InfoDriveCard } from "./InfoDriveCard";
 
@@ -109,12 +110,7 @@ export const InfoView = ({
           variants={fadeInUp}
           className="border-t border-white/10 pt-8 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
         >
-          <div className="flex items-center gap-2">
-            {DASH}
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-              {intl.formatMessage({ id: "info.drivesTitle" })}
-            </h2>
-          </div>
+          <SectionLabel>{intl.formatMessage({ id: "info.drivesTitle" })}</SectionLabel>
           <motion.div
             variants={staggerContainer}
             className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2"
@@ -135,12 +131,7 @@ export const InfoView = ({
           variants={fadeInUp}
           className="border-t border-white/10 pt-8 lg:col-span-2 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
         >
-          <div className="flex items-center gap-2">
-            {DASH}
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-              {intl.formatMessage({ id: "info.nowTitle" })}
-            </h2>
-          </div>
+          <SectionLabel>{intl.formatMessage({ id: "info.nowTitle" })}</SectionLabel>
 
           <motion.ul variants={staggerContainer} className="mt-6 space-y-3">
             {entries.map((entry) => (

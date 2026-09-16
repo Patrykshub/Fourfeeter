@@ -33,7 +33,9 @@
   "post.untranslatedBadge": "Nieprzetłumaczone",
 
   "home.emptyState": "Brak postów w tej kategorii.",
-  "home.recommended": "Polecane",
+  "home.latestPost": "Najnowszy wpis",
+  "home.allPosts": "Wszystkie wpisy",
+  "home.comingSoon": "kolejny wpis wkrótce",
   "home.readMore": "Czytaj dalej →",
   "home.motto.add": "Dodaj motto życiowe",
   "home.motto.remove": "Usuń motto życiowe",

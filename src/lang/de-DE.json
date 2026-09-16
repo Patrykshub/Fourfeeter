@@ -33,7 +33,9 @@
   "post.untranslatedBadge": "Nicht übersetzt",
 
   "home.emptyState": "Keine Beiträge in dieser Kategorie.",
-  "home.recommended": "Empfohlen",
+  "home.latestPost": "Neuester Beitrag",
+  "home.allPosts": "Alle Beiträge",
+  "home.comingSoon": "nächster Beitrag folgt bald",
   "home.readMore": "Weiterlesen →",
   "home.motto.add": "Lebensmotto hinzufügen",
   "home.motto.remove": "Lebensmotto entfernen",
