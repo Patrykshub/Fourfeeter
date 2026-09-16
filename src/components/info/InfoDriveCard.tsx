@@ -1,4 +1,6 @@
 import type { LucideIcon } from "lucide-react";
+import { motion } from "motion/react";
+import { fadeInUp } from "../../lib/motionVariants";
 
 interface IInfoDriveCardProps {
   icon: LucideIcon;
@@ -13,7 +15,10 @@ export const InfoDriveCard = ({
   title,
   description,
 }: IInfoDriveCardProps) => (
-  <div className="relative overflow-hidden rounded-lg border border-white/10 p-5">
+  <motion.div
+    variants={fadeInUp}
+    className="relative overflow-hidden rounded-lg border border-white/10 p-5"
+  >
     <span className="pointer-events-none absolute right-3 top-1 text-5xl font-bold text-white/5">
       {number}
     </span>
@@ -22,5 +27,5 @@ export const InfoDriveCard = ({
       {title}
     </h3>
     <p className="mt-2 text-sm leading-relaxed text-gray-400">{description}</p>
-  </div>
+  </motion.div>
 );

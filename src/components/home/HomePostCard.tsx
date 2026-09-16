@@ -4,7 +4,7 @@ import { motion } from 'motion/react'
 import type { IPost } from '../../types'
 import type { IPostDisplay } from '../../lib/postLocalization'
 import { AdminActions } from '../common/AdminActions'
-import { fadeInUp } from './motionVariants'
+import { fadeInUp } from '../../lib/motionVariants'
 
 interface IHomePostCardProps {
   post: IPostDisplay

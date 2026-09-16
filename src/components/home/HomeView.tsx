@@ -9,7 +9,7 @@ import { FeaturedPostCard } from './FeaturedPostCard'
 import { HomeRecommendedItem } from './HomeRecommendedItem'
 import { HomePostCard } from './HomePostCard'
 import { HomeLifeMotto } from './HomeLifeMotto'
-import { staggerContainer } from './motionVariants'
+import { staggerContainer } from '../../lib/motionVariants'
 
 interface IHomeViewProps {
   posts: IPostDisplay[]

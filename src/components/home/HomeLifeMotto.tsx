@@ -6,7 +6,7 @@ import { AdminActions } from '../common/AdminActions'
 import { LocaleTabs } from '../common/LocaleTabs'
 import { SaveCancelButtons } from '../common/SaveCancelButtons'
 import type { IPageBannerDescriptions } from '../../model/services/PageBannerService'
-import { heroFadeIn } from './motionVariants'
+import { heroFadeIn } from '../../lib/motionVariants'
 
 interface IHomeLifeMottoProps {
   motto: string | null

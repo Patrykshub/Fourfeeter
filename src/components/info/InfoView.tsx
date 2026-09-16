@@ -1,8 +1,10 @@
 import { Compass, Footprints, Mountain, Plane, ArrowRight } from "lucide-react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { motion } from "motion/react";
 import type { IInfoEntry, IProduct } from "../../types";
 import { AdminActions } from "../common/AdminActions";
 import { AddNewButton } from "../common/AddNewButton";
+import { staggerContainer, fadeInUp, heroFadeIn } from "../../lib/motionVariants";
 import { ProductsSection } from "./ProductsSection";
 import { InfoDriveCard } from "./InfoDriveCard";
 
@@ -66,35 +68,57 @@ export const InfoView = ({
 
   return (
     <>
-      <section className="grid grid-cols-1 gap-12 py-10 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-5">
-          {DASH}
-          <p className="mt-4 text-sm text-gray-300">
-            {intl.formatMessage({ id: "info.greeting" })}
-          </p>
-          <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-            <FormattedMessage id="info.headline1" values={{ accent }} />
-          </h1>
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-gray-400">
-            {intl.formatMessage({ id: "info.paragraph1" })}
-          </p>
-
-          <div className="mt-10">
+      <motion.section
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 gap-12 py-10 lg:grid-cols-12 lg:gap-10"
+      >
+        <motion.div variants={staggerContainer} className="lg:col-span-5">
+          <motion.div variants={fadeInUp}>
             {DASH}
-            <h2 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">
-              <FormattedMessage id="info.headline2" values={{ accent }} />
-            </h2>
-          </div>
-        </div>
+            <p className="mt-4 text-sm text-gray-300">
+              {intl.formatMessage({ id: "info.greeting" })}
+            </p>
+          </motion.div>
+          <motion.h1
+            variants={fadeInUp}
+            className="mt-3 text-3xl font-bold leading-tight sm:text-4xl"
+          >
+            <FormattedMessage id="info.headline1" values={{ accent }} />
+          </motion.h1>
+          <motion.p
+            variants={fadeInUp}
+            className="mt-6 max-w-md text-sm leading-relaxed text-gray-400"
+          >
+            {intl.formatMessage({ id: "info.paragraph1" })}
+          </motion.p>
 
-        <div className="border-t border-white/10 pt-8 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+          <motion.div variants={staggerContainer} className="mt-10">
+            <motion.div variants={fadeInUp}>{DASH}</motion.div>
+            <motion.h2
+              variants={fadeInUp}
+              className="mt-4 text-3xl font-bold leading-tight sm:text-4xl"
+            >
+              <FormattedMessage id="info.headline2" values={{ accent }} />
+            </motion.h2>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          variants={fadeInUp}
+          className="border-t border-white/10 pt-8 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
+        >
           <div className="flex items-center gap-2">
             {DASH}
             <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
               {intl.formatMessage({ id: "info.drivesTitle" })}
             </h2>
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <motion.div
+            variants={staggerContainer}
+            className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2"
+          >
             {DRIVES.map((drive) => (
               <InfoDriveCard
                 key={drive.number}
@@ -104,10 +128,13 @@ export const InfoView = ({
                 description={intl.formatMessage({ id: drive.descId })}
               />
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="border-t border-white/10 pt-8 lg:col-span-2 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+        <motion.div
+          variants={fadeInUp}
+          className="border-t border-white/10 pt-8 lg:col-span-2 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0"
+        >
           <div className="flex items-center gap-2">
             {DASH}
             <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-400">
@@ -115,9 +142,13 @@ export const InfoView = ({
             </h2>
           </div>
 
-          <ul className="mt-6 space-y-3">
+          <motion.ul variants={staggerContainer} className="mt-6 space-y-3">
             {entries.map((entry) => (
-              <li key={entry.id} className="flex items-start gap-2">
+              <motion.li
+                key={entry.id}
+                variants={fadeInUp}
+                className="flex items-start gap-2"
+              >
                 <ArrowRight size={16} className="mt-0.5 shrink-0 text-neon" />
                 <span className="flex-1 text-sm text-gray-300">
                   {entry.label}
@@ -129,9 +160,9 @@ export const InfoView = ({
                     onDelete={() => onDelete(entry.id)}
                   />
                 )}
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
 
           {isAdmin && (
             <div className="mt-3">
@@ -144,10 +175,15 @@ export const InfoView = ({
               {intl.formatMessage({ id: "info.nowClosing" })}
             </p>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
-      <div className="flex flex-col items-start justify-between gap-4 border-t border-white/10 py-6 sm:flex-row sm:items-center">
+      <motion.div
+        variants={heroFadeIn}
+        initial="hidden"
+        animate="show"
+        className="flex flex-col items-start justify-between gap-4 border-t border-white/10 py-6 sm:flex-row sm:items-center"
+      >
         <div className="flex items-center gap-2 text-sm text-white">
           {intl.formatMessage({ id: "info.footerGreeting" })}
           {DASH}
@@ -161,7 +197,7 @@ export const InfoView = ({
             {intl.formatMessage({ id: "info.socialEmail" })}
           </a>
         </div>
-      </div>
+      </motion.div>
 
       {products.length > 0 && (
         <ProductsSection
