@@ -4,7 +4,6 @@ import { useInfoEntries } from "../../hooks/useInfoEntries";
 import { useInfoEntryEditor } from "../../hooks/useInfoEntryEditor";
 import { useProducts } from "../../hooks/useProducts";
 import { useProductEditor } from "../../hooks/useProductEditor";
-import { usePageBanner } from "../../hooks/usePageBanner";
 import { useAppContext } from "../../router/AppContext";
 import { InfoView } from "../../components/info/InfoView";
 import { InfoEntryModal } from "../../components/info/InfoEntryModal";
@@ -38,8 +37,6 @@ export const InfoPage = () => {
     confirmDelete: confirmDeleteProduct,
     cancelDelete: cancelDeleteProduct,
   } = useProductEditor({ saveProduct, deleteProduct });
-  const { banner, setBanner, description, descriptions, setDescriptions } =
-    usePageBanner("info");
 
   return (
     <>
@@ -49,11 +46,6 @@ export const InfoPage = () => {
         onEdit={openEditor}
         onDelete={handleDelete}
         onAdd={() => openEditor()}
-        banner={banner}
-        onChangeBanner={setBanner}
-        description={description}
-        descriptions={descriptions}
-        onChangeDescriptions={setDescriptions}
         products={products}
         onEditProduct={openProductEditor}
         onDeleteProduct={handleDeleteProduct}

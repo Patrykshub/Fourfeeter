@@ -40,9 +40,30 @@
 
   "info.editTitle": "Edytuj pozycję",
   "info.addTitle": "Dodaj pozycję",
-  "info.labelField": "Klucz",
-  "info.valueField": "Wartość",
+  "info.labelField": "Treść",
   "info.unnamed": "Bez nazwy",
+
+  "info.greeting": "Cześć, jestem Patryk.",
+  "info.headline1": "Lubię być w <accent>ruchu</accent>, i sprawdzać świat na własną rękę.",
+  "info.paragraph1": "Equilibrio to mój sposób na zbieranie doświadczeń, pomysłów i rzeczy, które aktualnie chodzą mi po głowie. Bez wielkiego planu. Po prostu zapisuję swoje doświadczenia i dzielę się tym, co po drodze odkrywam.",
+  "info.headline2": "Nie mam wielkiego <accent>planu</accent>. Mam za to sporo rzeczy, które chcę <accent>sprawdzić</accent>.",
+
+  "info.drivesTitle": "Co mnie napędza",
+  "info.drive1Title": "Bieganie",
+  "info.drive1Desc": "Biegam, chodzę, przemieszczam się. Najlepiej, kiedy coś się dzieje.",
+  "info.drive2Title": "Podróże",
+  "info.drive2Desc": "Nowe miejsca, inne kultury, spontaniczne decyzje.",
+  "info.drive3Title": "Góry",
+  "info.drive3Desc": "Trochę wysiłku, trochę ciszy i dużo przestrzeni.",
+  "info.drive4Title": "Ciekawość",
+  "info.drive4Desc": "Zamiast czytać kolejne opinie — czasem wolę sprawdzić sam.",
+
+  "info.nowTitle": "Teraz",
+  "info.nowClosing": "To wszystko składa się na Equilibrio — miejsce, w którym łączę pasję, ruch i ciekawość świata.",
+
+  "info.footerGreeting": "Fajnie, że tu jesteś.",
+  "info.socialInstagram": "Instagram",
+  "info.socialEmail": "Email",
 
   "products.sectionTitle": "Moje produkty",
   "products.editTitle": "Edytuj produkt",

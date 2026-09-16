@@ -40,9 +40,30 @@
 
   "info.editTitle": "Edit entry",
   "info.addTitle": "Add entry",
-  "info.labelField": "Key",
-  "info.valueField": "Value",
+  "info.labelField": "Text",
   "info.unnamed": "Unnamed",
+
+  "info.greeting": "Hi, I'm Patryk.",
+  "info.headline1": "I like being on the <accent>move</accent>, exploring the world on my own terms.",
+  "info.paragraph1": "Equilibrio is my way of collecting experiences, ideas and things that are currently on my mind. No big plan. I just write down what I go through and share what I discover along the way.",
+  "info.headline2": "I don't have a big <accent>plan</accent>. What I do have is a lot of things I want to <accent>check out</accent>.",
+
+  "info.drivesTitle": "What drives me",
+  "info.drive1Title": "Running",
+  "info.drive1Desc": "I run, walk, move around. Best when something's happening.",
+  "info.drive2Title": "Travel",
+  "info.drive2Desc": "New places, different cultures, spontaneous decisions.",
+  "info.drive3Title": "Mountains",
+  "info.drive3Desc": "A bit of effort, a bit of silence, and a lot of space.",
+  "info.drive4Title": "Curiosity",
+  "info.drive4Desc": "Instead of reading yet another review — sometimes I'd rather find out myself.",
+
+  "info.nowTitle": "Right now",
+  "info.nowClosing": "That's what Equilibrio adds up to — a place where I bring together passion, movement and curiosity about the world.",
+
+  "info.footerGreeting": "Glad you're here.",
+  "info.socialInstagram": "Instagram",
+  "info.socialEmail": "Email",
 
   "products.sectionTitle": "My products",
   "products.editTitle": "Edit product",
